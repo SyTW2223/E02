@@ -1,6 +1,6 @@
 # alPanPan
 
-API RESTFUL- Los usuarios de aplicación podrán realizar la compra online de panes
+API RESTFUL- Los usuarios de aplicación podrán realizar la compra online de panes 
 
 
 ## Authors
