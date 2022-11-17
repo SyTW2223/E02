@@ -1,9 +1,13 @@
 import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import './App.css'
+import { useSelector } from 'react-redux'
 
 function App() {
   const [count, setCount] = useState(0)
+  const value = useSelector((state: any) => state.auth)
+  console.log(value);
+
 
   return (
     <div className="App">
