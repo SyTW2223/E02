@@ -4,7 +4,7 @@ interface usuarioInterfaz extends Document {
   nombre: string,
   apellidos: string,
   correo: string,
-  foto?: Buffer,
+  foto?: Buffer
 }
 
 const usuarioSchema = new Schema<usuarioInterfaz>({
