@@ -62,7 +62,7 @@ export default class carteraDataModel {
 
 		try {
 			const cartera =
-			await Cartera.findOneAndUpdate({correo: data.query.name.toString()}, data.body, {
+			await Cartera.findOneAndUpdate({correo: data.query.correo.toString()}, data.body, {
 				new: true,
 				runValidators: true,
 			});

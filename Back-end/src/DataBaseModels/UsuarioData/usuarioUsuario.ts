@@ -67,7 +67,7 @@ export default class UsuarioDataModel {
 
 		try {
 			const usuario =
-			await Usuario.findOneAndUpdate({correo: data.query.name.toString()}, data.body, {
+			await Usuario.findOneAndUpdate({correo: data.query.correo.toString()}, data.body, {
 				new: true,
 				runValidators: true,
 			});

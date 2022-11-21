@@ -62,7 +62,7 @@ export default class direccionDataModel {
 
 		try {
 			const direccion =
-			await Direccion.findOneAndUpdate({correo: data.query.name.toString()}, data.body, {
+			await Direccion.findOneAndUpdate({correo: data.query.correo.toString()}, data.body, {
 				new: true,
 				runValidators: true,
 			});

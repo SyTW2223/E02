@@ -1,19 +1,79 @@
+import {Pan} from "../../models/pan/pan";
 
-export default class PanDataModel {
+export default class panDataModel {
 
 	async get(data) {
-		return {hola: data + "hola"};
+		try {
+			const filter = data.query.identificador?{identificador: data.query.identificador} : {};
+			const pan = await Pan.find(filter);
+
+			if (pan.length !== 0) {
+				return ({pan: pan, res: 200, error: ""});
+			}
+			return ({pan: "", res: 404, error: "pan no encontrada"});
+			
+		} catch (error) {
+			return ({pan: "", res: 500, error: error});
+		}
 	}
 
-	async post() {
+	async post(data) {
+		try {
+			const pan = new Pan(data.body);
 
+			await pan.save();
+			return({error: "", res: 201});
+			
+		} catch(error) {
+			return({error: error, res: 400});
+		}
 	}
 
-	async delete() {
-
+	async delete(data) {
+		if (!data.query.identificador) {
+			return ({error: "Hace falta el identificador", res: 400});
+		}
+		try {
+			const pan = await Pan.findOneAndDelete({identificador: data.query.identificador});
+	
+			if (!pan) {
+				return ({error: "identificador no encontrado", res: 404});
+			}
+	
+			return ({error: "", res: 200});
+		} catch (error) {
+			return ({error: error, res: 400});
+		}
 	}
 
-	async patch() {
-		
+	async patch(data) {
+		if (!data.query.identificador) {
+			return ({error: "Hace falta el identificador", res: 400});
+		}
+	
+		const allowedUpdates = ['tipo', 'nombre', 'precio', 'vendedor', 'image'];
+		const actualUpdates = Object.keys(data.body);
+		const isValidUpdate =
+			actualUpdates.every((update) => allowedUpdates.includes(update));
+	
+		if (!isValidUpdate) {
+			return ({error: "Actualización invalida", res: 400});
+		}
+
+		try {
+			const pan =
+			await Pan.findOneAndUpdate({identificador: data.query.identificador}, data.body, {
+				new: true,
+				runValidators: true,
+			});
+	
+			if (!pan) {
+				return ({error: "identificador no encontrado", res: 404});
+			}
+	
+			return ({error: "", res: 200});
+		} catch (error) {
+			return ({error: error, res: 400});
+		}
 	}
 }
