@@ -1,28 +1,26 @@
-import { useState } from 'react'
 import './App.css'
 import { useSelector } from 'react-redux'
-import Main from './components/Main'
-import Footer from './components/Footer'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'mdb-react-ui-kit/dist/css/mdb.min.css';
 import "@fortawesome/fontawesome-free/css/all.min.css";
-import Navbar from './components/Navbar'
-import Breadcrumb from './components/Breadcrumb'
-import Carrousel from './components/Carrousel'
-
+import Home from './components/Home'
+import Layout from './components/Layout';
+import Error from './components/Error';
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
 function App() {
   const value = useSelector((state: any) => state.auth)
   console.log(value);
-
   return (
-    <div className="App">
-      <Navbar />
-      <Breadcrumb/>
-      <Carrousel/>
-      <Main />
-      <Footer />
-    </div>
-  )
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Layout />}>
+        <Route index element={<Home />} />
+        
+          <Route path="*" element={<Error />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
+  );
 }
 
 export default App

@@ -12,7 +12,7 @@ import Marquee from "react-fast-marquee";
 export default function Footer() {
   return (
     <MDBFooter className='text-center' color='white' bgColor='dark'>
-      <MDBContainer className='p-4'>
+      <MDBContainer className='p-5'>
         <section className='mb-4'>
           <MDBBtn outline color="light" floating className='m-1' href='#!' role='button'>
             <MDBIcon fab icon='facebook-f' />
@@ -34,6 +34,7 @@ export default function Footer() {
             <MDBIcon fab icon='github' />
           </MDBBtn>
         </section>
+        
         <Marquee>Tu mama es puta Alejandro</Marquee>
 
         <section className=''>
@@ -72,10 +73,10 @@ export default function Footer() {
           <p><strong>&#9742; 9922567890</strong></p>
         </section>
 
-        <section className=''>
+         <section className=''>
           <MDBRow>
-            <MDBCol lg='3' md='6' className='mb-4 mb-md-0'>
-              <h5 className='text-uppercase'>Enlaces</h5>
+            <MDBCol className='center'>
+              <h4 className='text-uppercase'>Navegacion</h4>
 
               <ul className='list-unstyled mb-0'>
                 <li>
@@ -85,7 +86,7 @@ export default function Footer() {
                 </li>
                 <li>
                   <a href='#!' className='text-white'>
-                    Accesibilidad
+                    Contacto
                   </a>
                 </li>
                 <li>
@@ -95,13 +96,12 @@ export default function Footer() {
                 </li>
                 <li>
                   <a href='#!' className='text-white'>
-                    Contacto
+                    Accesibilidd
                   </a>
                 </li>
               </ul>
             </MDBCol>
           </MDBRow>
-          
         </section>
       </MDBContainer>
       <div className='text-center p-3' style={{ backgroundColor: 'rgba(0, 0, 0, 0.2)' }}>
