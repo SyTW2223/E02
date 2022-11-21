@@ -7,7 +7,7 @@ export interface tarjetaInterface {
   caducidad: string
 }
 
-interface carteraInterfaz extends Document {
+export interface carteraInterfaz extends Document {
   correo: string,
   tarjetas: tarjetaInterface[]
 }

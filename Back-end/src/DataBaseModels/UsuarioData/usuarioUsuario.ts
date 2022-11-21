@@ -1,4 +1,6 @@
 import {Usuario} from "../../models/usuario/usuario";
+import {Direccion} from "../../models/usuario/direccion";
+import {Cartera} from "../../models/usuario/cartera";
 
 export default class UsuarioDataModel {
 
@@ -35,8 +37,11 @@ export default class UsuarioDataModel {
 		}
 		try {
 			const usuario = await Usuario.findOneAndDelete({correo: data.query.correo.toString()});
+			const direccion = await Direccion.findOneAndDelete({correo: data.query.correo.toString()});
+			const cartera = await Cartera.findOneAndDelete({correo: data.query.correo.toString()});
+
 	
-			if (!usuario) {
+			if (!usuario || !direccion || !cartera) {
 				return ({error: "Correo no encontrado", res: 404});
 			}
 	
@@ -51,7 +56,7 @@ export default class UsuarioDataModel {
 			return ({error: "Hace falta el correo", res: 400});
 		}
 	
-		const allowedUpdates = ['nombre', 'apellidos', 'correo', 'foto'];
+		const allowedUpdates = ['nombre', 'apellidos', 'foto'];
 		const actualUpdates = Object.keys(data.body);
 		const isValidUpdate =
 			actualUpdates.every((update) => allowedUpdates.includes(update));
