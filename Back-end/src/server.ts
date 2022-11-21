@@ -7,11 +7,15 @@ import loggerKoa from "koa-logger";
 import cors from "koa2-cors";
 import mount from "koa-mount";
 import auth from "koa-basic-auth";
-import defaultRouter from "./routers/default";
+import carteraRouter from "./routers/carteraRoute";
 
 const app = new koa();
 
 // response
-app.use(defaultRouter.routes());
+
+app.use(bodyparser());
+app.use(carteraRouter.routes());
+app.use(carteraRouter.allowedMethods())
+
 
 app.listen(3000);

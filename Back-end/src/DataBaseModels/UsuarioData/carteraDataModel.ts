@@ -1,10 +1,10 @@
 import {Cartera} from "../../models/usuario/cartera";
 
-export default class carteraDataModel {
+export default class CarteraDataModel {
 
 	async get(data) {
 		try {
-			const filter = data.query.correo?{correo: data.query.correo.toString()} : {};
+			const filter = data.correo?{correo: data.correo.toString()} : {};
 			const cartera = await Cartera.find(filter);
 
 			if (cartera.length !== 0) {
@@ -30,11 +30,11 @@ export default class carteraDataModel {
 	}
 
 	async delete(data) {
-		if (!data.query.correo) {
+		if (!data.correo) {
 			return ({error: "Hace falta el correo", res: 400});
 		}
 		try {
-			const cartera = await Cartera.findOneAndDelete({correo: data.query.correo.toString()});
+			const cartera = await Cartera.findOneAndDelete({correo: data.correo.toString()});
 	
 			if (!cartera) {
 				return ({error: "Correo no encontrado", res: 404});
@@ -46,13 +46,13 @@ export default class carteraDataModel {
 		}
 	}
 
-	async patch(data) {
-		if (!data.query.correo) {
+	async patch(data, change) {
+		if (!data.correo) {
 			return ({error: "Hace falta el correo", res: 400});
 		}
 	
 		const allowedUpdates = ['tarjetas'];
-		const actualUpdates = Object.keys(data.body);
+		const actualUpdates = Object.keys(change.body);
 		const isValidUpdate =
 			actualUpdates.every((update) => allowedUpdates.includes(update));
 	
@@ -62,7 +62,7 @@ export default class carteraDataModel {
 
 		try {
 			const cartera =
-			await Cartera.findOneAndUpdate({correo: data.query.correo.toString()}, data.body, {
+			await Cartera.findOneAndUpdate({correo: data.correo.toString()}, data.body, {
 				new: true,
 				runValidators: true,
 			});

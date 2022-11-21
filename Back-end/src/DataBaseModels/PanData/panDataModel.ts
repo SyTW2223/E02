@@ -1,10 +1,10 @@
 import {Pan} from "../../models/pan/pan";
 
-export default class panDataModel {
+export default class PanDataModel {
 
 	async get(data) {
 		try {
-			const filter = data.query.identificador?{identificador: data.query.identificador} : {};
+			const filter = data.identificador?{identificador: data.identificador} : {};
 			const pan = await Pan.find(filter);
 
 			if (pan.length !== 0) {
@@ -30,11 +30,11 @@ export default class panDataModel {
 	}
 
 	async delete(data) {
-		if (!data.query.identificador) {
+		if (!data.identificador) {
 			return ({error: "Hace falta el identificador", res: 400});
 		}
 		try {
-			const pan = await Pan.findOneAndDelete({identificador: data.query.identificador});
+			const pan = await Pan.findOneAndDelete({identificador: data.identificador});
 	
 			if (!pan) {
 				return ({error: "identificador no encontrado", res: 404});
@@ -46,13 +46,13 @@ export default class panDataModel {
 		}
 	}
 
-	async patch(data) {
-		if (!data.query.identificador) {
+	async patch(data, change) {
+		if (!data.identificador) {
 			return ({error: "Hace falta el identificador", res: 400});
 		}
 	
 		const allowedUpdates = ['tipo', 'nombre', 'precio', 'vendedor', 'image'];
-		const actualUpdates = Object.keys(data.body);
+		const actualUpdates = Object.keys(change.body);
 		const isValidUpdate =
 			actualUpdates.every((update) => allowedUpdates.includes(update));
 	
@@ -62,7 +62,7 @@ export default class panDataModel {
 
 		try {
 			const pan =
-			await Pan.findOneAndUpdate({identificador: data.query.identificador}, data.body, {
+			await Pan.findOneAndUpdate({identificador: data.identificador}, data.body, {
 				new: true,
 				runValidators: true,
 			});
