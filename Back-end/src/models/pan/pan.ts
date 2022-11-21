@@ -1,7 +1,7 @@
 import {Document, Schema, model} from 'mongoose';
 
 interface panInterfaz extends Document {
-	id: number,
+	identificador: number,
 	tipo: string,
 	nombre: string,
 	precio: number,
@@ -10,7 +10,7 @@ interface panInterfaz extends Document {
 }
 
 const panSchema = new Schema<panInterfaz>({
-	id: {
+	identificador: {
 		type: Number,
 		required: true,
 		unique: true
