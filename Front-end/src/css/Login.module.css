@@ -1,0 +1,30 @@
+.signin{
+  background-color: #755932;
+  color: wheat;
+}
+.signin:hover{
+  background-color: wheat !important;
+  color: #755932 !important;
+}
+
+.signup{
+  background-color: #755932;
+  color: wheat;
+}
+.signup:hover{
+  background-color: wheat !important;
+  color: #755932 !important;
+}
+
+.loginButton{
+  background-color: wheat !important;
+  color: #755932 !important;
+}
+
+.link{
+  color: #755932;
+}
+
+.tabs {
+  color: wheat;
+}
