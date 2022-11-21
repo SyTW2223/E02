@@ -51,13 +51,13 @@ export default class UsuarioDataModel {
 			return ({error: "Hace falta el correo", res: 400});
 		}
 	
-		const allowedUpdates = ['nombre', 'apellidos', 'correo'];
+		const allowedUpdates = ['nombre', 'apellidos', 'correo', 'foto'];
 		const actualUpdates = Object.keys(data.body);
 		const isValidUpdate =
 			actualUpdates.every((update) => allowedUpdates.includes(update));
 	
 		if (!isValidUpdate) {
-			return ({error: "Actualizacín invalida", res: 400});
+			return ({error: "Actualizacón invalida", res: 400});
 		}
 
 		try {

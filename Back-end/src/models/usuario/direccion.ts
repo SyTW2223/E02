@@ -1,6 +1,6 @@
 import {Document, Schema, model} from 'mongoose';
 
-interface direccionInterfaz extends Document {
+export interface direccionInterfaz extends Document {
 	correo: string,
   calle: string,
   numero: number,

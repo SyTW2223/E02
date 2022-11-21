@@ -1,6 +1,6 @@
 import {Document, Schema, model} from 'mongoose';
 
-interface panInterfaz extends Document {
+export interface panInterfaz extends Document {
 	identificador: number,
 	tipo: string,
 	nombre: string,

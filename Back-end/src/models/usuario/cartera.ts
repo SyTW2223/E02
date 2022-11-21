@@ -1,6 +1,6 @@
 import {Document, Schema, model} from 'mongoose';
 
-interface tarjetaInterface {
+export interface tarjetaInterface {
   marca: string,
   cvv: number,
   numero: number,
