@@ -119,7 +119,7 @@ export default function Login() {
               />
             </MDBValidationItem>
           </MDBValidation>
-          <MDBBtn type='submit' onClick={onSubmitSignIn} className={`${styles.loginButton} mb-4 w-200`}>Entrar</MDBBtn>
+          <MDBBtn type='submit' onClick={onSubmitSignIn} className={`${styles.loginButton} mb-4 w-100`}>Entrar</MDBBtn>
           <MDBRow className="gx-5">
             <MDBCol>
               <a className={styles.link} href="!#">¿Has olvidado la contraseña?</a>

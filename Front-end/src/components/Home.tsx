@@ -1,12 +1,14 @@
 import pan2 from '../assets/panes/pan2.png'
 import Video from './Video'
 import Carrousel from './Carrousel'
+import CardDisplay from './Card/CardDisplay'
 import Breadcrumb from './Breadcrumb'
 export default function Home() {
     return (
         <>
         <Breadcrumb/>
         <Carrousel/>
+        <CardDisplay />
         <div className='container mt-5 mb-5'>
             <div className="card mb-3">
                 <div className="row no-gutters">
