@@ -1,6 +1,9 @@
 import { Server } from "http";
 import { AddressInfo } from "net";
 
+import './db/mongoose';
+import {port} from './env/config';
+
 import koa from "koa";
 import bodyparser from "koa-bodyparser";
 import loggerKoa from "koa-logger";
@@ -21,4 +24,4 @@ app.use(bodyparser()).
     use(usuarioRouter.routes()).
     use(panRouter.routes());
 
-app.listen(3000);
+app.listen(port);
