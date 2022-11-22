@@ -1,7 +1,6 @@
 import * as dotenv from 'dotenv'
 dotenv.config()
 
-console.log(process.env)
 export const databaseHost: string | undefined = process.env.DATABASE_HOST?.trim();
 export const databasePort: string | undefined = process.env.DATABASE_PORT?.trim();
 export const databaseUser: string | undefined = process.env.DATABASE_USER?.trim();
