@@ -16,11 +16,12 @@ import {
   MDBCollapse
 } from 'mdb-react-ui-kit'
 import Logo from '../assets/logo.png'
+import styles from '../css/Navbar.module.css';
 export default function Navbar() {
   const [showBasic, setShowBasic] = useState(false)
 
   return (
-    <MDBNavbar expand='lg' light bgColor='dark'>
+    <MDBNavbar className={styles.navbar} expand='lg' light bgColor='dark'>
       <MDBContainer fluid>
         <MDBNavbarBrand href='#'>
           <img
@@ -43,30 +44,39 @@ export default function Navbar() {
         <MDBCollapse navbar show={showBasic}>
           <MDBNavbarNav className='mr-auto mb-2 mb-lg-0'>
             <MDBNavbarItem>
-              <MDBNavbarLink className='text-light' active aria-current='page' href='#'>
+              <MDBNavbarLink className='text-light' active aria-current='page' href='/'>
                 Home
               </MDBNavbarLink>
             </MDBNavbarItem>
+
             <MDBNavbarItem>
-              <MDBNavbarLink className='text-light' href='#'>Link</MDBNavbarLink>
+              <MDBNavbarLink className='text-light' active aria-current='page' href='/contacto'>
+                Contacto
+              </MDBNavbarLink>
+            </MDBNavbarItem>
+
+            <MDBNavbarItem>
+              <MDBNavbarLink className={styles.navbarcolor} href='/'>
+                Tienda Online
+              </MDBNavbarLink>
             </MDBNavbarItem>
 
             <MDBNavbarItem>
               <MDBDropdown>
                 <MDBDropdownToggle  tag='a' className='nav-link text-light' role='button'>
-                  Dropdown
+                  Puntos de Venta
                 </MDBDropdownToggle>
                 <MDBDropdownMenu>
-                  <MDBDropdownItem link>Action</MDBDropdownItem>
-                  <MDBDropdownItem link>Another action</MDBDropdownItem>
-                  <MDBDropdownItem link>Something else here</MDBDropdownItem>
+                  <MDBDropdownItem link>Madrid</MDBDropdownItem>
+                  <MDBDropdownItem link>Barcelona</MDBDropdownItem>
+                  <MDBDropdownItem link>Tenerife</MDBDropdownItem>
                 </MDBDropdownMenu>
               </MDBDropdown>
             </MDBNavbarItem>
 
             <MDBNavbarItem>
-              <MDBNavbarLink disabled href='#' tabIndex={-1} aria-disabled='true'>
-                Disabled
+              <MDBNavbarLink href='/login' tabIndex={-1} aria-disabled='true'>
+                Login
               </MDBNavbarLink>
             </MDBNavbarItem>
           </MDBNavbarNav>

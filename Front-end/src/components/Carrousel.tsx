@@ -8,10 +8,10 @@ import {
 } from 'mdb-react-ui-kit';
 import pan1 from '../assets/panes/pan1.png'
 import pan3 from '../assets/panes/pan3.png'
-import './carrousel.css'
+import styles from '../css/Carrousel.module.css';
 export default function Carrousel() {
     return (
-        <MDBContainer className='img-back'>
+        <MDBContainer className={styles.imgback}>
             <MDBRow>
                 <MDBCol size='md'>
                 </MDBCol>
