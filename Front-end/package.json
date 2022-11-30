@@ -2,6 +2,7 @@
   "name": "pan",
   "private": true,
   "version": "0.0.0",
+  "proxy": "http://localhost:3000",
   "type": "commonjs",
   "scripts": {
     "dev": "vite",

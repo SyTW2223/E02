@@ -15,7 +15,6 @@ MDBContainer,
 } from 'mdb-react-ui-kit';
 
 import styles from '../css/Login.module.css';
-
 /**
  * Componente de inicio de sesión y registro para el front-end
  * @returns Componente de inicio de sesión y registro
@@ -33,14 +32,17 @@ export default function Login() {
   };
   // Valida el formulario de inicio de sesión
   const [formSignInValue, setFormSignInValue] = useState({
-    email: '',
+    correo: '',
     password: '',
   });
   //  Valida el formulario de registro
   const [formSignUpValue, setFormSignUpValue] = useState({
-    name: '',
-    email: '',
+    correo: '',
     password: '',
+    apellidos: '',
+    nombre: '',
+    aadadad: '',
+    foto: '',
   });
   // Cambiar el color activo de la pestaña
   const justifyActiveStyle = {
@@ -53,17 +55,44 @@ export default function Login() {
   };
   // Maneja el cambio de entrada del formulario de registro
   const onChangeSignUp = (e: any) => {
-    setFormSignUpValue({ ...formSignUpValue, [e.target.name]: e.target.value });
+    setFormSignUpValue({ ...formSignUpValue,[e.target.name]: e.target.value });
   };
   // Envia formulario de inicio de sesión
-  const onSubmitSignIn = (e: any) => {
+  const onSubmitSignIn = async (e: any) => {
     e.preventDefault();
-    console.log('Form Sign In submitted');
+    const response = await fetch('http://localhost:3000/usuarioLogin', {
+      method: 'POST',
+      mode: 'cors',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(formSignInValue),
+    }).then((res) => res.json())
+      .then((data) => {
+        console.log('Success', data);
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      })
+
   };
+
   // Envia formulario de registro
-  const onSubmitSignUp = (e: any) => {
+  const onSubmitSignUp = async (e: any) => {
     e.preventDefault();
-    console.log('Form Sign Un submitted');
+    const response = await fetch('http://localhost:3000/usuarioRegister', {
+      method: 'POST',
+      body: JSON.stringify(formSignUpValue),
+      headers: {
+        'Content-Type': 'application/json'
+      },
+    }).then((res) => res.json())
+      .then((data) => {
+        console.log('Success', data);
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      })
   };
   // Return the login component
   return (
@@ -93,20 +122,20 @@ export default function Login() {
 
       <MDBTabsContent>
         <MDBTabsPane show={justifyActive === 'signin'}>
-          <MDBValidation>
-            <MDBValidationItem feedback=''>
+          <MDBValidation isValidated>
+            <MDBValidationItem feedback='' invalid>
               <MDBInput
-                name='email'
-                value={formSignInValue.email}
+                name='correo'
+                value={formSignInValue.correo}
                 onChange={onChangeSignIn}
                 required
                 wrapperClass='mb-4'
                 label='Correo electrónico'
                 id='valdiationSignInEmail'
-                type='email'
+                type='correo'
               />
             </MDBValidationItem>
-            <MDBValidationItem feedback=''>
+            <MDBValidationItem feedback='' invalid>
               <MDBInput
                 name='password'
                 value={formSignInValue.password}
@@ -131,11 +160,11 @@ export default function Login() {
         </MDBTabsPane>
 
         <MDBTabsPane show={justifyActive === 'signup'}>
-          <MDBValidation>
+          <MDBValidation isValidated>
             <MDBValidationItem feedback=''>
               <MDBInput
-                name='name'
-                value={formSignUpValue.name}
+                name='nombre'
+                value={formSignUpValue.nombre}
                 onChange={onChangeSignUp}
                 wrapperClass='mb-4'
                 label='Nombre'
@@ -145,17 +174,28 @@ export default function Login() {
             </MDBValidationItem>
             <MDBValidationItem feedback=''>
               <MDBInput
-                name='email'
-                value={formSignUpValue.email}
+                name='apellidos'
+                value={formSignUpValue.apellidos}
+                onChange={onChangeSignUp}
+                wrapperClass='mb-4'
+                label='Apellidos'
+                id='validationSignUpName'
+                type='text'
+              />
+            </MDBValidationItem>
+            <MDBValidationItem feedback='' invalid>
+              <MDBInput
+                name='correo'
+                value={formSignUpValue.correo}
                 onChange={onChangeSignUp}
                 required
                 wrapperClass='mb-4'
                 label='Correo electrónico'
                 id='valdiationSignUpEmail'
-                type='email'
+                type='correo'
               />
             </MDBValidationItem>
-            <MDBValidationItem feedback=''>
+            <MDBValidationItem feedback='' invalid>
               <MDBInput
                 name='password'
                 value={formSignUpValue.password}
@@ -165,6 +205,17 @@ export default function Login() {
                 label='Contraseña'
                 id='valdiationSignUpPassword'
                 type='password'
+              />
+            </MDBValidationItem>
+            <MDBValidationItem feedback=''>
+              <MDBInput
+                name='foto'
+                value={formSignUpValue.foto}
+                onChange={onChangeSignUp}
+                wrapperClass='mb-4'
+                label='Foto'
+                id='validationSignUpName'
+                type='file'
               />
             </MDBValidationItem>
           </MDBValidation>
