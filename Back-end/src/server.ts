@@ -19,6 +19,8 @@ const app = new koa();
 
 // response
 app.use(bodyparser()).
+    use(loggerKoa()).
+    use(cors()).
     use(carteraRouter.routes()).
     use(direccionRouter.routes()).
     use(usuarioRouter.routes()).

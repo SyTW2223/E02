@@ -1,15 +1,15 @@
-import {Document, Schema, model} from 'mongoose';
+import { Document, Schema, model } from "mongoose";
 
 export interface tarjetaInterface {
-  marca: string,
-  cvv: number,
-  numero: number,
-  caducidad: string
+  marca: string;
+  cvv: number;
+  numero: number;
+  caducidad: string;
 }
 
 export interface carteraInterfaz extends Document {
-  correo: string,
-  tarjetas: tarjetaInterface[]
+  correo: string;
+  tarjetas: tarjetaInterface[];
 }
 
 const carteraSchema = new Schema<carteraInterfaz>({
@@ -17,12 +17,13 @@ const carteraSchema = new Schema<carteraInterfaz>({
     type: String,
     required: true,
     unique: true,
-    trim: true
+    trim: true,
+    lowercase: true,
   },
   tarjetas: {
     type: Schema.Types.Mixed,
-    required: true, 
-  }
+    required: true,
+  },
 });
 
 export const Cartera = model<carteraInterfaz>("Cartera", carteraSchema);

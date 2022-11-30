@@ -12,13 +12,22 @@ usuarioRouter.get('/usuario', async (ctx) => {
 	return ctx.body;
 });
 
-usuarioRouter.post('/usuario', async (ctx) => {
-		
+usuarioRouter.post('/usuarioRegister', async (ctx) => {
+	
 	const dataModel = new UsuarioDataModel();
-	const {error, res} = await dataModel.post(ctx.request);
-  ctx.body = {error, res};
+	const {error, res, token} = await dataModel.postRegister(ctx.request);
+  ctx.body = {error, res, token};
 	return ctx.body;
 });
+
+usuarioRouter.post('/usuarioLogin', async (ctx) => {
+
+	const dataModel = new UsuarioDataModel();
+	const {usuario, error, res, token} = await dataModel.postLogin(ctx.request);
+  ctx.body = {usuario, error, res, token};
+	return ctx.body;
+});
+
 
 usuarioRouter.delete('/usuario', async (ctx) => {
 		

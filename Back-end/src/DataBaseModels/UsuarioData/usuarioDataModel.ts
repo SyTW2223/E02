@@ -19,15 +19,33 @@ export default class UsuarioDataModel {
 		}
 	}
 
-	async post(data) {
+	async postRegister(data) {
+
 		try {
 			const usuario = new Usuario(data.body);
 
 			await usuario.save();
-			return({error: "", res: 201});
+			return({error: "", res: 201, token: ""});
 			
 		} catch(error) {
-			return({error: error, res: 400});
+			return({error: error, res: 400, token: ""});
+		}
+	}
+
+	async postLogin(data) {
+
+		try {
+			const filter = data.body.correo?{correo: data.body.correo.toString()} : {};
+			const usuario = await Usuario.find(filter);
+
+			if (usuario.length !== 0 && data.body.password) {
+				return ({usuario: usuario, res: 200, error: "", token: ""});
+			}
+
+			return ({usuario: "", res: 404, error: "Usuario no encontrado", token: ""});
+			
+		} catch (error) {
+			return ({usuario: "", res: 500, error: error, token: ""});
 		}
 	}
 
@@ -37,13 +55,13 @@ export default class UsuarioDataModel {
 		}
 		try {
 			const usuario = await Usuario.findOneAndDelete({correo: data.correo.toString()});
-			const direccion = await Direccion.findOneAndDelete({correo: data.correo.toString()});
-			const cartera = await Cartera.findOneAndDelete({correo: data.correo.toString()});
-
 	
 			if (!usuario) {
 				return ({error: "Correo no encontrado", res: 404});
 			}
+			
+			const direccion = await Direccion.findOneAndDelete({correo: data.correo.toString()});
+			const cartera = await Cartera.findOneAndDelete({correo: data.correo.toString()});
 	
 			return ({error: "", res: 200});
 		} catch (error) {
@@ -56,7 +74,7 @@ export default class UsuarioDataModel {
 			return ({error: "Hace falta el correo", res: 400});
 		}
 	
-		const allowedUpdates = ['nombre', 'apellidos', 'foto'];
+		const allowedUpdates = ['nombre', 'password', 'apellidos', 'foto'];
 		const actualUpdates = Object.keys(change.body);
 		const isValidUpdate =
 			actualUpdates.every((update) => allowedUpdates.includes(update));
