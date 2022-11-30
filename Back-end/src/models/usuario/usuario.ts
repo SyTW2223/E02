@@ -3,12 +3,18 @@ import {Document, Schema, model} from 'mongoose';
 export interface usuarioInterfaz extends Document {
   nombre: string,
   apellidos: string,
+  password: string,
   correo: string,
   foto?: Buffer
 }
 
 const usuarioSchema = new Schema<usuarioInterfaz>({
   nombre: {
+    type: String,
+    required: true,
+    trim: true
+  },
+  password: {
     type: String,
     required: true,
     trim: true
