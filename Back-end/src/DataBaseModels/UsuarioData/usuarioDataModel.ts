@@ -19,15 +19,33 @@ export default class UsuarioDataModel {
 		}
 	}
 
-	async post(data) {
+	async postRegister(data) {
+
 		try {
 			const usuario = new Usuario(data.body);
 
 			await usuario.save();
-			return({error: "", res: 201});
+			return({error: "", res: 201, token: ""});
 			
 		} catch(error) {
-			return({error: error, res: 400});
+			return({error: error, res: 400, token: ""});
+		}
+	}
+
+	async postLogin(data) {
+
+		try {
+			const filter = data.body.correo?{correo: data.body.correo.toString()} : {};
+			const usuario = await Usuario.find(filter);
+
+			if (usuario.length !== 0 && data.body.password) {
+				return ({usuario: usuario, res: 200, error: "", token: ""});
+			}
+
+			return ({usuario: "", res: 404, error: "Usuario no encontrado", token: ""});
+			
+		} catch (error) {
+			return ({usuario: "", res: 500, error: error, token: ""});
 		}
 	}
 
