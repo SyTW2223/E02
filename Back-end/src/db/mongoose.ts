@@ -1,8 +1,7 @@
 import {connect} from 'mongoose';
-import {databaseHost, databasePort, databaseUser, databasePassword, databaseName, databaseConnectionOpts } from '../env/config';
+import {database} from '../env/config';
 
-console.log(databaseUser)
-const remoteUrl: string = `mongodb://${databaseUser}:${databasePassword}@${databaseHost}:${databasePort}/${databaseName}?${databaseConnectionOpts}`
+const remoteUrl: string = database as string;
 /**
  * Conexión a la URL.
  */
