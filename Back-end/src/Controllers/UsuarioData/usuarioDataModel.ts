@@ -33,10 +33,10 @@ export default class UsuarioDataModel {
 
 			let token = jwt.sign({correo}, jwtSecret, { expiresIn: '1h' })
 
-			return({error: "", res: 201, token: token});
+			return({usuario: usuario, error: "", res: 201, token: token});
 
 		} catch(error) {
-			return({error: error, res: 400, token: ""});
+			return({usuario: "", error: error, res: 400, token: ""});
 		}
 	}
 

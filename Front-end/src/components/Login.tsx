@@ -2,6 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { useState } from 'react';
 import { userActions } from '../_actions';
+import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import {
   MDBContainer,
   MDBTabs,
@@ -22,7 +24,9 @@ import styles from '../css/Login.module.css';
  * Componente de inicio de sesión y registro para el front-end
  * @returns Componente de inicio de sesión y registro
  */
-function Login() {
+export default function Login() {
+  const dispatch = useDispatch();
+
   // Establecer la pestaña activa para iniciar sesión por defecto
   const [justifyActive, setJustifyActive] = useState('signin');
  // Maneja clic en la pestaña
@@ -62,29 +66,21 @@ function Login() {
   // Envia formulario de inicio de sesión
   const onSubmitSignIn = async (e: any) => {
     e.preventDefault();
-
     const { correo, password } = formSignInValue;
     if (correo && password) {
-      userActions.login(formSignInValue.correo, formSignInValue.password);
+      const action = userActions.login(formSignInValue.correo, formSignInValue.password);
+      action(dispatch);
     }
   };
 
   // Envia formulario de registro
   const onSubmitSignUp = async (e: any) => {
     e.preventDefault();
-    const response = await fetch('http://localhost:3000/usuarioRegister', {
-      method: 'POST',
-      body: JSON.stringify(formSignUpValue),
-      headers: {
-        'Content-Type': 'application/json'
-      },
-    }).then((res) => res.json())
-      .then((data) => {
-        console.log('Success', data);
-      })
-      .catch((error) => {
-        console.error('Error:', error);
-      })
+    const { correo, password, apellidos, nombre} = formSignUpValue;
+    if (correo && password) {
+      const action = userActions.register(formSignUpValue.nombre, formSignUpValue.apellidos, formSignUpValue.correo, formSignUpValue.password);
+      action(dispatch);
+    }
   };
 
   // Return the login component
@@ -218,13 +214,3 @@ function Login() {
     </MDBContainer>
   );
 };
-
-function mapStateToProps(state: any) {
-  const { loggingIn } = state.authentication;
-  return {
-    loggingIn
-  };
-}
-
-const connectedLoginPage = connect(mapStateToProps)(Login);
-export { connectedLoginPage as Login};

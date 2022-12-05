@@ -2,17 +2,18 @@ import { authHeader } from '../_helpers';
 
 export const userService = {
   login,
-  logout
+  logout,
+  register
 };
 
-async function login(correo: any, contraseña: any) {
+async function login(correo: any, password: any) {
   const requestOptions = {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ correo, contraseña })
+    body: JSON.stringify({ correo, password })
   };
-
-  const response = await fetch(`http://localhost:3000/usuario/usuarioLogin`, requestOptions);
+  console.log(requestOptions)
+  const response = await fetch(`http://localhost:3000/usuarioLogin`, requestOptions);
   const user = await handleResponse(response);
   // store user details and jwt token in local storage to keep user logged in between page refreshes
   localStorage.setItem('usuario', JSON.stringify(user));
@@ -22,6 +23,21 @@ async function login(correo: any, contraseña: any) {
 function logout() {
   // remove user from local storage to log user out
   localStorage.removeItem('usuario');
+}
+
+
+async function register(nombre: any, apellidos: any, password: any, correo: any) {
+  const requestOptions = {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ nombre, apellidos, password, correo })
+  };
+  console.log(requestOptions)
+  const response = await fetch(`http://localhost:3000/usuarioRegister`, requestOptions);
+  const user = await handleResponse(response);
+  // store user details and jwt token in local storage to keep user logged in between page refreshes
+  localStorage.setItem('usuario', JSON.stringify(user));
+  return user;
 }
 
 function handleResponse(response: any) {
