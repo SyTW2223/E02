@@ -3,8 +3,8 @@ import { Document, Schema, model } from "mongoose";
 export interface direccionInterfaz extends Document {
   correo: string;
   calle: string;
-  numero: number;
-  codigoPostal: number;
+  numero: string;
+  codigoPostal: string;
   provincia: string;
   pais: string;
 }
@@ -12,29 +12,38 @@ export interface direccionInterfaz extends Document {
 const direccionSchema = new Schema<direccionInterfaz>({
   correo: {
     type: String,
+    required: true,
     unique: true,
+    trim: true,
+    maxlength: 50,
     lowercase: true,
-	  required: true,
+    match: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
   },
   calle: {
     type: String,
     required: true,
   },
   numero: {
-    type: Number,
+    type: String,
     required: true,
+    match: /(\+34|0034|34)?[ -]*(6|7)[ -]*([0-9][ -]*){8}/,
   },
   codigoPostal: {
-    type: Number,
+    type: String,
     required: true,
+    match: /^(?:0[1-9]|[1-4]\d|5[0-2])\d{3}$/,
   },
   provincia: {
     type: String,
     required: true,
-  },
+    minlength: 1,
+    maxlength: 20,
+    },
   pais: {
     type: String,
     required: true,
+    minlength: 1,
+    maxlength: 20,
   },
 });
 

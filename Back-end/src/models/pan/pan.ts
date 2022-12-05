@@ -19,10 +19,16 @@ const panSchema = new Schema<panInterfaz>({
     type: String,
     required: true,
     trim: true,
+    minlength: 1,
+    maxlength: 50,
+    match: /^[a-zA-Z\s]*$/,
   },
   nombre: {
     type: String,
     required: true,
+    match: /^[a-zA-Z\s]*$/,
+    minlength: 1,
+    maxlength: 50,
   },
   precio: {
     type: Number,
@@ -31,6 +37,9 @@ const panSchema = new Schema<panInterfaz>({
   vendedor: {
     type: String,
     required: true,
+    match: /^[a-zA-Z\s]*$/,
+    minlength: 1,
+    maxlength: 50,
   },
   image: {
     type: Buffer,
