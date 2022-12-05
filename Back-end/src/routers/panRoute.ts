@@ -1,10 +1,11 @@
 import Router from "koa-router";
+import {verifyToken} from "../middleware/jwt";
 
-import PanDataModel from "../DataBaseModels/PanData/panDataModel";
+import PanDataModel from "../Controllers/PanData/panDataModel";
 
 const panRouter = new Router();
 
-panRouter.get('/pan', async (ctx) => {
+panRouter.get('/pan', verifyToken, async (ctx) => {
 	
 	const dataModel = new PanDataModel();
 	const {pan, res, error} = await dataModel.get(ctx.query);
@@ -12,7 +13,7 @@ panRouter.get('/pan', async (ctx) => {
 	return ctx.body;
 });
 
-panRouter.post('/pan', async (ctx) => {
+panRouter.post('/pan', verifyToken, async (ctx) => {
 		
 	const dataModel = new PanDataModel();
 	const {error, res} = await dataModel.post(ctx.request);
@@ -20,7 +21,7 @@ panRouter.post('/pan', async (ctx) => {
 	return ctx.body;
 });
 
-panRouter.delete('/pan', async (ctx) => {
+panRouter.delete('/pan', verifyToken, async (ctx) => {
 		
 	const dataModel = new PanDataModel();
 	const {error, res} = await dataModel.delete(ctx.query);
@@ -28,7 +29,7 @@ panRouter.delete('/pan', async (ctx) => {
 	return ctx.body;
 });
 
-panRouter.patch('/pan', async (ctx) => {
+panRouter.patch('/pan', verifyToken, async (ctx) => {
 		
 	const dataModel = new PanDataModel();
 	const {error, res} = await dataModel.patch(ctx.query, ctx.request);

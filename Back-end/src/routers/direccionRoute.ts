@@ -1,10 +1,11 @@
 import Router from "koa-router";
+import {verifyToken} from "../middleware/jwt";
 
-import DireccionDataModel from "../DataBaseModels/UsuarioData/direccionDataModel";
+import DireccionDataModel from "../Controllers/UsuarioData/direccionDataModel";
 
 const direccionRouter = new Router();
 
-direccionRouter.get('/direccion', async (ctx) => {
+direccionRouter.get('/direccion', verifyToken, async (ctx) => {
 	
 	const dataModel = new DireccionDataModel();
 	const {direccion, res, error} = await dataModel.get(ctx.query);
@@ -12,7 +13,7 @@ direccionRouter.get('/direccion', async (ctx) => {
 	return ctx.body;
 });
 
-direccionRouter.post('/direccion', async (ctx) => {
+direccionRouter.post('/direccion', verifyToken, async (ctx) => {
 		
 	const dataModel = new DireccionDataModel();
 	const {error, res} = await dataModel.post(ctx.request);
@@ -20,7 +21,7 @@ direccionRouter.post('/direccion', async (ctx) => {
 	return ctx.body;
 });
 
-direccionRouter.delete('/direccion', async (ctx) => {
+direccionRouter.delete('/direccion', verifyToken, async (ctx) => {
 		
 	const dataModel = new DireccionDataModel();
 	const {error, res} = await dataModel.delete(ctx.query);
@@ -28,7 +29,7 @@ direccionRouter.delete('/direccion', async (ctx) => {
 	return ctx.body;
 });
 
-direccionRouter.patch('/direccion', async (ctx) => {
+direccionRouter.patch('/direccion', verifyToken, async (ctx) => {
 		
 	const dataModel = new DireccionDataModel();
 	const {error, res} = await dataModel.patch(ctx.query, ctx.request);

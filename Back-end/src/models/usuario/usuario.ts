@@ -19,9 +19,6 @@ const usuarioSchema = new Schema<usuarioInterfaz>({
   password: {
     type: String,
     required: true,
-    trim: true,
-    maxlength: 20,
-    match: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/,
   },
   apellidos: {
     type: String,
