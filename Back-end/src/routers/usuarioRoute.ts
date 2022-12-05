@@ -14,8 +14,8 @@ usuarioRouter.get("/usuario", verifyToken, async (ctx) => {
 
 usuarioRouter.post("/usuarioRegister", async (ctx) => {
   const dataModel = new UsuarioDataModel();
-  const { error, res, token } = await dataModel.postRegister(ctx.request);
-  ctx.body = { error, res, token };
+  const {usuario, error, res, token } = await dataModel.postRegister(ctx.request);
+  ctx.body = {usuario, error, res, token};
   ctx.status = res;
 });
 
