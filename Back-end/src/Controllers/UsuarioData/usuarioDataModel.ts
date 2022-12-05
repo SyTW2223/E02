@@ -1,6 +1,9 @@
 import {Usuario} from "../../models/usuario/usuario";
 import {Direccion} from "../../models/usuario/direccion";
 import {Cartera} from "../../models/usuario/cartera";
+import { hashPassword, comparePassword } from "../../Bcrypt/bcrypt";
+import jwt from 'jsonwebtoken';
+import {jwtSecret} from '../../env/config';
 
 export default class UsuarioDataModel {
 
@@ -23,10 +26,15 @@ export default class UsuarioDataModel {
 
 		try {
 			const usuario = new Usuario(data.body);
-
+			usuario.password = await hashPassword(usuario.password);
 			await usuario.save();
-			return({error: "", res: 201, token: ""});
 			
+			let correo: string = data.body.correo;
+
+			let token = jwt.sign({correo}, jwtSecret, { expiresIn: '1h' })
+
+			return({error: "", res: 201, token: token});
+
 		} catch(error) {
 			return({error: error, res: 400, token: ""});
 		}
@@ -39,7 +47,17 @@ export default class UsuarioDataModel {
 			const usuario = await Usuario.find(filter);
 
 			if (usuario.length !== 0 && data.body.password) {
-				return ({usuario: usuario, res: 200, error: "", token: ""});
+				// Verificar contraseña
+				const isMatch = await comparePassword(data.body.password, usuario[0].password);
+				// Mongo != Bcrypt
+				if (!isMatch) {
+					return ({usuario: "", res: 400, error: "Contraseña incorrecta", token: ""});
+				}
+
+				let correo: string = data.body.correo;
+				let token = jwt.sign({correo}, jwtSecret, { expiresIn: '1h' });
+				
+				return({usuario: usuario, res: 201, error: "", token: token});
 			}
 
 			return ({usuario: "", res: 404, error: "Usuario no encontrado", token: ""});

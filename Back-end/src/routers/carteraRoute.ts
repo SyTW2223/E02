@@ -1,10 +1,11 @@
 import Router from "koa-router";
+import {verifyToken} from "../middleware/jwt";
 
-import CarteraDataModel from "../DataBaseModels/UsuarioData/carteraDataModel";
+import CarteraDataModel from "../Controllers/UsuarioData/carteraDataModel";
 
 const carteraRouter = new Router();
 
-carteraRouter.get('/cartera', async (ctx) => {
+carteraRouter.get('/cartera', verifyToken, async (ctx) => {
 	
 	const dataModel = new CarteraDataModel();
 	const {cartera, res, error} = await dataModel.get(ctx.query);
@@ -12,7 +13,7 @@ carteraRouter.get('/cartera', async (ctx) => {
 	return ctx.body;
 });
 
-carteraRouter.post('/cartera', async (ctx) => {
+carteraRouter.post('/cartera', verifyToken, async (ctx) => {
 		
 	const dataModel = new CarteraDataModel();
 	const {error, res} = await dataModel.post(ctx.request);
@@ -20,7 +21,7 @@ carteraRouter.post('/cartera', async (ctx) => {
 	return ctx.body;
 });
 
-carteraRouter.delete('/cartera', async (ctx) => {
+carteraRouter.delete('/cartera', verifyToken, async (ctx) => {
 		
 	const dataModel = new CarteraDataModel();
 	const {error, res} = await dataModel.delete(ctx.query);
@@ -28,7 +29,7 @@ carteraRouter.delete('/cartera', async (ctx) => {
 	return ctx.body;
 });
 
-carteraRouter.patch('/cartera', async (ctx) => {
+carteraRouter.patch('/cartera', verifyToken, async (ctx) => {
 		
 	const dataModel = new CarteraDataModel();
 	const {error, res} = await dataModel.patch(ctx.query, ctx.request);
