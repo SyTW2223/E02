@@ -122,6 +122,7 @@ export default function Login() {
                 label='Correo electrónico'
                 id='valdiationSignInEmail'
                 type='correo'
+                data-testid='correo signin'
               />
             </MDBValidationItem>
             <MDBValidationItem feedback='' invalid>
@@ -134,6 +135,7 @@ export default function Login() {
                 label='Contraseña'
                 id='valdiationSignInPassword'
                 type='password'
+                data-testid='password signin'
               />
             </MDBValidationItem>
           </MDBValidation>
@@ -159,6 +161,7 @@ export default function Login() {
                 label='Nombre'
                 id='validationSignUpName'
                 type='text'
+                data-testid='nombre signup'
               />
             </MDBValidationItem>
             <MDBValidationItem feedback=''>
@@ -170,6 +173,7 @@ export default function Login() {
                 label='Apellidos'
                 id='validationSignUpName'
                 type='text'
+                data-testid='apellidos signup'
               />
             </MDBValidationItem>
             <MDBValidationItem feedback='' invalid>
@@ -182,6 +186,7 @@ export default function Login() {
                 label='Correo electrónico'
                 id='valdiationSignUpEmail'
                 type='correo'
+                data-testid='correo signup'
               />
             </MDBValidationItem>
             <MDBValidationItem feedback='' invalid>
@@ -194,6 +199,7 @@ export default function Login() {
                 label='Contraseña'
                 id='valdiationSignUpPassword'
                 type='password'
+                data-testid='password signup'
               />
             </MDBValidationItem>
             <MDBValidationItem feedback=''>
@@ -205,6 +211,7 @@ export default function Login() {
                 label='Foto'
                 id='validationSignUpName'
                 type='file'
+                data-testid='foto signup'
               />
             </MDBValidationItem>
           </MDBValidation>

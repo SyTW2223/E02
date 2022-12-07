@@ -6,9 +6,7 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
   plugins: [react()],
   test: {
-    /*
-      * The default test runner is jest, but you can use any test runner you want.
-      * For example, you can use mocha, ava, or even your own runner.
-    */
+    globals: true,
+    environment: 'jsdom'
    }
 });
