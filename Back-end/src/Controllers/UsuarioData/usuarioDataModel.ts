@@ -57,7 +57,7 @@ export default class UsuarioDataModel {
 				let correo: string = data.body.correo;
 				let token = jwt.sign({correo}, jwtSecret, { expiresIn: '1h' });
 				
-				return({usuario: usuario, res: 201, error: "", token: token});
+				return({usuario: usuario, res: 200, error: "", token: token});
 			}
 
 			return ({usuario: "", res: 404, error: "Usuario no encontrado", token: ""});
@@ -91,7 +91,10 @@ export default class UsuarioDataModel {
 		if (!data.correo) {
 			return ({error: "Hace falta el correo", res: 400});
 		}
-	
+		
+		if (change.body.password)
+			change.body.password = await hashPassword(change.body.password);
+
 		const allowedUpdates = ['nombre', 'password', 'apellidos', 'foto'];
 		const actualUpdates = Object.keys(change.body);
 		const isValidUpdate =

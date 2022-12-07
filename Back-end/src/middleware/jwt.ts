@@ -8,13 +8,17 @@ export const verifyToken = async (ctx, next) => {
     const bearer = header.split(' ');
     const token = bearer[1];
 
-    jwt.verify(token, jwtSecret, (err) => {
+    await jwt.verify(token, jwtSecret, async (err) => {
       if (err) {
         ctx.body = {res: 401, error: "Invalid token"};
+        ctx.status = 401;
+      } else {
+        await next();
       }
     })
-		await next();
+
   } else {
-    ctx.body = {res: 402, error: "No token provided"};
+    ctx.body = {res: 401, error: "No token provided"};
+    ctx.status = 401;
   }
 }
