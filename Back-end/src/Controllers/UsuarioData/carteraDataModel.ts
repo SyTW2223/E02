@@ -5,11 +5,13 @@ export default class CarteraDataModel {
 	async get(data) {
 		try {
 			const filter = data.correo?{correo: data.correo.toString()} : {};
+		
 			const cartera = await Cartera.find(filter);
 
 			if (cartera.length !== 0) {
 				return ({cartera: cartera, res: 200, error: ""});
 			}
+			
 			return ({cartera: "", res: 404, error: "cartera no encontrada"});
 			
 		} catch (error) {
