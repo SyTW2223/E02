@@ -23,7 +23,7 @@ const carteraSchema = new Schema<carteraInterfaz>({
     match: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
   },
   tarjetas: {
-    type: [{marca: String, cvv: Number, numero: Number, caducidad: String}],
+    type: [{marca: String, cvv: String, numero: String, caducidad: String}],
     required: true,
     validate: (array: tarjetaInterface[]) => (
       array.forEach(element => {
@@ -34,7 +34,7 @@ const carteraSchema = new Schema<carteraInterfaz>({
         if (!element.numero.match(/^4[0-9]{12}(?:[0-9]{3})?$/)) 
           throw Error("El valor del número es erroneo")
         if (!element.caducidad.match(/^[0-9]{3,4}$/)) 
-          throw Error("El valor del número es erroneo")
+          throw Error("El valor de caducidad es erroneo")
       })
     ),
   },
