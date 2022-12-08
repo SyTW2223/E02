@@ -57,8 +57,6 @@
   "jest": {
     "moduleFileExtensions": [
       "js",
-      "jsx",
-      "json",
       "ts"
     ],
     "collectCoverage": true,
@@ -66,6 +64,8 @@
       "**/*.{ts,js}",
       "!**/node_modules/**",
       "!**/build/**",
+      "!**/src/db/**",
+      "!**/src/server.ts",
       "!**/coverage/**"
     ],
     "transform": {
