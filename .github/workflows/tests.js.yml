@@ -27,6 +27,8 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
-    - run: npm ci --prefix ./Back-end
+    - run: npm ci --prefix ./B
     - run: npm run build --if-present
     - run: npm test
+      if: ${{ failure() }}
+      run: exit 1

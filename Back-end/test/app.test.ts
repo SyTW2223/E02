@@ -37,7 +37,7 @@ describe("JWT", () => {
 		.get("/cartera?correo=alu010132@gmail.com")
 		.set("authorization", "Bearer " + "Fake token");
 		expect(response.status).toBe(401);
-		expect(response.text).toBe('{"res":401,"error":"Invalid token"}');
+		expect(response.text).toBe('{"res":407,"error":"Invalid token"}');
 	});
 });
 
