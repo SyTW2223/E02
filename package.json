@@ -4,7 +4,7 @@
   "description": "__API RESTFUL__- Los usuarios de aplicación podrán realizar la compra online de panes . En la aplicacion se podrán realizar las siguientes acciones: - Crear un usuario - Iniciar sesión - Registrarse - Ver el listado de panes - Ver el detalle de un pan - Ver los panes más vendidos/visitados - Añadir un pan al carrito - Ver el listado de panes del carrito - Eliminar un pan del carrito - Realizar el pago del carrito",
   "main": "index.js",
   "scripts": {
-    "test": "npm test --prefix ./Front-end && npm test --prefix ./Back-end"
+    "test": "npm test --prefix ./Front-end"
   },
   "repository": {
     "type": "git",
