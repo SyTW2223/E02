@@ -32,4 +32,4 @@ jobs:
     - run: npm test
     - name : Comprobar test
       if: failure()
-      run: exit 1
+        run: exit 1
