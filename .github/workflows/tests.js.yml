@@ -30,6 +30,3 @@ jobs:
     - run: npm ci --prefix ./Front-end && npm ci --prefix ./Back-end
     - run: npm run build --if-present
     - run: npm test
-    - name : Comprobar test
-      if: ${{ failure() }}
-      run: exit 1
