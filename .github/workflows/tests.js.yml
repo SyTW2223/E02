@@ -30,5 +30,6 @@ jobs:
     - run: npm ci --prefix ./B
     - run: npm run build --if-present
     - run: npm test
+    - name: Fallo de tests 
       if: ${{ failure() }}
       run: exit 1
