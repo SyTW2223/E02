@@ -13,7 +13,7 @@ on:
 
 jobs:
   build:
-
+    name: Ejemplo de acción de push y pull request
     runs-on: ubuntu-latest
 
     strategy:
@@ -27,9 +27,9 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
-    - run: npm ci --prefix ./Front-end && npm ci --prefix ./Back-end
+    - run: npm ci --prefix ./Back-end && npm ci --prefix ./Front-end
     - run: npm run build --if-present
     - run: npm test
-    - name : Comprobar test
-      unless: ${{ failure() }}
+    - name: Fallo de tests
+      if: ${{ failure() }}
       run: exit 1

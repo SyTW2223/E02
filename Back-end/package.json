@@ -59,7 +59,7 @@
       "js",
       "ts"
     ],
-    "collectCoverage": true,
+    "collectCoverage": false,
     "collectCoverageFrom": [
       "**/*.{ts,js}",
       "!**/node_modules/**",
