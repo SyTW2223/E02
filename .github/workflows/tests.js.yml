@@ -29,7 +29,7 @@ jobs:
         cache: 'npm'
     - run: npm ci --prefix ./Back-end && npm ci --prefix ./Front-end
     - run: npm run build --if-present
-    - run: npm test
+    - run: npm test --prefix ./Back-end && npm test --prefix ./Front-end
     - name: Fallo de tests
       if: ${{ failure() }}
       run: exit 1
