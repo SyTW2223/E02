@@ -1,5 +1,12 @@
 {
-    "rewrites":  [
-      {"source": "/(.*)", "destination": "/"}
-    ]
+    "rewrite": {
+        "source": "/",
+        "destination": "/index.html",
+        "rules": [
+            {
+                "from": "/",
+                "to": "/index.html"
+            }
+        ]
+    }
 }
