@@ -4,7 +4,7 @@
         rgba(0, 0, 0, 0.5),
         rgba(0, 0, 0, 0.6)
        ),  
-       url('../assets/panes/pan8.png');
+       url('/panes/pan8.png');
     background-size: cover;
     border: 3px solid rgba(117,89,50,1);
     box-shadow: 0px 0px 25px #222;
