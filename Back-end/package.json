@@ -6,6 +6,7 @@
   "scripts": {
     "start": "node ./dist/server",
     "dev": "nodemon",
+    "build": "tsc && node ./dist/server",
     "test": "jest --detectOpenHandles"
   },
   "devDependencies": {

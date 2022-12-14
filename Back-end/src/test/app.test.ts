@@ -1,7 +1,7 @@
 import request from "supertest";
-import app from "../src/app";
+import app from "../app";
 import jwt from "jsonwebtoken";
-import { jwtSecret } from "../src/env/config";
+import { jwtSecret } from "../env/config";
 import {connect, disconnect} from 'mongoose';
 import { MongoMemoryServer } from 'mongodb-memory-server';
 
