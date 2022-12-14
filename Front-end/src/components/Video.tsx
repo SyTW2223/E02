@@ -1,4 +1,4 @@
-import video from '../assets/videos/video.mp4';
+import video from '/videos/video.mp4';
 
 export default function Video() {
   return (
