@@ -14,6 +14,7 @@ async function login(correo: any, password: any) {
   };
   console.log(requestOptions)
   const direccion: string = process.env.VITE_BACK_HOST || `http://localhost:3000`;
+  console.log(direccion)
   const response = await fetch(direccion + "/usuarioLogin", requestOptions);
   const user = await handleResponse(response);
   // store user details and jwt token in local storage to keep user logged in between page refreshes
