@@ -11,7 +11,7 @@ En la aplicacion se podrán realizar las siguientes acciones:
 - Añadir un pan al carrito
 - Ver el listado de panes del carrito
 - Eliminar un pan del carrito
-- Realizar el pago del carrito
+- Realizar el pago del carrito 
 
 
 
