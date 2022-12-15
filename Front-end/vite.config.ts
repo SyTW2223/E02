@@ -3,12 +3,11 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 
 // https://vitejs.dev/config/
-export default defineConfig(({ command, mode }) => {
-  return {
+export default defineConfig({
   plugins: [react()],
   define: {
     'process.env': {
-      BACK_HOST: JSON.stringify(process.env.BACK_HOST)
+      BACK_HOST: JSON.stringify(process.env.VITE_BACK_HOST)
     }
   },
   base: './',
@@ -16,5 +15,4 @@ export default defineConfig(({ command, mode }) => {
     globals: true,
     environment: 'jsdom'
    }
-  }
 });
