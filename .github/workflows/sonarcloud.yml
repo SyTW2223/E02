@@ -1,0 +1,27 @@
+name: SonarCloud
+on:
+  workflow_run:
+    workflows: ["Coveralls"]
+    types:
+      - completed
+
+  pull_request:
+    branches:
+      - main
+jobs:
+  sonarcloud:
+    name: SonarCloud
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+      - name: Installing dependencies
+        run: npm install
+      - name: Generating coverage report
+        run: npm run coverage
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
