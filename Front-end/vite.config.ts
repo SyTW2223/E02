@@ -7,7 +7,7 @@ export default defineConfig({
   plugins: [react()],
   define: {
     'process.env': {
-      BACK_HOST: JSON.stringify(process.env.VITE_BACK_HOST)
+      BACK_HOST: JSON.stringify(process.env.BACK_HOST)
     }
   },
   base: './',
