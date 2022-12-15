@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/SyTW2223/E02/issues"
   },
-  "homepage": "https://github.com/SyTW2223/E02#readme"
+  "homepage": "https://github.com/SyTW2223/E02#readme",
+  "devDependencies": {
+    "webpack": "^5.75.0"
+  }
 }

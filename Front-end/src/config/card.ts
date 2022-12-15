@@ -6,26 +6,26 @@ export interface Cards {
 export const cards: Cards[] = [
   {
     title: 'Integral',
-    image: 'src/assets/panes/pan3.png',
+    image: '/panes/pan3.png',
   },
   {
     title: 'Blanco',
-    image: 'src/assets/panes/v1_1356.png',
+    image: '/panes/v1_1356.png',
   },
   {
     title: 'Millo',
-    image: 'src/assets/panes/v1_1417.png',
+    image: '/panes/v1_1417.png',
   },
   {
     title: 'Centeno',
-    image: 'src/assets/panes/pan1.png',
+    image: '/panes/pan1.png',
   },
   {
     title: 'Masa Madre',
-    image: 'src/assets/panes/v1_1294.png',
+    image: '/panes/v1_1294.png',
   },
   {
     title: 'Semillas',
-    image: 'src/assets/panes/v1_1297.png',
+    image: '/panes/v1_1297.png',
   },
 ];

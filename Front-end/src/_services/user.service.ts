@@ -13,7 +13,10 @@ async function login(correo: any, password: any) {
     body: JSON.stringify({ correo, password })
   };
   console.log(requestOptions)
-  const response = await fetch(`http://localhost:3000/usuarioLogin`, requestOptions);
+  console.log(process.env)
+  const direccion: string = process.env.BACK_HOST || `http://localhost:3000`;
+  console.log(direccion)
+  const response = await fetch(direccion + "/usuarioLogin", requestOptions);
   const user = await handleResponse(response);
   // store user details and jwt token in local storage to keep user logged in between page refreshes
   localStorage.setItem('usuario', JSON.stringify(user));
@@ -33,7 +36,8 @@ async function register(nombre: any, apellidos: any, password: any, correo: any)
     body: JSON.stringify({ nombre, apellidos, password, correo })
   };
   console.log(requestOptions)
-  const response = await fetch(`http://localhost:3000/usuarioRegister`, requestOptions);
+  const direccion: string = process.env.BACK_HOST || `http://localhost:3000/`;
+  const response = await fetch(direccion + "/usuarioRegister", requestOptions);
   const user = await handleResponse(response);
   // store user details and jwt token in local storage to keep user logged in between page refreshes
   localStorage.setItem('usuario', JSON.stringify(user));

@@ -15,7 +15,7 @@ import {
   MDBDropdownItem,
   MDBCollapse
 } from 'mdb-react-ui-kit'
-import Logo from '../assets/logo.png'
+import Logo from '../../public/logo.png'
 import styles from '../css/Navbar.module.css';
 export default function Navbar() {
   const [showBasic, setShowBasic] = useState(false)
