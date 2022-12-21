@@ -7,7 +7,8 @@
     "start": "node ./dist/server",
     "dev": "nodemon",
     "build": "tsc",
-    "test": "jest --detectOpenHandles"
+    "test": "jest --detectOpenHandles",
+    "testCoverage": "jest --coverage"
   },
   "devDependencies": {
     "@shelf/jest-mongodb": "^4.1.4",
@@ -67,17 +68,17 @@
       "!**/build/**",
       "!**/src/db/**",
       "!**/src/server.ts",
-      "!**/coverage/**"
+      "!**/coverage/**",
+      "!**/dist/**"
     ],
     "transform": {
       "\\.ts$": "ts-jest"
     },
     "coverageThreshold": {
       "global": {
-        "branches": 100,
-        "functions": 100,
-        "lines": 100,
-        "statements": 100
+        "functions": 30,
+        "lines": 30,
+        "statements": 30
       }
     },
     "coverageReporters": [

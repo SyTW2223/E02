@@ -8,6 +8,7 @@
     "dev": "vite",
     "test": "vitest run",
     "coverage": "vitest run --coverage",
+    "test-coverage": "npm run test && npm run coverage",
     "build": "tsc && vite build",
     "preview": "vite preview",
     "lint": "eslint --max-warnings=0 src"
@@ -35,6 +36,7 @@
     "@types/redux-logger": "^3.0.9",
     "@typescript-eslint/eslint-plugin": "^5.43.0",
     "@vitejs/plugin-react": "^2.2.0",
+    "@vitest/coverage-c8": "^0.26.2",
     "eslint": "^8.27.0",
     "eslint-config-react-app": "^7.0.1",
     "eslint-config-standard-with-typescript": "^23.0.0",
