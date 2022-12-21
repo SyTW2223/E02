@@ -25,3 +25,5 @@
 */*.sw?
 .vercel
 node_modules
+sonar-project.properties
+.github/workflows/build.yml

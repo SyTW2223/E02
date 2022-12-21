@@ -1,4 +1,8 @@
 # alPanPan
+[![SonarCloud](https://sonarcloud.io/images/project_badges/sonarcloud-black.svg)](https://sonarcloud.io/summary/new_code?id=SyTW2223_E02)
+
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=SyTW2223_E02&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=SyTW2223_E02)[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=SyTW2223_E02&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=SyTW2223_E02)[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=SyTW2223_E02&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=SyTW2223_E02)
+
 
 __API RESTFUL__- Los usuarios de aplicación podrán realizar la compra online de panes .
 En la aplicacion se podrán realizar las siguientes acciones:
