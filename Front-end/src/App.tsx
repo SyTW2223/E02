@@ -9,6 +9,8 @@ import Layout from './components/Layout';
 import Login from './components/Login';
 import ProfilePageGucci from './components/ProfileGucci';
 import Direccion from './components/Direccion';
+import Tienda from './components/Tienda/Tienda';
+
 import Error from './components/Error';
 import PanData from './components/PanData';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
@@ -24,6 +26,7 @@ function App() {
         <Route path='/login' element={<Login />} />
         <Route path='/profile' element={<ProfilePageGucci />} />
         <Route path='/direccion' element={<Direccion />} />
+        <Route path='/tienda' element={<Tienda />} />
         <Route path='/pan/7' element={<PanData />} />
           <Route path="*" element={<Error />} />
         </Route>
