@@ -15,18 +15,17 @@ import {
  */
 export default function Card({ title, image }: any) {
   return (
-    <MDBCol lg="2" md="4" sm="12">
-      <MDBCard center>
+    <MDBCol lg="2" md="3" sm="6">
+      <MDBCard>
         <MDBCardImage
           src={image}
           alt="..."
           position="top"
-          className="w-100"
-          style={{height: "10rem"}}
+          style={{ height: "12.5rem" }}
         />
-        <MDBRipple rippleColor="light" rippleTag="div" className="w-100">
-          <MDBCardBody style={{background: '#755932'}}>
-            <MDBCardTitle style={{color: 'white'}}>{title}</MDBCardTitle>
+        <MDBRipple rippleColor="light" rippleTag="div">
+          <MDBCardBody style={{ background: "#755932", height: "6.25rem" }}>
+            <MDBCardTitle style={{ color: 'white' }}>{title}</MDBCardTitle>
           </MDBCardBody>
         </MDBRipple>
       </MDBCard>
