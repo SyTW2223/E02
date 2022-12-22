@@ -51,7 +51,7 @@ export default class PanDataModel {
 			return ({error: "Hace falta el identificador", res: 400});
 		}
 	
-		const allowedUpdates = ['tipo', 'nombre', 'precio', 'vendedor', 'image'];
+		const allowedUpdates = ['tipo', 'nombre', 'precio', 'vendedor', 'descripcion','ingredientes', 'image'];
 		const actualUpdates = Object.keys(change.body);
 		const isValidUpdate =
 			actualUpdates.every((update) => allowedUpdates.includes(update));

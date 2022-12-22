@@ -2,11 +2,11 @@ import pan2 from '../../public/panes/pan2.png'
 import Video from './Video'
 import Carrousel from './Carrousel'
 import CardDisplay from './Card/CardDisplay'
-import Breadcrumb from './Breadcrumb'
 import styles from '../css/Home.module.css';
 export default function Home() {
     return (
         <>
+
         <Carrousel/>
         <CardDisplay />
         <div className='container mt-5 mb-5'>

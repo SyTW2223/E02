@@ -6,6 +6,6 @@ import Home from '../src/components/Home'
 describe('Home componente', () => {
   test('El componente se renderiza correctamente', () => {
     const { getByText } = renderWithProviders(<Home />)
-    expect(getByText('Home')).toBeTruthy()
+    expect(getByText('Quiénes Somos')).toBeTruthy()
   })
 })
