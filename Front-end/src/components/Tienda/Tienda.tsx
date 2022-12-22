@@ -38,7 +38,7 @@ export default function Tienda() {
                 />
                 <MDBRipple rippleColor="light" rippleTag="div">
                   <MDBCardBody style={{ background: "#755932", height: "12.5rem"  }}>
-                    <Link to={`/tienda/${product._id}`} key={product._id} style={{ textDecoration: "none" }}>
+                    <Link to={`/pan/${product.identificador}`} key={product._id} style={{ textDecoration: "none" }}>
                     <MDBCardTitle style={{ color: 'white', lineHeight: '150%' }}>{product.nombre}</MDBCardTitle>
                     <MDBCardText style={{ color: 'white', fontSize: "12px", lineHeight: '50%' }}>
                       <p>Tipo: {product.tipo}</p>

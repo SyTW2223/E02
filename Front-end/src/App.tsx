@@ -27,7 +27,7 @@ function App() {
         <Route path='/profile' element={<ProfilePageGucci />} />
         <Route path='/direccion' element={<Direccion />} />
         <Route path='/tienda' element={<Tienda />} />
-        <Route path='/pan/7' element={<PanData />} />
+        <Route path='/pan/:id' element={<PanData />} />
           <Route path="*" element={<Error />} />
         </Route>
       </Routes>

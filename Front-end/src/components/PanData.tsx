@@ -38,7 +38,7 @@ export default function PanData () {
 
     const direccion: string = process.env.BACK_HOST || `http://localhost:3000`;
 
-    const response = await fetch(direccion + "/pan?identificador=7", requestOptions);
+    const response = await fetch(direccion + "/pan?identificador="+ id, requestOptions);
     console.log(response)
     const data = await handleResponse(response);
     console.log(data)
