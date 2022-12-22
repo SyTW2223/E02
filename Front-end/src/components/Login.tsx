@@ -42,6 +42,7 @@ export default function Login() {
     correo: '',
     password: '',
   });
+
   //  Valida el formulario de registro
   const [formSignUpValue, setFormSignUpValue] = useState({
     correo: '',
@@ -55,6 +56,15 @@ export default function Login() {
     backgroundColor: 'wheat',
     color: '#755932',
   };
+
+  const isEmailValid = (email: string) => {
+    return /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email);
+  };
+
+  const isPasswordValid = (password: string) => {
+    return /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{5,}$/i.test(password);
+  };
+
   // Maneja el cambio de entrada del formulario de inicio de sesión
   const onChangeSignIn = (e: any) => {
     setFormSignInValue({ ...formSignInValue, [e.target.name]: e.target.value });
@@ -67,7 +77,8 @@ export default function Login() {
   const onSubmitSignIn = async (e: any) => {
     e.preventDefault();
     const { correo, password } = formSignInValue;
-    if (correo && password) {
+    // Compruueba el correo electrónico y la contraseña
+    if (isEmailValid(correo) && isPasswordValid(password)){
       const action = userActions.login(formSignInValue.correo, formSignInValue.password);
       action(dispatch);
     }
@@ -77,7 +88,7 @@ export default function Login() {
   const onSubmitSignUp = async (e: any) => {
     e.preventDefault();
     const { correo, password, apellidos, nombre} = formSignUpValue;
-    if (correo && password) {
+    if (isEmailValid(correo) && isPasswordValid(password)) {
       const action = userActions.register(formSignUpValue.nombre, formSignUpValue.apellidos, formSignUpValue.correo, formSignUpValue.password);
       action(dispatch);
     }
@@ -85,7 +96,7 @@ export default function Login() {
 
   // Return the login component
   return (
-    <MDBContainer fluid className="p-3 my-5 d-flex flex-column w-50">
+    <MDBContainer fluid className="p-3 my-5 d-flex flex-column col-md-6">
       <MDBTabs pills justify className='mb-3 d-flex flex-row justify-content-between'>
         <MDBTabsItem>
           <MDBTabsLink
@@ -111,9 +122,9 @@ export default function Login() {
 
       <MDBTabsContent>
         <MDBTabsPane show={justifyActive === 'signin'}>
-          <MDBValidation isValidated>
-            <MDBValidationItem feedback='' invalid>
-              <MDBInput
+          <MDBValidation>
+            <MDBValidationItem feedback='Please insert correct email' invalid>
+              <MDBInput 
                 name='correo'
                 value={formSignInValue.correo}
                 onChange={onChangeSignIn}
@@ -123,10 +134,11 @@ export default function Login() {
                 id='valdiationSignInEmail'
                 type='correo'
                 data-testid='correo signin'
+                pattern='^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$'
               />
             </MDBValidationItem>
-            <MDBValidationItem feedback='' invalid>
-              <MDBInput
+            <MDBValidationItem feedback='Please insert paswword with min 5 lenght' invalid>
+              <MDBInput className='mt-5'
                 name='password'
                 value={formSignInValue.password}
                 onChange={onChangeSignIn}
@@ -136,11 +148,13 @@ export default function Login() {
                 id='valdiationSignInPassword'
                 type='password'
                 data-testid='password signin'
+                pattern='^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{5,}$'
               />
             </MDBValidationItem>
-          </MDBValidation>
-          <MDBBtn type='submit' onClick={onSubmitSignIn} className={`${styles.loginButton} mb-4 w-100`}>Entrar</MDBBtn>
-          <MDBRow className="gx-5">
+
+            <MDBBtn type='submit' onClick={onSubmitSignIn} className={`${styles.loginButton} my-4 w-100`}>Entrar</MDBBtn>
+           </MDBValidation>
+           <MDBRow className="gx-5">
             <MDBCol>
               <a className={styles.link} href="!#">¿Has olvidado la contraseña?</a>
             </MDBCol>

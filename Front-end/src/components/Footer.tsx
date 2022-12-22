@@ -35,8 +35,6 @@ export default function Footer() {
           </MDBBtn>
         </section>
         
-        <Marquee>Tu mama es puta Alejandro</Marquee>
-
         <section className=''>
           <form action=''>
             <MDBRow className='d-flex justify-content-center'>

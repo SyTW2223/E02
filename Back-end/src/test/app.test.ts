@@ -76,7 +76,9 @@ describe("Cartera", () => {
 	  .send({
 		tarjetas : {
 			marca: "Visa",
-			cvv: "1124",
+			cvv: "1234",
+			caducidad: "1222",
+			numero: "4008696950712322"
 		},
 	  });
 	expect(response.status).toBe(200);
@@ -165,6 +167,8 @@ describe("Pan", () => {
 				nombre: "Pan integral",
 				precio: 1.5,
 				vendedor: "Panaderia Manolo",
+				ingredientes: "agua y levadura",
+				descripcion: "Un buen pan",
 				image: "https://www.panintegral.es/wp-content/uploads/2019/03/pan-integral.jpg",
 			});
 		expect(response.status).toBe(201);
@@ -189,8 +193,6 @@ describe("Pan", () => {
 		expect(response.status).toBe(200);
 		expect(response.text).toBe("{\"error\":\"\",\"res\":200}");
 	});
-
-
 }); 
 
 
@@ -204,12 +206,25 @@ describe("Usuario", () => {
 		expect(response.text).toBe("{\"usuario\":\"\",\"res\":404,\"error\":\"Usuario no encontrado\"}");
 	});
 	
-	test("Test post usuarioRegister", async () => {
+	test("Test post usuarioRegister fallo contraseña incorrecta", async () => {
 		const response = await request(app.callback())
 			.post("/usuarioRegister")
 			.send({
 				correo: "alu010132@gmail.com",
 				password: "hola1234",
+			});
+		expect(response.status).toBe(400);
+		const user = JSON.parse(response.text);
+		expect(user.res).toBe(400);
+		expect(user.token).toBe("");
+	});
+
+	test("Test post usuarioRegister", async () => {
+		const response = await request(app.callback())
+			.post("/usuarioRegister")
+			.send({
+				correo: "alu010132@gmail.com",
+				password: "Hola1234",
 			});
 		expect(response.status).toBe(201);
 		const user = JSON.parse(response.text);
@@ -222,7 +237,7 @@ describe("Usuario", () => {
 			.post("/usuarioLogin")
 			.send({
 				correo: "alu010132@gmail.com",
-				password: "hola1234",
+				password: "Hola1234",
 			});
 		expect(response.status).toBe(200);
 		const user = JSON.parse(response.text);

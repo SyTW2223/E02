@@ -25,7 +25,11 @@ export default class UsuarioDataModel {
 	async postRegister(data) {
 
 		try {
-			const usuario = new Usuario(data.body);
+			const usuario = new Usuario(data.body)
+
+			if (!/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{5,}$/.test(data.body.password))
+				return ({usuario: "", res: 400, error: "Contraseña incorrecta", token: ""});
+
 			usuario.password = await hashPassword(usuario.password);
 			await usuario.save();
 			
@@ -106,7 +110,7 @@ export default class UsuarioDataModel {
 
 		try {
 			const usuario =
-			await Usuario.findOneAndUpdate({correo: data.correo.toString()}, data.body, {
+			await Usuario.findOneAndUpdate({correo: data.correo.toString()}, change.body, {
 				new: true,
 				runValidators: true,
 			});

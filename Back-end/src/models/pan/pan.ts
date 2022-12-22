@@ -6,6 +6,8 @@ export interface panInterfaz extends Document {
   nombre: string;
   precio: number;
   vendedor: string;
+  descripcion: string
+  ingredientes: string;
   image: Buffer;
 }
 
@@ -40,6 +42,18 @@ const panSchema = new Schema<panInterfaz>({
     match: /^[a-zA-Z\s]*$/,
     minlength: 1,
     maxlength: 50,
+  },
+  descripcion: {
+    type: String,
+    required: true,
+    minlength: 1,
+    maxlength: 200,
+  },
+  ingredientes: {
+    type: String,
+    required: true,
+    minlength: 1,
+    maxlength: 200,
   },
   image: {
     type: Buffer,
