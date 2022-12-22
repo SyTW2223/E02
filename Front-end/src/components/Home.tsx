@@ -7,7 +7,6 @@ import styles from '../css/Home.module.css';
 export default function Home() {
     return (
         <>
-        <Breadcrumb/>
         <Carrousel/>
         <CardDisplay />
         <div className='container mt-5 mb-5'>

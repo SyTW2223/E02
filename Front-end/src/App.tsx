@@ -7,6 +7,8 @@ import "@fortawesome/fontawesome-free/css/all.min.css";
 import Home from './components/Home'
 import Layout from './components/Layout';
 import Login from './components/Login';
+import ProfilePageGucci from './components/ProfileGucci';
+import Direccion from './components/Direccion';
 import Error from './components/Error';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
@@ -19,6 +21,8 @@ function App() {
         <Route path="/" element={<Layout />}>
         <Route index element={<Home />} />
         <Route path='/login' element={<Login />} />
+        <Route path='/profile' element={<ProfilePageGucci />} />
+        <Route path='/direccion' element={<Direccion />} />
           <Route path="*" element={<Error />} />
         </Route>
       </Routes>

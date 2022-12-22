@@ -76,7 +76,9 @@ describe("Cartera", () => {
 	  .send({
 		tarjetas : {
 			marca: "Visa",
-			cvv: "1124",
+			cvv: "1234",
+			caducidad: "1222",
+			numero: "4008696950712322"
 		},
 	  });
 	expect(response.status).toBe(200);
