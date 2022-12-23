@@ -8,7 +8,7 @@
     "dev": "nodemon",
     "build": "tsc",
     "test": "jest --detectOpenHandles",
-    "coverage": "jest --coverage --coverageReporters=lcov"
+    "coverage": "jest -u --coverage --coverageReporters=lcov"
   },
   "devDependencies": {
     "@shelf/jest-mongodb": "^4.1.4",
