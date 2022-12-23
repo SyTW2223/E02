@@ -40,7 +40,7 @@
   "dependencies": {
     "bcrypt": "^5.1.0",
     "dotenv": "^16.0.3",
-    "jsonwebtoken": "^8.5.1",
+    "jsonwebtoken": "^9.0.0",
     "koa": "^2.13.4",
     "koa-basic-auth": "^4.0.0",
     "koa-bodyparser": "^4.3.0",
