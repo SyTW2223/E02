@@ -7,7 +7,9 @@
     "start": "node ./dist/server",
     "dev": "nodemon",
     "build": "tsc",
-    "test": "jest --detectOpenHandles"
+    "test": "jest --detectOpenHandles",
+    "coverage": "jest --detectOpenHandles",
+    "coveragelocal": "jest --coverage --coverageReporters=lcov"
   },
   "devDependencies": {
     "@shelf/jest-mongodb": "^4.1.4",
@@ -60,7 +62,6 @@
       "js",
       "ts"
     ],
-    "collectCoverage": false,
     "collectCoverageFrom": [
       "**/*.{ts,js}",
       "!**/node_modules/**",

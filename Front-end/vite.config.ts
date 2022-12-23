@@ -10,9 +10,11 @@ export default defineConfig({
       BACK_HOST: process.env.BACK_HOST
     }
   },
-  base: './',
   test: {
     globals: true,
-    environment: 'jsdom'
-   }
+    environment: 'jsdom',
+    coverage: {
+      reporter: ['lcov', 'json', 'html'],
+    },
+  },
 });
