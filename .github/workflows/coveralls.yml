@@ -1,0 +1,56 @@
+name: Coveralls
+
+on:
+  push:
+    branches:
+      - '*'
+  pull_request:
+    branches:
+      - '*'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        folder:
+          - 'Back-end'
+          - 'Front-end'
+  
+    env:
+      COVERALLS_PARALLEL: true
+
+    defaults:
+        run:
+          working-directory: ./${{ matrix.folder }}
+
+    steps:
+    - name: Cloning repo
+      uses: actions/checkout@v3
+    - name: Use Node.js 19.x
+      uses: actions/setup-node@v3
+      with:
+        node-version: 19.x
+        cache: 'npm'
+    - name: Installing dependencies
+      run: npm install
+    - name: Generating coverage information
+      run: npm run coverage
+    - name: Coveralls GitHub Action
+      uses: coverallsapp/github-action@master
+      with:
+        github-token: ${{ secrets.github_token }}
+        path-to-lcov: ${{ github.workspace }}/${{ matrix.folder }}/coverage/lcov.info
+        flag-name:  run-${{ matrix.folder }}
+        base-path: ${{ github.workspace }}/${{ matrix.folder }}
+        parallel: true
+
+  finish:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+    - name: Coveralls Finished
+      uses: coverallsapp/github-action@master
+      with:
+        github-token: ${{ secrets.github_token }}
+        parallel-finished: true
