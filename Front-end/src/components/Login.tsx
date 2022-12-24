@@ -232,18 +232,6 @@ export default function Login() {
                 data-testid='password signup'
               />
             </MDBValidationItem>
-            <MDBValidationItem feedback=''>
-              <MDBInput
-                name='foto'
-                value={formSignUpValue.foto}
-                onChange={onChangeSignUp}
-                wrapperClass='mb-4'
-                label='Foto'
-                id='validationSignUpName'
-                type='file'
-                data-testid='foto signup'
-              />
-            </MDBValidationItem>
           </MDBValidation>
           <MDBBtn className={`${styles.loginButton} mb-4 w-100`} type='submit' onClick={onSubmitSignUp}>Siguiente</MDBBtn>
         </MDBTabsPane>
