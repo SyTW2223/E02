@@ -15,18 +15,23 @@ function login(username: string, password: string) {
     dispatch(request({ username }));
 
     userService.login(username, password)
-      .then(
-        (user: any) => {
-          dispatch(success(user));
-          console.log('login success', user)
-          history.push('/');
-        },
-        (error: any) => {
-          console.log('login error', error)
+    .then(
+      (user: any) => {
+        dispatch(success(user));
+        dispatch(alertActions.success('Login successful'));
+        console.log('login success', user)
+        history.push('/');
+      },
+      (error: any) => {
+        console.log('login error', error)
+        if (error.status === 404) {
+          alert('Username or password is incorrect');
+        } else {
           dispatch(failure(error));
           dispatch(alertActions.error(error));
         }
-      );
+      }
+    );
   };
 
   function request(user: any) { return { type: userConstants.LOGIN_REQUEST, user } }

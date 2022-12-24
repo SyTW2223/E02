@@ -25,6 +25,7 @@ import styles from '../css/Login.module.css';
  * @returns Componente de inicio de sesión y registro
  */
 export default function Login() {
+  const [res, setRes] = useState(0);
   const dispatch = useDispatch();
 
   // Establecer la pestaña activa para iniciar sesión por defecto
@@ -77,20 +78,35 @@ export default function Login() {
   const onSubmitSignIn = async (e: any) => {
     e.preventDefault();
     const { correo, password } = formSignInValue;
-    // Compruueba el correo electrónico y la contraseña
-    if (isEmailValid(correo) && isPasswordValid(password)){
-      const action = userActions.login(formSignInValue.correo, formSignInValue.password);
-      action(dispatch);
+    if (isEmailValid(correo) && isPasswordValid(password)) {
+      try {
+        const action = userActions.login(formSignInValue.correo, formSignInValue.password);
+        action(dispatch);
+      } catch (error) {
+        // handle error
+        console.error(error);
+        // show error message to user
+        alert('An error occurred while registering. Please try again later.');
+      }
     }
   };
 
   // Envia formulario de registro
   const onSubmitSignUp = async (e: any) => {
     e.preventDefault();
-    const { correo, password, apellidos, nombre} = formSignUpValue;
+    const { correo, password, apellidos, nombre } = formSignUpValue;
     if (isEmailValid(correo) && isPasswordValid(password)) {
-      const action = userActions.register(formSignUpValue.nombre, formSignUpValue.apellidos, formSignUpValue.correo, formSignUpValue.password);
-      action(dispatch);
+      try {
+        const action = userActions.register(formSignUpValue.nombre, formSignUpValue.apellidos, formSignUpValue.correo, formSignUpValue.password);
+        action(dispatch);
+        // registration successful, show success message to user
+        alert('Registration successful!');
+      } catch (error) {
+        // handle error
+        console.error(error);
+        // show error message to user
+        alert('An error occurred while registering. Please try again later.');
+      }
     }
   };
 
