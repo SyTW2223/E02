@@ -99,8 +99,6 @@ export default function Login() {
       try {
         const action = userActions.register(formSignUpValue.nombre, formSignUpValue.apellidos, formSignUpValue.correo, formSignUpValue.password);
         action(dispatch);
-        // registration successful, show success message to user
-        alert('Registration successful!');
       } catch (error) {
         // handle error
         console.error(error);

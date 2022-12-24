@@ -54,13 +54,18 @@ function register(nombre:string, apellido:string, correo: string, password: stri
       .then(
         (user: any) => {
           dispatch(success(user));
+          dispatch(alertActions.success('Register successful'));
           console.log('registro success', user)
           history.push('/');
         },
         (error: any) => {
-          console.log('registro error', error)
-          dispatch(failure(error));
-          dispatch(alertActions.error(error));
+          console.log('register error', error)
+          if (error.status === 400) {
+            alert('Email already exists');
+          } else {
+            dispatch(failure(error));
+            dispatch(alertActions.error(error));
+          }
         }
       );
   }

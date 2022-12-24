@@ -53,38 +53,39 @@ async function register(nombre: string, apellidos: string, password: string, cor
   } catch (error) {
     // handle error
     console.error(error);
+    // show error message to user
+    alert('An error occurred while register. Please try again later.');
     // return null to indicate that the registration was not successful
     return Promise.reject(error);
   }
 }
 
-function handleResponse(response: Response) {
+async function handleResponse(response: Response) {
   try {
-    return response.text().then((text) => {
-      const data = text && JSON.parse(text);
-      if (!response.ok) {
-        if (response.status === 401) {
-          // auto logout if 401 response returned from api
-          logout();
-          location.reload();
-        }
-        if (response.status === 404) {
-          // return specific error for 404 status code
-          return Promise.reject('Username or password is incorrect');
-        }
-        if (response.status === 500) {
-          // return specific error for 404 status code
-          return Promise.reject('Error del servidor');
-        }
-        const error = (data && data.message) || response.statusText;
-        return Promise.reject(error);
+    const text = await response.text();
+    const data = text && JSON.parse(text);
+    if (!response.ok) {
+      if (response.status === 401) {
+        // auto logout if 401 response returned from api
+        logout();
+        location.reload();
       }
-      return data;
-    });
+      if (response.status === 404) {
+        // return specific error for 404 status code
+        return Promise.reject('Username or password is incorrect');
+      }
+      if (response.status === 500) {
+        // return specific error for 404 status code
+        return Promise.reject('Error del servidor');
+      }
+      const error = (data && data.message) || response.statusText;
+      return Promise.reject(error);
+    }
+    return data;
   } catch (error) {
     // handle error
     console.error(error);
     // return error to indicate that the login was not successful
-    return error;
+    return Promise.reject(error);
   }
 }
