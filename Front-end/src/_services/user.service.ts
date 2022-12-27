@@ -17,9 +17,16 @@ async function login(correo: any, password: any) {
     const direccion = process.env.BACK_HOST || `http://localhost:3000`;
     const response = await fetch(direccion + '/usuarioLogin', requestOptions);
     const user = await handleResponse(response);
-    // store jwt token in local storage only if the login was successful
+    // store user and jwt token in a single object in local storage only if the login was successful
     if (user && user.token) {
-      localStorage.setItem('token', user.token);
+      // remove res and error properties from user object
+      delete user.res;
+      delete user.error;
+      const data = {
+        usuario: user,
+        token: user.token
+      };
+      localStorage.setItem('usuario', JSON.stringify(data));
     }
     return user;
   } catch (error) {
@@ -47,19 +54,26 @@ async function register(nombre: string, apellidos: string, password: string, cor
     };
     console.log(requestOptions);
     const direccion = process.env.BACK_HOST || `http://localhost:3000`;
-    const response = await fetch(direccion + '/usuarioRegister', requestOptions);
+    const response = await fetch(direccion + '/usuarioLogin', requestOptions);
     const user = await handleResponse(response);
-    // store jwt token in local storage only if the registration was successful
+    // store user and jwt token in a single object in local storage only if the login was successful
     if (user && user.token) {
-      localStorage.setItem('token', user.token);
+      // remove res and error properties from user object
+      delete user.res;
+      delete user.error;
+      const data = {
+        usuario: user,
+        token: user.token
+      };
+      localStorage.setItem('usuario', JSON.stringify(data));
     }
     return user;
   } catch (error) {
     // handle error
     console.error(error);
     // show error message to user
-    alert('An error occurred while registering. Please try again later.');
-    // return null to indicate that the registration was not successful
+    alert('An error occurred while logging in. Please try again later.');
+    // return error to indicate that the login was not successful
     return Promise.reject(error);
   }
 }
@@ -79,8 +93,8 @@ async function handleResponse(response: Response) {
         return Promise.reject('Username or password is incorrect');
       }
       if (response.status === 500) {
-        // return specific error for 404 status code
-        return Promise.reject('Error del servidor');
+        // return specific error for 500 status code
+        return Promise.reject('Server error');
       }
       const error = (data && data.message) || response.statusText;
       return Promise.reject(error);
@@ -93,3 +107,6 @@ async function handleResponse(response: Response) {
     return Promise.reject(error);
   }
 }
+
+
+
