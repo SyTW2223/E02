@@ -1,10 +1,14 @@
 import React, { useEffect, useState } from "react";
+import {Buffer} from 'buffer';
 import { MDBContainer, MDBRow, MDBCol, MDBCard, MDBCardBody, MDBCardImage, MDBCardText, MDBCardTitle, MDBRipple } from "mdb-react-ui-kit";
 import { Link } from 'react-router-dom';
 
 export default function Tienda() {
   // Product list
   const [products, setProducts] = useState([]);
+  // Search params
+  const searchParams = new URLSearchParams(window.location.search);
+  const tipo = searchParams.get("tipo");
   useEffect(() => {
     const fetchProducts = async () => {
       try {
@@ -16,13 +20,19 @@ export default function Tienda() {
         const response = await fetch(direccion + "/pan", requestOptions);
         const data_list = await response.json();
         const productsArray: any = Array.isArray(data_list.pan) ? data_list.pan : [data_list.pan];
-        setProducts(productsArray);
+        if (tipo === null) {
+          setProducts(productsArray);
+          return;
+        }
+        const filteredProducts = productsArray.filter((product: any) => product.tipo === tipo);
+        setProducts(filteredProducts);
       } catch (error) {
         console.error(error);
       }
     };
     fetchProducts();
   }, []);
+
 
   return (
     <MDBContainer fluid className="p-5">
@@ -31,7 +41,7 @@ export default function Tienda() {
             <MDBCol lg="2" md="3" sm="6">
               <MDBCard>
                 <MDBCardImage
-                src={product.image}
+                src={`${Buffer.from(product.image).toString('utf8')}`}
                 alt="..."
                 position="top"
                 style={{ height: "18.75rem" }}

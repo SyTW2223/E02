@@ -15,7 +15,7 @@ export default function CardDisplay() {
     <MDBContainer fluid className="p-5">
       <MDBRow className="g-4">
         {config.cards.map(({ title, image }) => (
-            <Card title={title} image={image} />
+            <Card title={title} image={image} key={title} />
         ))}
       </MDBRow>
     </MDBContainer>
