@@ -1,6 +1,4 @@
-import React from 'react';
 import './App.css'
-import { useSelector } from 'react-redux'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'mdb-react-ui-kit/dist/css/mdb.min.css';
 import "@fortawesome/fontawesome-free/css/all.min.css";
@@ -13,6 +11,7 @@ import Direccion from './components/Profile/Direccion';
 import Tienda from './components/Tienda/Tienda';
 import Error from './components/Error';
 import PanData from './components/PanData';
+import MapaWeb from './components/MapaWeb';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 function App() {
@@ -38,6 +37,7 @@ function App() {
               <PanData />
             </ProtectedRoute>
           } />
+          <Route path='/mapa' element={<MapaWeb />} />
           <Route path="*" element={<Error />} />
         </Route>
       </Routes>

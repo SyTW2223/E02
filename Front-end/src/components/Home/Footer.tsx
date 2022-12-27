@@ -78,7 +78,7 @@ export default function Footer() {
 
               <ul className='list-unstyled mb-0'>
                 <li>
-                  <a href='#!' className='text-white'>
+                  <a href='/' className='text-white'>
                     Inicio
                   </a>
                 </li>
@@ -88,7 +88,7 @@ export default function Footer() {
                   </a>
                 </li>
                 <li>
-                  <a href='#!' className='text-white'>
+                  <a href='/mapa' className='text-white'>
                     Mapa Web
                   </a>
                 </li>
@@ -103,7 +103,7 @@ export default function Footer() {
         </section>
       </MDBContainer>
       <div className='text-center p-3' style={{ backgroundColor: 'rgba(0, 0, 0, 0.2)' }}>
-        © 2022 Copyright by alPanPan
+        © 2023 Copyright by alPanPan
       </div>
     </MDBFooter>
   );
