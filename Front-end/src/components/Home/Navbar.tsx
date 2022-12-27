@@ -100,12 +100,6 @@ export default function Navbar() {
             </MDBNavbarItem>
 
             <MDBNavbarItem>
-              <MDBNavbarLink className='text-light' active aria-current='page' href='/contacto'>
-                Contacto
-              </MDBNavbarLink>
-            </MDBNavbarItem>
-
-            <MDBNavbarItem>
               <MDBNavbarLink className={styles.navbarcolor} href='/tienda'>
                 Tienda Online
               </MDBNavbarLink>
