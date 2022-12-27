@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom';
-import {history} from '../_helpers/history';
+import {history} from '../../_helpers/history';
 import {
   MDBContainer,
   MDBNavbar,
@@ -17,8 +17,8 @@ import {
   MDBDropdownItem,
   MDBCollapse
 } from 'mdb-react-ui-kit'
-import Logo from '../../public/logo.png'
-import styles from '../css/Navbar.module.css';
+import Logo from '../../../public/logo.png'
+import styles from '../../css/Navbar.module.css';
 export default function Navbar() {
   const [showBasic, setShowBasic] = useState(false)
   const {nombre} = useParams();

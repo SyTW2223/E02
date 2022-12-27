@@ -18,7 +18,7 @@ import {
 import { useEffect, useState} from 'react';
 import { useSelector } from 'react-redux';
 import {Row, Col, Button, Form} from 'react-bootstrap'
-import { userActions } from '../_actions';
+import { userActions } from '../../_actions';
 
 export default function ProfilePage() {
   // Variebles del formulrio

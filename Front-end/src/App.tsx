@@ -4,12 +4,12 @@ import { useSelector } from 'react-redux'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'mdb-react-ui-kit/dist/css/mdb.min.css';
 import "@fortawesome/fontawesome-free/css/all.min.css";
-import Home from './components/Home'
-import Layout from './components/Layout';
+import Home from './components/Home/Home'
+import Layout from './components/Home/Layout';
 import Login from './components/Login';
 import { ProtectedRoute } from './components/ProtectedRoute';
-import ProfilePageGucci from './components/ProfileGucci';
-import Direccion from './components/Direccion';
+import ProfilePageGucci from './components/Profile/ProfileGucci';
+import Direccion from './components/Profile/Direccion';
 import Tienda from './components/Tienda/Tienda';
 import Error from './components/Error';
 import PanData from './components/PanData';

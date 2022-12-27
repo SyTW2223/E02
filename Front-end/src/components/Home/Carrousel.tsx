@@ -6,9 +6,9 @@ import {
     MDBCol,
 
 } from 'mdb-react-ui-kit';
-import pan1 from '../../public/panes/pan1.png'
-import pan3 from '../../public/panes/pan3.png'
-import styles from '../css/Carrousel.module.css';
+import pan1 from '../../../public/panes/pan1.png'
+import pan3 from '../../../public/panes/pan3.png'
+import styles from '../../css/Carrousel.module.css';
 export default function Carrousel() {
     return (
         <MDBContainer className={styles.imgback}>
