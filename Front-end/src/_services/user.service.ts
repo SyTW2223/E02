@@ -22,11 +22,7 @@ async function login(correo: any, password: any) {
       // remove res and error properties from user object
       delete user.res;
       delete user.error;
-      const data = {
-        usuario: user,
-        token: user.token
-      };
-      localStorage.setItem('usuario', JSON.stringify(data));
+      localStorage.setItem('usuario', JSON.stringify(user));
     }
     return user;
   } catch (error) {
@@ -61,11 +57,7 @@ async function register(nombre: string, apellidos: string, password: string, cor
       // remove res and error properties from user object
       delete user.res;
       delete user.error;
-      const data = {
-        usuario: user,
-        token: user.token
-      };
-      localStorage.setItem('usuario', JSON.stringify(data));
+      localStorage.setItem('usuario', JSON.stringify(user));
     }
     return user;
   } catch (error) {
