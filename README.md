@@ -4,18 +4,18 @@
 [![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=SyTW2223_E02&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=SyTW2223_E02)[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=SyTW2223_E02&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=SyTW2223_E02)[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=SyTW2223_E02&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=SyTW2223_E02)
 [![Coverage Status](https://coveralls.io/repos/github/SyTW2223/E02/badge.svg?branch=Coveralls)](https://coveralls.io/github/SyTW2223/E02?branch=Coveralls)
 
-__API RESTFUL__- Los usuarios de aplicación podrán realizar la compra online de panes .
+__API RESTFUL__- 
+Los usuarios de aplicación podrán realizar la compra online de panes .
+
 En la aplicacion se podrán realizar las siguientes acciones:
 - Crear un usuario
 - Iniciar sesión
 - Registrarse
 - Ver el listado de panes
 - Ver el detalle de un pan
-- Ver los panes más vendidos/visitados
-- Añadir un pan al carrito
-- Ver el listado de panes del carrito
-- Eliminar un pan del carrito
-- Realizar el pago del carrito 
+- Añadir direcciones y tarjetas de pago
+- Realizar una compra
+
 
 
 
@@ -37,13 +37,26 @@ Install my-project with npm
   npm install
   npm run dev
 ```
+
+## Usage/Examples
+
+```bash
+cd E02/Back-end
+npm run dev
+```
+
+```bash
+cd E02/Front-end
+npm run dev
+```
+
     
 ## API Reference
 
 #### Get all items
 
 ```http
-  GET /api/items
+  GET /panes
 ```
 
 | Parameter | Type     | Description                |
@@ -53,16 +66,13 @@ Install my-project with npm
 #### Get item
 
 ```http
-  GET /api/items/${id}
+  GET /panes/${id}
 ```
 
 | Parameter | Type     | Description                       |
 | :-------- | :------- | :-------------------------------- |
 | `id`      | `string` | **Required**. Id of item to fetch |
 
-#### add(num1, num2)
-
-Takes two numbers and returns the sum.
 
 
 ## Tech Stack
