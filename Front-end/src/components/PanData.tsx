@@ -1,9 +1,9 @@
-import { MDBContainer, MDBRow, MDBCol, MDBCard, MDBCardImage, MDBTypography, MDBCardText, MDBIcon, MDBCardBody, MDBBtn } from 'mdb-react-ui-kit';
+import { MDBContainer, MDBRow, MDBCol, MDBCard, MDBCardImage, MDBTypography, MDBCardText, MDBIcon, MDBCardBody, MDBBtn, MDBBreadcrumb, MDBBreadcrumbItem } from 'mdb-react-ui-kit';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
-export default function PanData () {
-  const {id} = useParams();
+export default function PanData() {
+  const { id } = useParams();
   const [panNombre, setpanNombre] = useState("");
   const [panTipo, setpanTipo] = useState("");
   const [panPrecio, setpanPrecio] = useState(0);
@@ -11,6 +11,7 @@ export default function PanData () {
   const [panDescripcion, setpanDescripcion] = useState("");
   const [panVendedor, setpanVendedor] = useState("");
   const [res, setRes] = useState(0);
+  const [cantidad, setCantidad] = useState(1);
 
   useEffect(() => {
     peticion();
@@ -19,26 +20,50 @@ export default function PanData () {
   function handleResponse(response: any) {
     return response.text().then((text: any) => {
       const data = text && JSON.parse(text);
-  
+
       return data;
     });
   }
+  // Maneja la compra de un pan
+  function manejarCompra() {
+    let aux = false;
+    const carrito = JSON.parse(localStorage.getItem('carrito') || '{}');
+    console.log(carrito)
+
+    if (carrito.length) {
+      console.log(typeof (carrito))
+      console.log(carrito)
+      for (let i: number = 0; i < carrito.length; i++) {
+        if (carrito[i].id === id) {
+          aux = true;
+          carrito[i].cantidad += cantidad;
+          break;
+        }
+      }
+      if (!aux) carrito.push({ id: id, cantidad: cantidad });
+
+      localStorage.setItem('carrito', JSON.stringify(carrito));
+    } else {
+      localStorage.setItem('carrito', JSON.stringify([{ id: id, cantidad: cantidad }]));
+    }
+  }
+
 
   async function peticion() {
-    const user = JSON.parse(localStorage.getItem('usuario')|| '{}')
+    const user = JSON.parse(localStorage.getItem('usuario') || '{}')
     console.log(user)
 
     const requestOptions = {
       method: 'GET',
       headers: {
-                authorization: 'Bearer ' + user.token
-              }
+        authorization: 'Bearer ' + user.token
+      }
     };
     console.log(user.token)
 
     const direccion: string = process.env.BACK_HOST || `http://localhost:3000`;
 
-    const response = await fetch(direccion + "/pan?identificador="+ id, requestOptions);
+    const response = await fetch(direccion + "/pan?identificador=" + id, requestOptions);
     console.log(response)
     const data = await handleResponse(response);
     console.log(data)
@@ -50,34 +75,62 @@ export default function PanData () {
     setpanDescripcion(data.pan[0].descripcion);
     setpanVendedor(data.pan[0].vendedor);
   }
-  
+
   if (res === 404)
     return (
       <>
-      <h1>Pan no encontrado</h1>
+        <h1>Pan no encontrado</h1>
       </>
     )
 
   else if (res === 500)
     return (
       <>
-      <h1>Error del servidor</h1>
+        <h1>Error del servidor</h1>
       </>
     )
 
   else (res === 200)
-    return (
-      <section className="" style={{ backgroundColor: '#f4f5f7' }}>
-      <MDBContainer className="py-5">
+  return (
+    <section className="" style={{ backgroundColor: '#f4f5f7' }}>
+      <MDBContainer className="py-5" style={{ color: "black" }}>
+        
+      <MDBRow>
+        <MDBCol>
+          <MDBBreadcrumb className="bg-light rounded-3 p-3 mb-4">
+            <MDBBreadcrumbItem>
+              <a href='#'>Tienda</a>
+            </MDBBreadcrumbItem>
+            <MDBBreadcrumbItem active>
+              <a href="#">Pan</a>
+            </MDBBreadcrumbItem>
+          </MDBBreadcrumb>
+        </MDBCol>
+      </MDBRow>
+
         <MDBRow className="justify-content-center align-items-center">
           <MDBCol lg="12" className="mb-4 mb-lg-0">
             <MDBCard className="mb-3" style={{ borderRadius: '.5rem' }}>
               <MDBRow className="g-0">
                 <MDBCol md="4" className="gradient-custom text-center text-white"
                   style={{ borderTopLeftRadius: '.5rem', borderBottomLeftRadius: '.5rem' }}>
-                  <MDBCardImage src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp"
-                    alt="Avatar" className="my-5" style={{ width: '350px' }} fluid />
-                  <MDBBtn className="btn btn-primary mt-5" style={{fontSize: "25px", padding: "20px 38px"}}>Comprar</MDBBtn>
+                  <MDBRow className='d-flex justify-content-center'>
+                    <MDBCardImage src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp"
+                      alt="Avatar" className="my-5" style={{ width: '350px' }} fluid />
+                  </MDBRow>
+                  <MDBRow className='d-flex justify-content-center'>
+                    <MDBCol>
+                      <MDBTypography tag="h3" style={{ color: "black" }} className='text-center'>Cantidad:</MDBTypography>
+                      <button style={{ borderRadius: '10px', border: "0px", backgroundColor: "#3b71ca", color: "white", width: "24px" }}
+                        onClick={(e: any) => { setCantidad(cantidad - 1) }}>-</button>
+                      <input type="number" value={cantidad} onChange={(e: any) => setCantidad(e.target.value)} style={{ width: '100px', marginRight: '5px', marginLeft: '5px', height: "30px" }} min="1" />
+                      <button style={{ borderRadius: '10px', border: "0px", backgroundColor: "#3b71ca", color: "white", width: "24px" }} onClick={(e: any) => { setCantidad(cantidad + 1) }}>+</button>
+                    </MDBCol>
+                  </MDBRow>
+                  <MDBRow className='d-flex justify-content-center'>
+                    <MDBBtn className="btn btn-primary mt-5" style={{ fontSize: "20px", padding: "20px 38px", width: "200px", height: "75px" }}
+                      onClick={() => manejarCompra()}>Comprar</MDBBtn>
+                  </MDBRow>
                 </MDBCol>
 
                 <MDBCol md="8">
@@ -95,7 +148,7 @@ export default function PanData () {
                     <MDBRow className="pt-1">
                       <MDBCol size="12" className="mb-3">
                         <MDBTypography tag="h2">Precio</MDBTypography>
-                        <MDBCardText tag="h4">{panPrecio.toString() + " €" }</MDBCardText>
+                        <MDBCardText tag="h4">{panPrecio.toString() + " €"}</MDBCardText>
                       </MDBCol>
                     </MDBRow>
 
