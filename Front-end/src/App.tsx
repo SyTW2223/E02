@@ -28,14 +28,10 @@ function App() {
           } />
           <Route path='/direccion' element={<Direccion />} />
           <Route path='/tienda' element={
-            <ProtectedRoute>
               <Tienda />
-            </ProtectedRoute>
           } />
           <Route path='/pan/:id' element={
-            <ProtectedRoute>
               <PanData />
-            </ProtectedRoute>
           } />
           <Route path='/mapa' element={<MapaWeb />} />
           <Route path="*" element={<Error />} />
