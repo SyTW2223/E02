@@ -17,22 +17,12 @@ export default function PanData() {
     peticion();
   }, []);
 
-  function handleResponse(response: any) {
-    return response.text().then((text: any) => {
-      const data = text && JSON.parse(text);
-
-      return data;
-    });
-  }
   // Maneja la compra de un pan
   function manejarCompra() {
     let aux = false;
     const carrito = JSON.parse(localStorage.getItem('carrito') || '{}');
-    console.log(carrito)
 
     if (carrito.length) {
-      console.log(typeof (carrito))
-      console.log(carrito)
       for (let i: number = 0; i < carrito.length; i++) {
         if (carrito[i].id === id) {
           aux = true;
@@ -51,7 +41,6 @@ export default function PanData() {
 
   async function peticion() {
     const user = JSON.parse(localStorage.getItem('usuario') || '{}')
-    console.log(user)
 
     const requestOptions = {
       method: 'GET',
@@ -59,14 +48,11 @@ export default function PanData() {
         authorization: 'Bearer ' + user.token
       }
     };
-    console.log(user.token)
 
     const direccion: string = process.env.BACK_HOST || `http://localhost:3000`;
 
     const response = await fetch(direccion + "/pan?identificador=" + id, requestOptions);
-    console.log(response)
-    const data = await handleResponse(response);
-    console.log(data)
+    const data = await response.json();
     setRes(data.res);
     setpanNombre(data.pan[0].nombre);
     setpanTipo(data.pan[0].tipo);
@@ -94,15 +80,15 @@ export default function PanData() {
   return (
     <section className="" style={{ backgroundColor: '#f4f5f7' }}>
       <MDBContainer className="py-5" style={{ color: "black" }}>
-        
+
       <MDBRow>
         <MDBCol>
           <MDBBreadcrumb className="bg-light rounded-3 p-3 mb-4">
             <MDBBreadcrumbItem>
-              <a href='#'>Tienda</a>
+              <a href='/tienda'>Tienda</a>
             </MDBBreadcrumbItem>
             <MDBBreadcrumbItem active>
-              <a href="#">Pan</a>
+              <a href={"/pan/" + id}>Pan</a>
             </MDBBreadcrumbItem>
           </MDBBreadcrumb>
         </MDBCol>

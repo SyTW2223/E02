@@ -12,6 +12,7 @@ import Tienda from './components/Tienda/Tienda';
 import Error from './components/Error';
 import PanData from './components/PanData';
 import MapaWeb from './components/MapaWeb';
+import Carrito from './components/Carrito';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 function App() {
@@ -32,6 +33,9 @@ function App() {
           } />
           <Route path='/pan/:id' element={
               <PanData />
+          } />
+          <Route path='/carrito' element={
+              <Carrito />
           } />
           <Route path='/mapa' element={<MapaWeb />} />
           <Route path="*" element={<Error />} />

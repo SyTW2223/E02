@@ -129,13 +129,19 @@ export default function Navbar() {
             </MDBNavbarItem>
 
             <MDBNavbarItem>
-
               <MDBNavbarLink href={ruta} className='text-light' tabIndex={-1} aria-disabled='true'>
                 {nombreRuta}
               </MDBNavbarLink>
-
             </MDBNavbarItem>
+
+            <MDBNavbarItem>
+              <MDBNavbarLink href='/carrito' className='text-light' tabIndex={-1} aria-disabled='true'>
+                Carrito
+              </MDBNavbarLink>
+            </MDBNavbarItem>
+
           </MDBNavbarNav>
+
 
           <form className='d-flex input-group w-auto' onSubmit={handleSubmit}>
             <input type='search' className='form-control' placeholder='Buscar' aria-label='Search' value={searchTerm} onChange={handleChange} />
