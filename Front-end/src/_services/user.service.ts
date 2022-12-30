@@ -50,7 +50,7 @@ async function register(nombre: string, apellidos: string, password: string, cor
     };
     console.log(requestOptions);
     const direccion = process.env.BACK_HOST || `http://localhost:3000`;
-    const response = await fetch(direccion + '/usuarioLogin', requestOptions);
+    const response = await fetch(direccion + '/usuarioRegister', requestOptions);
     const user = await handleResponse(response);
     // store user and jwt token in a single object in local storage only if the login was successful
     if (user && user.token) {
