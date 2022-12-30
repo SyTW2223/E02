@@ -1,23 +1,13 @@
 import {
   MDBCol,
-  MDBContainer,
   MDBRow,
   MDBCard,
   MDBCardText,
   MDBCardBody,
-  MDBCardImage,
-  MDBBtn,
-  MDBBreadcrumb,
-  MDBBreadcrumbItem,
-  MDBProgress,
-  MDBProgressBar,
-  MDBIcon,
-  MDBListGroup,
-  MDBListGroupItem,
   MDBTypography,
 } from 'mdb-react-ui-kit';
 import { useEffect, useState } from 'react';
-import { Row, Col, Button, Form } from 'react-bootstrap'
+import { Button, Form } from 'react-bootstrap'
 
 export default function Direccion() {
   // Variables de direccion
@@ -28,12 +18,14 @@ export default function Direccion() {
   const [pais, setPais] = useState('')
   const [botonRes, setBotonRes] = useState(0)
   const [perfilRes, setPerfilRes] = useState(0)
+  const [state, setState] = useState(0);
 
   useEffect(() => {
+    setState(0);
     const user = JSON.parse(localStorage.getItem('usuario') || '{}')
 
     traerDireccion(user.usuario[0].correo, user.token);
-  }, [perfilRes]);
+  }, [state]);
 
   // Obtenemos la direccion del usuario
   async function traerDireccion(correo: string, token: string) {
@@ -54,11 +46,12 @@ export default function Direccion() {
       setBotonRes(404);
 
     } else if (data.res === 200) {
-      setCalle(data.calle);
-      setNumero(data.numero);
-      setCodigoPostal(data.codigoPostal);
-      setProvincia(data.provincia);
-      setPais(data.pais);
+      console.log(data.direccion[0].codigoPostal)
+      setCalle(data.direccion[0].calle);
+      setNumero(data.direccion[0].numero);
+      setCodigoPostal(data.direccion[0].codigoPostal);
+      setProvincia(data.direccion[0].provincia);
+      setPais(data.direccion[0].pais);
 
       setBotonRes(200);
     }
@@ -90,8 +83,6 @@ export default function Direccion() {
       )
     }
   }
-
-
 
   // Errores de direccion
   function feedBackDireccion() {
@@ -143,8 +134,10 @@ export default function Direccion() {
     const data = await response.json();
     if (data.res === 201) {
       setPerfilRes(200);
+      setState(200);
     } else {
       setPerfilRes(400);
+      setState(400);
     }
   }
 
@@ -164,10 +157,13 @@ export default function Direccion() {
     const direccion: string = process.env.BACK_HOST || `http://localhost:3000`;
     const response = await fetch(direccion + "/direccion?correo=" + user.usuario[0].correo, requestOptions);
     const data = await response.json();
+
     if (data.res === 200) {
       setPerfilRes(200);
+      setState(200);
     } else {
       setPerfilRes(400);
+      setState(400);
     }
   }
 
