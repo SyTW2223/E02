@@ -25,7 +25,7 @@ export default class UsuarioDataModel {
 	async postRegister(data) {
 
 		try {
-			const usuario = new Usuario(data.body)
+			const usuario = new Usuario(data.body);
 
 			if (!/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{5,}$/.test(data.body.password))
 				return ({usuario: "", res: 400, error: "Contraseña incorrecta", token: ""});
@@ -36,6 +36,9 @@ export default class UsuarioDataModel {
 			let correo: string = data.body.correo;
 
 			let token = jwt.sign({correo}, jwtSecret, { expiresIn: '1h' })
+
+			const cartera = new Cartera({"correo": data.body.correo, "tarjetas": []});
+			await cartera.save();
 
 			return({usuario: usuario, error: "", res: 201, token: token});
 

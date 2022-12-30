@@ -22,6 +22,16 @@ import styles from '../../css/Navbar.module.css';
 export default function Navbar() {
   const [showBasic, setShowBasic] = useState(false)
   const {nombre} = useParams();
+  const [ruta, setRuta] = useState('/login');
+  const [nombreRuta, setNombreRuta] = useState('Login/Register');
+
+  useEffect(() => {
+    const user = JSON.parse(localStorage.getItem('usuario') || '{}')
+    if (user.token) {
+      setRuta('/profile');
+      setNombreRuta('Perfil');
+    }
+  }, []);
 
   const [searchTerm, setSearchTerm] = useState('')
   // Maneja el cambio de texto en el input
@@ -73,7 +83,7 @@ export default function Navbar() {
   return (
     <MDBNavbar className={styles.navbar} expand='lg' light bgColor='dark'>
       <MDBContainer fluid>
-        <MDBNavbarBrand href='#'>
+        <MDBNavbarBrand href='/'>
           <img
             src={Logo}
             height='30'
@@ -119,11 +129,19 @@ export default function Navbar() {
             </MDBNavbarItem>
 
             <MDBNavbarItem>
-              <MDBNavbarLink href='/login' tabIndex={-1} aria-disabled='true'>
-                Login
+              <MDBNavbarLink href={ruta} className='text-light' tabIndex={-1} aria-disabled='true'>
+                {nombreRuta}
               </MDBNavbarLink>
             </MDBNavbarItem>
+
+            <MDBNavbarItem>
+              <MDBNavbarLink href='/carrito' className='text-light' tabIndex={-1} aria-disabled='true'>
+                Carrito
+              </MDBNavbarLink>
+            </MDBNavbarItem>
+
           </MDBNavbarNav>
+
 
           <form className='d-flex input-group w-auto' onSubmit={handleSubmit}>
             <input type='search' className='form-control' placeholder='Buscar' aria-label='Search' value={searchTerm} onChange={handleChange} />

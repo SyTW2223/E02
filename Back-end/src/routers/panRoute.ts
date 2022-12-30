@@ -12,6 +12,13 @@ panRouter.get("/pan", async (ctx) => {
   ctx.status = res;
 });
 
+panRouter.get("/panCarrito", async (ctx) => {
+  const dataModel = new PanDataModel();
+  const { pan, res, error } = await dataModel.getCarrito(ctx.query);
+  ctx.body = { pan, res, error };
+  ctx.status = res;
+});
+
 panRouter.post("/pan", verifyToken, async (ctx) => {
   const dataModel = new PanDataModel();
   const { error, res } = await dataModel.post(ctx.request);

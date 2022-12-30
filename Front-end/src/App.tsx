@@ -6,12 +6,13 @@ import Home from './components/Home/Home'
 import Layout from './components/Home/Layout';
 import Login from './components/Login';
 import { ProtectedRoute } from './components/ProtectedRoute';
-import ProfilePageGucci from './components/Profile/ProfileGucci';
+import Profile from './components/Profile/Profile';
 import Direccion from './components/Profile/Direccion';
 import Tienda from './components/Tienda/Tienda';
 import Error from './components/Error';
-import PanData from './components/PanData';
+import PanData from './components/Tienda/PanData';
 import MapaWeb from './components/MapaWeb';
+import Carrito from './components/Tienda/Carrito';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 function App() {
@@ -23,19 +24,18 @@ function App() {
           <Route path='/login' element={<Login />} />
           <Route path='/profile' element={
             <ProtectedRoute>
-              <ProfilePageGucci />
+              <Profile />
             </ProtectedRoute>
           } />
           <Route path='/direccion' element={<Direccion />} />
           <Route path='/tienda' element={
-            <ProtectedRoute>
               <Tienda />
-            </ProtectedRoute>
           } />
           <Route path='/pan/:id' element={
-            <ProtectedRoute>
               <PanData />
-            </ProtectedRoute>
+          } />
+          <Route path='/carrito' element={
+              <Carrito />
           } />
           <Route path='/mapa' element={<MapaWeb />} />
           <Route path="*" element={<Error />} />
