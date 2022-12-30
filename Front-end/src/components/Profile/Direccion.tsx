@@ -1,87 +1,273 @@
 import {
-    MDBCol,
-    MDBContainer,
-    MDBRow,
-    MDBCard,
-    MDBCardText,
-    MDBCardBody,
-    MDBCardImage,
-    MDBBtn,
-    MDBBreadcrumb,
-    MDBBreadcrumbItem,
-    MDBProgress,
-    MDBProgressBar,
-    MDBIcon,
-    MDBListGroup,
-    MDBListGroupItem,
-  } from 'mdb-react-ui-kit';
-  import { useEffect, useState } from 'react';
-  import {Row, Col, Button, Form} from 'react-bootstrap'
-  
-  export default function Direccion() {
-    // Variables del formulario
-    const [correo, setCorreo] = useState('')
-    const [calle, setCalle] = useState('')
-    const [numero, setNumero] = useState('')
-    const [codigoPostal, setCodigoPostal] = useState('')
-    const [provincia, setProvincia] = useState('')
-    const [pais, setPais] = useState('')
-  
-    // Obtenemos el usuario del localStorage
-    useEffect(() => {
-        getDireccion()
-    }, [])
+  MDBCol,
+  MDBContainer,
+  MDBRow,
+  MDBCard,
+  MDBCardText,
+  MDBCardBody,
+  MDBCardImage,
+  MDBBtn,
+  MDBBreadcrumb,
+  MDBBreadcrumbItem,
+  MDBProgress,
+  MDBProgressBar,
+  MDBIcon,
+  MDBListGroup,
+  MDBListGroupItem,
+  MDBTypography,
+} from 'mdb-react-ui-kit';
+import { useEffect, useState } from 'react';
+import { Row, Col, Button, Form } from 'react-bootstrap'
 
-  
-    // Manejamos respuesta del servidor
-    function handleResponse(response: any) {
-      return response.text().then((text: any) => {
-        const data = text && JSON.parse(text);
-        return data;
-      });
+export default function Direccion() {
+  // Variables de direccion
+  const [calle, setCalle] = useState('')
+  const [numero, setNumero] = useState('')
+  const [codigoPostal, setCodigoPostal] = useState('')
+  const [provincia, setProvincia] = useState('')
+  const [pais, setPais] = useState('')
+  const [botonRes, setBotonRes] = useState(0)
+  const [perfilRes, setPerfilRes] = useState(0)
+
+  useEffect(() => {
+    const user = JSON.parse(localStorage.getItem('usuario') || '{}')
+
+    traerDireccion(user.usuario[0].correo, user.token);
+  }, [perfilRes]);
+
+  // Obtenemos la direccion del usuario
+  async function traerDireccion(correo: string, token: string) {
+
+    const requestOptions = {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        authorization: "Bearer " + token,
+      },
+    };
+
+    const direccion: string = process.env.BACK_HOST || `http://localhost:3000`;
+    const response = await fetch(direccion + "/direccion?correo=" + correo, requestOptions);
+    const data = await response.json();
+
+    if (data.res === 404) {
+      setBotonRes(404);
+
+    } else if (data.res === 200) {
+      setCalle(data.calle);
+      setNumero(data.numero);
+      setCodigoPostal(data.codigoPostal);
+      setProvincia(data.provincia);
+      setPais(data.pais);
+
+      setBotonRes(200);
     }
-    // Modificamos el store
-    const getDireccion = async()  => {
-        const user = JSON.parse(localStorage.getItem('usuario')|| '{}')
-        const requestOptions = {
-          method: 'GET',
-          headers: { 
-            'Content-Type': 'application/json',
-             authorization: "Bearer " + user.token,
-          },
-        };
-        const direccion: string = process.env.BACK_HOST || `http://localhost:3000`;
-        const response = await fetch(direccion + "/cartera?correo="+ user.usuario[0].correo, requestOptions);
-        console.log(response)
-      }
-    
-  
-    // Modificamos el store
-    const submitHandler = async(e:any)  => {
-      const user = JSON.parse(localStorage.getItem('usuario')|| '{}')
-      e.preventDefault()
-      const requestOptions = {
-        method: 'PATCH',
-        headers: { 
-          'Content-Type': 'application/json',
-           authorization: "Bearer " + user.token,
-        },
-        body: JSON.stringify({calle, numero, codigoPostal, provincia, pais })
-      };
-      console.log("opciones modificar usuario",requestOptions)
-      const direccion: string = process.env.BACK_HOST || `http://localhost:3000`;
-      const response = await fetch(direccion + "/usuario?correo="+ user.usuario[0].correo, requestOptions);
-      const data = await handleResponse(response);
-      if(data.res === 200){
-        alert("Se ha modificado correctamente")
-        setCalle(data.calle)
-        setNumero(data.numero)
-        setCodigoPostal(data.codigoPostal)
-        setProvincia(data.provincia)
-        setPais(data.pais)
-      }
-    }
-    return (
-     <></>
-    );
   }
+
+
+  // Modificamos  |  creamos direccion
+  function botonDireccion() {
+    if (botonRes === 404) {
+      return (
+        <div style={{ display: 'flex', justifyContent: 'center' }} className="mb-3">
+          <Button variant="primary" type="submit" onClick={submitHandlerDireccionPOST}>
+            Crear dirección
+          </Button>
+        </div>
+      )
+    } else if (botonRes === 200) {
+      return (
+        <div style={{ display: 'flex', justifyContent: 'center' }} className="mb-3">
+          <Button variant="primary" type="submit" onClick={submitHandlerDireccionPATCH}>
+            Modificar direccion
+          </Button>
+        </div>
+      )
+    } else {
+      return (
+        <>
+        </>
+      )
+    }
+  }
+
+
+
+  // Errores de direccion
+  function feedBackDireccion() {
+    if (perfilRes === 200) {
+      return (
+        <div className='text-center mt-3 fs-5 mb-4' style={{ color: 'green' }}>
+          Dirección modificada correctamente.
+        </div>
+      )
+    } else if (perfilRes === 400) {
+      return (
+        <div className='text-center mt-3 fs-5 mb-4' style={{ color: "red" }}>
+          No se ha podido modificar, comprueba los datos y vuelva a intentarlo.
+        </div>
+      )
+    } else if (perfilRes === 3000) {
+      return (
+        <div className='text-center my-3 fs-5' style={{ color: "black" }}>
+          No se ha producido ninguna modificación.
+        </div>
+      )
+    }
+    else {
+      return (
+        <>
+        </>
+      )
+    }
+  }
+
+
+
+  // Peticion POST a la API para crear una direccion
+  const submitHandlerDireccionPOST = async (e: any) => {
+    const user = JSON.parse(localStorage.getItem('usuario') || '{}')
+    e.preventDefault()
+
+    const requestOptions = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        authorization: "Bearer " + user.token,
+      },
+      body: JSON.stringify({ "correo": user.usuario[0].correo, calle, numero, codigoPostal, provincia, pais })
+    };
+
+    const direccion: string = process.env.BACK_HOST || `http://localhost:3000`;
+    const response = await fetch(direccion + "/direccion?correo=" + user.usuario[0].correo, requestOptions);
+    const data = await response.json();
+    if (data.res === 201) {
+      setPerfilRes(200);
+    } else {
+      setPerfilRes(400);
+    }
+  }
+
+  const submitHandlerDireccionPATCH = async (e: any) => {
+    const user = JSON.parse(localStorage.getItem('usuario') || '{}')
+    e.preventDefault()
+
+    const requestOptions = {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        authorization: "Bearer " + user.token,
+      },
+      body: JSON.stringify({ calle, numero, codigoPostal, provincia, pais })
+    };
+
+    const direccion: string = process.env.BACK_HOST || `http://localhost:3000`;
+    const response = await fetch(direccion + "/direccion?correo=" + user.usuario[0].correo, requestOptions);
+    const data = await response.json();
+    if (data.res === 200) {
+      setPerfilRes(200);
+    } else {
+      setPerfilRes(400);
+    }
+  }
+
+
+
+  return (
+    <>
+      <Form >
+        <MDBRow className='justify-content-center align-items-center'>
+          <MDBCol lg="8">
+            <MDBCard className="mb-4">
+              <MDBCardBody>
+                <MDBRow className='mb-3'>
+                  <MDBTypography tag="h3" style={{ color: "black", }} className='text-center'>Dirección</MDBTypography>
+                </MDBRow>
+                <MDBRow>
+                  <MDBCol sm="3">
+                    <MDBCardText>Calle</MDBCardText>
+                  </MDBCol>
+                  <MDBCol sm="9">
+                    <input
+                      type="text"
+                      id='calle'
+                      className="form-control"
+                      value={calle}
+                      onChange={(e) => setCalle(e.target.value)}>
+                    </input>
+                  </MDBCol>
+                </MDBRow>
+                <hr />
+                <MDBRow>
+                  <MDBCol sm="3">
+                    <MDBCardText>Número de teléfono</MDBCardText>
+                  </MDBCol>
+                  <MDBCol sm="9">
+                    <input
+                      type="text"
+                      id='numero'
+                      className="form-control"
+                      value={numero}
+                      onChange={(e) => setNumero(e.target.value)}>
+                    </input>
+                  </MDBCol>
+                </MDBRow>
+                <hr />
+                <MDBRow>
+                  <MDBCol sm="3">
+                    <MDBCardText>Codigo Postal</MDBCardText>
+                  </MDBCol>
+                  <MDBCol sm="9">
+                    <input
+                      type="text"
+                      id='codigoPostal'
+                      className="form-control"
+                      value={codigoPostal}
+                      onChange={(e) => setCodigoPostal(e.target.value)}>
+                    </input>
+                  </MDBCol>
+                </MDBRow>
+                <hr />
+                <MDBRow>
+                  <MDBCol sm="3">
+                    <MDBCardText>Provincia</MDBCardText>
+                  </MDBCol>
+                  <MDBCol sm="9">
+                    <input
+                      type="text"
+                      id='provincia'
+                      className="form-control"
+                      value={provincia}
+                      onChange={(e) => setProvincia(e.target.value)}>
+                    </input>
+                  </MDBCol>
+                </MDBRow>
+                <hr />
+                <MDBRow>
+                  <MDBCol sm="3">
+                    <MDBCardText>Pais</MDBCardText>
+                  </MDBCol>
+                  <MDBCol sm="9">
+                    <input
+                      type="text"
+                      id='pais'
+                      className="form-control"
+                      value={pais}
+                      onChange={(e) => setPais(e.target.value)}>
+                    </input>
+                  </MDBCol>
+                </MDBRow>
+              </MDBCardBody>
+            </MDBCard>
+          </MDBCol>
+        </MDBRow>
+      </Form>
+      <>
+        {botonDireccion()}
+      </>
+      <>
+        {feedBackDireccion()}
+      </>
+    </>
+  );
+}
