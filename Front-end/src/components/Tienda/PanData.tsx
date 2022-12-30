@@ -76,7 +76,7 @@ export default function PanData() {
       </>
     )
 
-  else (res === 200)
+  else
   return (
     <section className="" style={{ backgroundColor: '#f4f5f7' }}>
       <MDBContainer className="py-5" style={{ color: "black" }}>
