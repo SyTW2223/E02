@@ -83,7 +83,7 @@ export default function Navbar() {
   return (
     <MDBNavbar className={styles.navbar} expand='lg' light bgColor='dark'>
       <MDBContainer fluid>
-        <MDBNavbarBrand href='#'>
+        <MDBNavbarBrand href='/'>
           <img
             src={Logo}
             height='30'

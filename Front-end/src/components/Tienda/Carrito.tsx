@@ -1,4 +1,4 @@
-import { MDBCard, MDBCardBody } from 'mdb-react-ui-kit';
+import { MDBCard, MDBCardBody, MDBCardImage, MDBCol, MDBRow } from 'mdb-react-ui-kit';
 import { useEffect, useState } from 'react';
 
 export default function Carrito() {
@@ -73,20 +73,34 @@ export default function Carrito() {
     )
   else 
     return (
-<div className="d-flex justify-content-center">
+<>
   {panNombres.map((panNombre, index) => (
-    <MDBCard key={index} style={{ width: "22rem" }}>
-      <MDBCardBody>
-        <h2 className="h2 mb-3 font-weight-bold text-center">Nombre:</h2>
-        <h2 className="h2 mb-3 font-weight-bold text-center">{panNombre}</h2>
-        <h2 className="h2 mb-3 font-weight-bold text-center">Precio:</h2>
-        <h3 className="h3 mb-3 font-weight-bold text-center">{panPrecios[index]}</h3>
-        <h2 className="h2 mb-3 font-weight-bold text-center">Cantidad:</h2>
-        <h3 className="h3 mb-3 font-weight-bold text-center">{cantidad[index]}</h3>
-      </MDBCardBody>
-    </MDBCard>
+    <MDBRow className="d-flex justify-content-center my-4" style={{color: "black"}}>
+      <MDBCard key={index} style={{ width: "1200px" }}>
+        <MDBCardBody>
+          <MDBRow>
+            <MDBCol>
+            <MDBCardImage src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp"
+                          alt="Avatar" className="my-5" style={{ width: '350px' }} fluid />
+            </MDBCol>
+            <MDBCol >
+              <h2 className="h2 mb-3 font-weight-bold text-center">Nombre:</h2>
+              <h2 className="h2 mb-3 font-weight-bold text-center">{panNombre}</h2>
+            </MDBCol>
+            <MDBCol>
+              <h2 className="h2 mb-3 font-weight-bold text-center">Precio:</h2>
+              <h3 className="h3 mb-3 font-weight-bold text-center">{panPrecios[index]}</h3>
+            </MDBCol>
+            <MDBCol>
+              <h2 className="h2 mb-3 font-weight-bold text-center">Cantidad:</h2>
+              <h3 className="h3 mb-3 font-weight-bold text-center">{cantidad[index]}</h3>
+            </MDBCol>
+          </MDBRow>
+        </MDBCardBody>
+      </MDBCard>
+    </MDBRow>
   ))}
-</div>
+</>
 
     )
 }

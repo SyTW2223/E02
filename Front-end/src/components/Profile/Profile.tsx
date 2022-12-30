@@ -15,15 +15,14 @@ import {
   MDBListGroup,
   MDBListGroupItem,
 } from 'mdb-react-ui-kit';
-import { useEffect, useState} from 'react';
-import { useSelector } from 'react-redux';
+import { useEffect, useState } from 'react';
 import {Row, Col, Button, Form} from 'react-bootstrap'
-import { userActions } from '../../_actions';
 
-export default function ProfilePage() {
+export default function ProfilePageGucci() {
   // Variebles del formulrio
   const [nombre, setNombre] = useState('')
   const [apellidos, setApellidos] = useState('')
+  const [correo, setCorreo] = useState('')
 
   // Obtenemos el usuario del localStorage
   useEffect(() => {
@@ -31,6 +30,7 @@ export default function ProfilePage() {
     if(user){
       setNombre(user.usuario[0].nombre)
       setApellidos(user.usuario[0].apellidos)
+      setCorreo(user.usuario[0].correo)
     }
   }, []);
 
@@ -64,32 +64,94 @@ export default function ProfilePage() {
       localStorage.setItem('usuario', JSON.stringify(user));
     }
   }
-
   return (
-    <Row className='profileContiner'>
-      <Col md={6}>Form</Col>
-      <Form>
-        <Form.Group controlId="nombre">
-          <Form.Label>Nombre</Form.Label>
-          <Form.Control 
-            type="text" 
-            placeholder="Enter Name"
-            value = {nombre}
-            onChange = {(e:any) => setNombre(e.target.value)} />
-        </Form.Group>
-        <Form.Group controlId="apellidos">
-          <Form.Label>Apellidos</Form.Label>
-          <Form.Control 
-            type="text" 
-            placeholder="Enter Last Name"
-            value={apellidos}
-            onChange = {(e:any) => setApellidos(e.target.value)} />
-        </Form.Group>
-      </Form>
-      <Button variant="primary" type="submit" onClick={submitHandler}>
-        Update
-      </Button>
-      <Col md={6}>ProfileTopic</Col>
-    </Row>
+    <section style={{ backgroundColor: '#eee' }}>
+      <MDBContainer className="py-5">
+        <Form>
+        <MDBRow>
+          <MDBCol>
+            <MDBBreadcrumb className="bg-light rounded-3 p-3 mb-4">
+              <MDBBreadcrumbItem>
+                <a href='#'>Home</a>
+              </MDBBreadcrumbItem>
+              <MDBBreadcrumbItem active>
+                <a href="#">User</a>
+              </MDBBreadcrumbItem>
+            </MDBBreadcrumb>
+          </MDBCol>
+        </MDBRow>
+
+        <MDBRow>
+          <MDBCol lg="4">
+            <MDBCard className="mb-4"> 
+              <MDBCardBody className="text-center">
+                <MDBCardImage
+                  src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp"
+                  alt="avatar"
+                  className="rounded-circle"
+                  style={{ width: '150px' }}
+                  fluid />
+              </MDBCardBody>
+            </MDBCard>
+          </MDBCol>
+          <MDBCol lg="8">
+            <MDBCard className="mb-4">
+              <MDBCardBody>
+                <MDBRow>
+                  <MDBCol sm="3">                    
+                    <MDBCardText>Nombre</MDBCardText>
+                  </MDBCol>
+                  <MDBCol sm="9">
+                    <input 
+                    type="text" 
+                    id='nombre' 
+                    className="form-control"
+                    value = {nombre}
+                    onChange = {(e) => setNombre(e.target.value)}>
+                    </input>
+                  </MDBCol>
+                </MDBRow>
+                <hr />
+                <MDBRow>
+                  <MDBCol sm="3">
+                    <MDBCardText>Apellidos</MDBCardText>
+                  </MDBCol>
+                  <MDBCol sm="9">
+                    <input
+                      type="text"
+                      id='apellidos'
+                      className="form-control"
+                      value = {apellidos}
+                      onChange = {(e) => setApellidos(e.target.value)}>
+                    </input>
+                  </MDBCol>
+                </MDBRow>
+                <hr />
+                <MDBRow>
+                  <MDBCol sm="3">
+                    <MDBCardText>Correo</MDBCardText>
+                  </MDBCol>
+                  <MDBCol sm="9">
+                    <MDBCardText className="text-muted">{correo}</MDBCardText>
+                  </MDBCol>
+                </MDBRow>
+                <hr />
+              </MDBCardBody>
+            </MDBCard>
+          </MDBCol>
+        </MDBRow>
+        </Form>
+        <div style={{display: 'flex', justifyContent: 'center'}}>
+        <Button variant="primary" type="submit" onClick={submitHandler}>
+          Guardar
+        </Button>
+        </div>
+        <hr />
+        <div style={{display: 'flex', justifyContent: 'center'}}>
+          <Button href='/direccion' variant="secondary" type="submit">Dirección</Button>
+          <Button href='/tarjetas' variant="primary" type="submit">Tarjetas</Button>
+        </div>
+      </MDBContainer>
+    </section>
   );
 }
