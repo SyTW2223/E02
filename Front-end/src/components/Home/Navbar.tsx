@@ -42,35 +42,8 @@ export default function Navbar() {
   }
 
   async function request(searchTerm: string) {
-    const user = JSON.parse(localStorage.getItem('usuario') || '{}')
-    console.log(user)
-    // Configuración de la solicitud
-    const requestOptions = {
-      method: 'GET',
-      headers: {
-        authorization: 'Bearer ' + user.token
-      }
-    };
-    console.log(user.token)
-
-    const direccion: string = process.env.BACK_HOST || `http://localhost:3000`;
-    const response = await fetch(`${direccion}/pan`, requestOptions);
-    console.log(response)
-
-    // Busca el término de búsqueda en el array de response
-    let data = await response.json();
-    // Convertir json a array
-    data = Array.isArray(data.pan) ? data.pan : [data.pan];
-    // Ahora en data tenemos el array de productos,
-    // tenemos que buscar el producto que coincida con el searchTerm
-    const panEncontrado = data.filter((p: any) => (p.nombre === searchTerm || p.tipo === searchTerm));
-
-    // Si no se encuentra el producto, se muestra un mensaje
-    if (panEncontrado.length === 0) {
-      alert('No se ha encontrado el producto');
-    } else {
-      window.location.href = `/tienda?tipo=${searchTerm}`;
-    }
+    localStorage.setItem('search', searchTerm);
+    window.location.href = '/tienda';
   }
 
   const handleSubmit = (event: any) => {

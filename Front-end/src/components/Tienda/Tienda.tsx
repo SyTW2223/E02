@@ -20,12 +20,30 @@ export default function Tienda() {
         const response = await fetch(direccion + "/pan", requestOptions);
         const data_list = await response.json();
         const productsArray: any = Array.isArray(data_list.pan) ? data_list.pan : [data_list.pan];
-        if (tipo === null) {
+        // Coger el término de búsqueda de localStorage
+        const search = localStorage.getItem("search");
+        if (search === null) {
           setProducts(productsArray);
           return;
+        } else {
+          // Buscar en el array de productos por nombre, tipo e ingredientes
+          const filteredProducts = productsArray.filter((product: any) => {
+            return (
+              product.nombre.toLowerCase().includes(search.toLowerCase()) ||
+              product.tipo.toLowerCase().includes(search.toLowerCase()) ||
+              product.ingredientes.toLowerCase().includes(search.toLowerCase())
+            );
+          });
+          if (filteredProducts !== null) {
+            setProducts(filteredProducts);
+            // Eliminar el término de búsqueda de localStorage
+            console.log(filteredProducts)
+            return;
+          } else {
+            setProducts(productsArray);
+            return;
+          }
         }
-        const filteredProducts = productsArray.filter((product: any) => product.tipo === tipo);
-        setProducts(filteredProducts);
       } catch (error) {
         console.error(error);
       }
