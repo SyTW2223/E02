@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom';
-import {history} from '../../_helpers/history';
+import { userActions } from '../../_actions';
 import {
   MDBContainer,
   MDBNavbar,
@@ -24,11 +24,13 @@ export default function Navbar() {
   const {nombre} = useParams();
   const [ruta, setRuta] = useState('/login');
   const [nombreRuta, setNombreRuta] = useState('Login/Register');
+  const [button, setButton] = useState('');
 
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem('usuario') || '{}')
     if (user.token) {
       setRuta('/profile');
+      setButton('Logout')
       setNombreRuta('Perfil');
     }
   }, []);
@@ -67,7 +69,7 @@ export default function Navbar() {
     if (panEncontrado.length === 0) {
       alert('No se ha encontrado el producto');
     } else {
-      history.push(`/tienda?tipo=${searchTerm}`);
+      window.location.href = `/tienda?tipo=${searchTerm}`;
     }
   }
 
@@ -78,6 +80,10 @@ export default function Navbar() {
 
     // Limpia el campo de búsqueda
     setSearchTerm('')
+  }
+
+  const handleLogout = () => {
+    userActions.logout();
   }
 
   return (
@@ -139,14 +145,25 @@ export default function Navbar() {
                 Carrito
               </MDBNavbarLink>
             </MDBNavbarItem>
-
           </MDBNavbarNav>
-
-
-          <form className='d-flex input-group w-auto' onSubmit={handleSubmit}>
-            <input type='search' className='form-control' placeholder='Buscar' aria-label='Search' value={searchTerm} onChange={handleChange} />
-            <MDBBtn color='primary'>Search</MDBBtn>
-          </form>
+          <div className='d-flex'>
+            <div className='mx-2 ml-auto align-self-center'>
+              <form className='d-flex input-group w-auto' onSubmit={handleSubmit}>
+                <input type='search' className='form-control' placeholder='Buscar' aria-label='Search' value={searchTerm} onChange={handleChange} />
+                <MDBBtn color='primary'>Search</MDBBtn>
+              </form>
+            </div>
+            {
+              button === 'Logout' ?
+                <div className='ml-auto'>
+                  <MDBBtn color='dark' className='text-light' onClick={handleLogout} tabIndex={-1} aria-disabled='true'>
+                    Salir
+                  </MDBBtn>
+                </div>
+              :
+                ''
+            }
+          </div>
         </MDBCollapse>
       </MDBContainer>
     </MDBNavbar>
