@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom';
-import {history} from '../../_helpers/history';
+import { userActions } from '../../_actions';
 import {
   MDBContainer,
   MDBNavbar,
@@ -24,11 +24,13 @@ export default function Navbar() {
   const {nombre} = useParams();
   const [ruta, setRuta] = useState('/login');
   const [nombreRuta, setNombreRuta] = useState('Login/Register');
+  const [button, setButton] = useState('');
 
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem('usuario') || '{}')
     if (user.token) {
       setRuta('/profile');
+      setButton('Logout')
       setNombreRuta('Perfil');
     }
   }, []);
@@ -40,35 +42,8 @@ export default function Navbar() {
   }
 
   async function request(searchTerm: string) {
-    const user = JSON.parse(localStorage.getItem('usuario') || '{}')
-    console.log(user)
-    // Configuración de la solicitud
-    const requestOptions = {
-      method: 'GET',
-      headers: {
-        authorization: 'Bearer ' + user.token
-      }
-    };
-    console.log(user.token)
-
-    const direccion: string = process.env.BACK_HOST || `http://localhost:3000`;
-    const response = await fetch(`${direccion}/pan`, requestOptions);
-    console.log(response)
-
-    // Busca el término de búsqueda en el array de response
-    let data = await response.json();
-    // Convertir json a array
-    data = Array.isArray(data.pan) ? data.pan : [data.pan];
-    // Ahora en data tenemos el array de productos,
-    // tenemos que buscar el producto que coincida con el searchTerm
-    const panEncontrado = data.filter((p: any) => (p.nombre === searchTerm || p.tipo === searchTerm));
-
-    // Si no se encuentra el producto, se muestra un mensaje
-    if (panEncontrado.length === 0) {
-      alert('No se ha encontrado el producto');
-    } else {
-      history.push(`/tienda?tipo=${searchTerm}`);
-    }
+    localStorage.setItem('search', searchTerm);
+    window.location.href = '/tienda';
   }
 
   const handleSubmit = (event: any) => {
@@ -78,6 +53,10 @@ export default function Navbar() {
 
     // Limpia el campo de búsqueda
     setSearchTerm('')
+  }
+
+  const handleLogout = () => {
+    userActions.logout();
   }
 
   return (
@@ -139,14 +118,25 @@ export default function Navbar() {
                 Carrito
               </MDBNavbarLink>
             </MDBNavbarItem>
-
           </MDBNavbarNav>
-
-
-          <form className='d-flex input-group w-auto' onSubmit={handleSubmit}>
-            <input type='search' className='form-control' placeholder='Buscar' aria-label='Search' value={searchTerm} onChange={handleChange} />
-            <MDBBtn color='primary'>Search</MDBBtn>
-          </form>
+          <div className='d-flex'>
+            <div className='mx-2 ml-auto align-self-center'>
+              <form className='d-flex input-group w-auto' onSubmit={handleSubmit}>
+                <input type='search' className='form-control' placeholder='Buscar' aria-label='Search' value={searchTerm} onChange={handleChange} />
+                <MDBBtn color='primary'>Search</MDBBtn>
+              </form>
+            </div>
+            {
+              button === 'Logout' ?
+                <div className='ml-auto'>
+                  <MDBBtn color='dark' className='text-light' onClick={handleLogout} tabIndex={-1} aria-disabled='true'>
+                    Salir
+                  </MDBBtn>
+                </div>
+              :
+                ''
+            }
+          </div>
         </MDBCollapse>
       </MDBContainer>
     </MDBNavbar>

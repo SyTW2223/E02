@@ -1,9 +1,7 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import { useState } from 'react';
 import { userActions } from '../_actions';
 import { useDispatch } from 'react-redux';
-import { useSelector } from 'react-redux';
 import {
   MDBContainer,
   MDBTabs,
@@ -25,7 +23,6 @@ import styles from '../css/Login.module.css';
  * @returns Componente de inicio de sesión y registro
  */
 export default function Login() {
-  const [res, setRes] = useState(0);
   const dispatch = useDispatch();
 
   // Establecer la pestaña activa para iniciar sesión por defecto
@@ -77,24 +74,21 @@ export default function Login() {
   // Envia formulario de inicio de sesión
   const onSubmitSignIn = async (e: any) => {
     e.preventDefault();
-    const { correo, password } = formSignInValue;
-    if (isEmailValid(correo) && isPasswordValid(password)) {
-      try {
-        const action = userActions.login(formSignInValue.correo, formSignInValue.password);
-        action(dispatch);
-      } catch (error) {
-        // handle error
-        console.error(error);
-        // show error message to user
-        alert('An error occurred while registering. Please try again later.');
-      }
+    try {
+      const action = userActions.login(formSignInValue.correo, formSignInValue.password);
+      action(dispatch);
+    } catch (error) {
+      // handle error
+      console.error(error);
+      // show error message to user
+      alert('An error occurred while registering. Please try again later.');
     }
   };
 
   // Envia formulario de registro
   const onSubmitSignUp = async (e: any) => {
     e.preventDefault();
-    const { correo, password, apellidos, nombre } = formSignUpValue;
+    const { correo, password } = formSignUpValue;
     if (isEmailValid(correo) && isPasswordValid(password)) {
       try {
         const action = userActions.register(formSignUpValue.nombre, formSignUpValue.apellidos, formSignUpValue.correo, formSignUpValue.password);
@@ -105,6 +99,8 @@ export default function Login() {
         // show error message to user
         alert('An error occurred while registering. Please try again later.');
       }
+    } else {
+      alert('Invalid email or password');
     }
   };
 
@@ -136,101 +132,85 @@ export default function Login() {
 
       <MDBTabsContent>
         <MDBTabsPane show={justifyActive === 'signin'}>
-          <MDBValidation>
-            <MDBValidationItem feedback='Please insert correct email' invalid>
-              <MDBInput 
-                name='correo'
-                value={formSignInValue.correo}
-                onChange={onChangeSignIn}
-                required
-                wrapperClass='mb-4'
-                label='Correo electrónico'
-                id='valdiationSignInEmail'
-                type='correo'
-                data-testid='correo signin'
-                pattern='^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$'
-              />
-            </MDBValidationItem>
-            <MDBValidationItem feedback='Please insert paswword with min 5 lenght' invalid>
-              <MDBInput className='mt-5'
-                name='password'
-                value={formSignInValue.password}
-                onChange={onChangeSignIn}
-                required
-                wrapperClass='mb-4'
-                label='Contraseña'
-                id='valdiationSignInPassword'
-                type='password'
-                data-testid='password signin'
-                pattern='^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{5,}$'
-              />
-            </MDBValidationItem>
+          <MDBInput
+            name='correo'
+            value={formSignInValue.correo}
+            onChange={onChangeSignIn}
+            required
+            wrapperClass='mb-4'
+            label='Correo electrónico'
+            id='valdiationSignInEmail'
+            type='correo'
+            data-testid='correo signin'
+          />
+          <MDBInput className='mt-5'
+            name='password'
+            value={formSignInValue.password}
+            onChange={onChangeSignIn}
+            required
+            wrapperClass='mb-4'
+            label='Contraseña'
+            id='valdiationSignInPassword'
+            type='password'
+            data-testid='password signin'
+          />
 
-            <MDBBtn type='submit' onClick={onSubmitSignIn} className={`${styles.loginButton} my-4 w-100`}>Entrar</MDBBtn>
-           </MDBValidation>
-           <MDBRow className="gx-5">
+          <MDBBtn type='submit' onClick={onSubmitSignIn} className={`${styles.loginButton} my-4 w-100`}>Entrar</MDBBtn>
+          <MDBRow className="gx-5">
             <MDBCol>
               <a className={styles.link} href="!#">¿Has olvidado la contraseña?</a>
             </MDBCol>
             <MDBCol>
-              <p className="text-center">¿No tienes cuenta? <a className={styles.link} href="#!">Regístrate</a></p>
+              <p className="text-center">¿No tienes cuenta? <a className={styles.link} href="/login">Regístrate</a></p>
             </MDBCol>
           </MDBRow>
         </MDBTabsPane>
 
         <MDBTabsPane show={justifyActive === 'signup'}>
-          <MDBValidation isValidated>
-            <MDBValidationItem feedback=''>
-              <MDBInput
-                name='nombre'
-                value={formSignUpValue.nombre}
-                onChange={onChangeSignUp}
-                wrapperClass='mb-4'
-                label='Nombre'
-                id='validationSignUpName'
-                type='text'
-                data-testid='nombre signup'
-              />
-            </MDBValidationItem>
-            <MDBValidationItem feedback=''>
-              <MDBInput
-                name='apellidos'
-                value={formSignUpValue.apellidos}
-                onChange={onChangeSignUp}
-                wrapperClass='mb-4'
-                label='Apellidos'
-                id='validationSignUpName'
-                type='text'
-                data-testid='apellidos signup'
-              />
-            </MDBValidationItem>
-            <MDBValidationItem feedback='' invalid>
-              <MDBInput
-                name='correo'
-                value={formSignUpValue.correo}
-                onChange={onChangeSignUp}
-                required
-                wrapperClass='mb-4'
-                label='Correo electrónico'
-                id='valdiationSignUpEmail'
-                type='correo'
-                data-testid='correo signup'
-              />
-            </MDBValidationItem>
-            <MDBValidationItem feedback='' invalid>
-              <MDBInput
-                name='password'
-                value={formSignUpValue.password}
-                onChange={onChangeSignUp}
-                required
-                wrapperClass='mb-4'
-                label='Contraseña'
-                id='valdiationSignUpPassword'
-                type='password'
-                data-testid='password signup'
-              />
-            </MDBValidationItem>
-          </MDBValidation>
+          <MDBInput
+            name='nombre'
+            value={formSignUpValue.nombre}
+            onChange={onChangeSignUp}
+            wrapperClass='mb-4'
+            label='Nombre'
+            id='validationSignUpName'
+            type='text'
+            data-testid='nombre signup'
+          />
+          <MDBInput
+            name='apellidos'
+            value={formSignUpValue.apellidos}
+            onChange={onChangeSignUp}
+            wrapperClass='mb-4'
+            label='Apellidos'
+            id='validationSignUpSurname'
+            type='text'
+            data-testid='apellidos signup'
+          />
+          <MDBInput
+            name='correo'
+            value={formSignUpValue.correo}
+            onChange={onChangeSignUp}
+            required
+            wrapperClass='mb-4'
+            label='Correo electrónico'
+            id='valdiationSignUpEmail'
+            type='correo'
+            data-testid='correo signup'
+            pattern='^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$'
+          />
+          <MDBInput
+            name='password'
+            value={formSignUpValue.password}
+            onChange={onChangeSignUp}
+            required
+            wrapperClass='mb-4'
+            label='Contraseña'
+            id='valdiationSignUpPassword'
+            type='password'
+            data-testid='password signup'
+            pattern='^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{5,}$'
+          />
           <MDBBtn className={`${styles.loginButton} mb-4 w-100`} type='submit' onClick={onSubmitSignUp}>Siguiente</MDBBtn>
         </MDBTabsPane>
       </MDBTabsContent>

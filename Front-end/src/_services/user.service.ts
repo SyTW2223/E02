@@ -13,7 +13,6 @@ async function login(correo: any, password: any) {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ correo, password })
     };
-    console.log(requestOptions);
     const direccion = process.env.BACK_HOST || `http://localhost:3000`;
     const response = await fetch(direccion + '/usuarioLogin', requestOptions);
     const user = await handleResponse(response);
@@ -26,18 +25,24 @@ async function login(correo: any, password: any) {
     }
     return user;
   } catch (error) {
-    // handle error
-    console.error(error);
     // show error message to user
-    alert('An error occurred while logging in. Please try again later.');
+    alert(error);
     // return error to indicate that the login was not successful
     return Promise.reject(error);
   }
 }
 
 function logout() {
-  // remove user from local storage to log user out
-  localStorage.removeItem('usuario');
+  try {
+    // remove user from local storage to log user out
+    localStorage.removeItem('usuario');
+  }
+  catch (error) {
+    // show error message to user
+    alert(error);
+    // return error to indicate that the login was not successful
+    return Promise.reject(error);
+  }
 }
 
 
@@ -48,7 +53,6 @@ async function register(nombre: string, apellidos: string, password: string, cor
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ nombre, apellidos, password, correo })
     };
-    console.log(requestOptions);
     const direccion = process.env.BACK_HOST || `http://localhost:3000`;
     const response = await fetch(direccion + '/usuarioRegister', requestOptions);
     const user = await handleResponse(response);
@@ -61,10 +65,8 @@ async function register(nombre: string, apellidos: string, password: string, cor
     }
     return user;
   } catch (error) {
-    // handle error
-    console.error(error);
     // show error message to user
-    alert('An error occurred while logging in. Please try again later.');
+    alert(error);
     // return error to indicate that the login was not successful
     return Promise.reject(error);
   }
@@ -80,7 +82,7 @@ async function handleResponse(response: Response) {
         logout();
         location.reload();
       }
-      if (response.status === 404) {
+      if (response.status === 404 || response.status === 400) {
         // return specific error for 404 status code
         return Promise.reject('Username or password is incorrect');
       }
@@ -99,6 +101,3 @@ async function handleResponse(response: Response) {
     return Promise.reject(error);
   }
 }
-
-
-

@@ -1,8 +1,10 @@
 import { MDBCard, MDBCardBody, MDBCardImage, MDBCol, MDBRow } from 'mdb-react-ui-kit';
 import { useEffect, useState } from 'react';
+import { Buffer } from 'buffer';
 
 export default function Carrito() {
   const [panNombres, setpanNombres] = useState([""]);
+  const [panImage, setpanImage] = useState([Buffer]);
   const [panPrecios, setpanPrecios] = useState([0]);
   const [cantidad, setCantidad] = useState([0]);
   const [res, setRes] = useState(0);
@@ -56,15 +58,19 @@ export default function Carrito() {
     
     let auxNombre : string[] = []
     let auxPrecio : number[] = []
+    let auxImage : any[] = []
     setRes(data.res)
     for (let i: number = 0; i < data.pan.length; i++) {
       auxNombre.push(data.pan[i].nombre)
       auxPrecio.push(data.pan[i].precio)
+      auxImage.push(data.pan[i].image)
     }
     console.log(auxNombre)
     console.log(auxPrecio)
+    console.log(auxImage)
     setpanNombres(auxNombre);
     setpanPrecios(auxPrecio);
+    setpanImage(auxImage);
   }
 
   if (vacio)
@@ -80,7 +86,7 @@ export default function Carrito() {
         <MDBCardBody>
           <MDBRow>
             <MDBCol>
-            <MDBCardImage src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp"
+            <MDBCardImage src={`${Buffer.from(panImage[index]).toString('utf8')}`}
                           alt="Avatar" className="my-5" style={{ width: '350px' }} fluid />
             </MDBCol>
             <MDBCol >
