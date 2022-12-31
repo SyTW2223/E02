@@ -1,7 +1,6 @@
 import { userConstants } from '../_constants';
 import { userService } from '../_services';
 import { alertActions } from './alert.actions';
-import { history } from '../_helpers';
 
 export const userActions = {
     login,
@@ -10,26 +9,18 @@ export const userActions = {
 };
 
 function login(username: string, password: string) {
-  console.log('login action', username, password)
   return (dispatch: any) => {
     dispatch(request({ username }));
-
     userService.login(username, password)
     .then(
       (user: any) => {
         dispatch(success(user));
         dispatch(alertActions.success('Login successful'));
-        console.log('login success', user)
-        history.push('/');
+        window.location.href = '/';
       },
       (error: any) => {
-        console.log('login error', error)
-        if (error.status === 404) {
-          alert('Username or password is incorrect');
-        } else {
-          dispatch(failure(error));
-          dispatch(alertActions.error(error));
-        }
+        dispatch(failure(error));
+        dispatch(alertActions.error(error));
       }
     );
   };
@@ -41,12 +32,12 @@ function login(username: string, password: string) {
 
 function logout() {
   userService.logout();
+  window.location.href = '/';
   return { type: userConstants.LOGOUT };
 }
 
 
 function register(nombre:string, apellido:string, correo: string, password: string) {
-  console.log('registro action', nombre, apellido, correo, password)
   return (dispatch: any) => {
     dispatch(request({ nombre }));
 
@@ -55,17 +46,11 @@ function register(nombre:string, apellido:string, correo: string, password: stri
         (user: any) => {
           dispatch(success(user));
           dispatch(alertActions.success('Register successful'));
-          console.log('registro success', user)
-          history.push('/');
+          window.location.href = '/';
         },
         (error: any) => {
-          console.log('register error', error)
-          if (error.status === 400) {
-            alert('Email already exists');
-          } else {
-            dispatch(failure(error));
-            dispatch(alertActions.error(error));
-          }
+          dispatch(failure(error));
+          dispatch(alertActions.error(error));
         }
       );
   }
