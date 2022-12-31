@@ -1,6 +1,7 @@
 import { MDBContainer, MDBRow, MDBCol, MDBCard, MDBCardImage, MDBTypography, MDBCardText, MDBIcon, MDBCardBody, MDBBtn, MDBBreadcrumb, MDBBreadcrumbItem } from 'mdb-react-ui-kit';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { Buffer } from 'buffer';
 
 export default function PanData() {
   const { id } = useParams();
@@ -10,6 +11,7 @@ export default function PanData() {
   const [panIngredientes, setpanIngredientes] = useState("");
   const [panDescripcion, setpanDescripcion] = useState("");
   const [panVendedor, setpanVendedor] = useState("");
+  const [panImagen, setpanImagen] = useState("");
   const [res, setRes] = useState(0);
   const [cantidad, setCantidad] = useState(1);
 
@@ -60,6 +62,7 @@ export default function PanData() {
     setpanIngredientes(data.pan[0].ingredientes);
     setpanDescripcion(data.pan[0].descripcion);
     setpanVendedor(data.pan[0].vendedor);
+    setpanImagen(data.pan[0].image);
   }
 
   if (res === 404)
@@ -101,7 +104,7 @@ export default function PanData() {
                 <MDBCol md="4" className="gradient-custom text-center text-white"
                   style={{ borderTopLeftRadius: '.5rem', borderBottomLeftRadius: '.5rem' }}>
                   <MDBRow className='d-flex justify-content-center'>
-                    <MDBCardImage src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp"
+                    <MDBCardImage src={`${Buffer.from(panImagen).toString('utf8')}`}
                       alt="Avatar" className="my-5" style={{ width: '350px' }} fluid />
                   </MDBRow>
                   <MDBRow className='d-flex justify-content-center'>
