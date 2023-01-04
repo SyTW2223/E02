@@ -76,7 +76,7 @@ export default function Carrito() {
               <MDBCardBody>
                 <MDBRow>
                   {
-/*                 <MDBCol>
+                  /*<MDBCol>
                     <MDBCardImage src={`${Buffer.from(panImage[index]).toString('utf8')}`}
                       alt="Imagen" className="my-5" style={{ width: '350px' }} fluid />
                   </MDBCol> */
