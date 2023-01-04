@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {Buffer} from 'buffer';
 import { MDBContainer, MDBRow, MDBCol, MDBCard, MDBCardBody, MDBCardImage, MDBCardText, MDBCardTitle, MDBRipple } from "mdb-react-ui-kit";
 import { Link } from 'react-router-dom';
@@ -55,8 +55,8 @@ export default function Tienda() {
   return (
     <MDBContainer fluid className="p-5">
       <MDBRow className="g-4">
-        {products.map((product: any) => (
-            <MDBCol lg="2" md="3" sm="6">
+        {products.map((product: any, index) => (
+            <MDBCol key={index} lg="2" md="3" sm="6">
               <MDBCard>
                 <MDBCardImage
                 src={`${Buffer.from(product.image).toString('utf8')}`}
@@ -68,10 +68,10 @@ export default function Tienda() {
                   <MDBCardBody style={{ background: "#755932", height: "12.5rem"  }}>
                     <Link to={`/pan/${product.identificador}`} key={product._id} style={{ textDecoration: "none" }}>
                     <MDBCardTitle style={{ color: 'white', lineHeight: '150%' }}>{product.nombre}</MDBCardTitle>
-                    <MDBCardText style={{ color: 'white', fontSize: "12px", lineHeight: '50%' }}>
+                    <div style={{ color: 'white', fontSize: "12px", lineHeight: '50%' }}>
                       <p>Tipo: {product.tipo}</p>
                       <p>Precio: {product.precio}€</p>
-                    </MDBCardText>
+                    </div>
                     </Link>
                   </MDBCardBody>
                 </MDBRipple>

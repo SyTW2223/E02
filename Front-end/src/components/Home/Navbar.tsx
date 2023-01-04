@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom';
-import { userActions } from '../../_actions';
+import { FaShoppingCart } from 'react-icons/fa';
+import { MdAccountCircle } from 'react-icons/md';
 import {
   MDBContainer,
   MDBNavbar,
@@ -11,15 +12,18 @@ import {
   MDBNavbarItem,
   MDBNavbarLink,
   MDBBtn,
-  MDBDropdown,
-  MDBDropdownToggle,
-  MDBDropdownMenu,
-  MDBDropdownItem,
   MDBCollapse
 } from 'mdb-react-ui-kit'
 import Logo from '../../../public/logo.png'
 import styles from '../../css/Navbar.module.css';
+import {useAppDispatch, useAppSelector} from '../../app/hooks'
+import {logout} from '../../features/user/userSlice'
+
 export default function Navbar() {
+
+  const dispatch = useAppDispatch();
+  const user = useAppSelector((state) => state.userState.userData);
+
   const [showBasic, setShowBasic] = useState(false)
   const {nombre} = useParams();
   const [ruta, setRuta] = useState('/login');
@@ -27,13 +31,12 @@ export default function Navbar() {
   const [button, setButton] = useState('');
 
   useEffect(() => {
-    const user = JSON.parse(localStorage.getItem('usuario') || '{}')
     if (user.token) {
       setRuta('/profile');
       setButton('Logout')
       setNombreRuta('Perfil');
     }
-  }, []);
+  }, [user]);
 
   const [searchTerm, setSearchTerm] = useState('')
   // Maneja el cambio de texto en el input
@@ -56,7 +59,9 @@ export default function Navbar() {
   }
 
   const handleLogout = () => {
-    userActions.logout();
+
+    dispatch(logout());
+    window.location.href = "/";
   }
 
   return (
@@ -95,27 +100,14 @@ export default function Navbar() {
             </MDBNavbarItem>
 
             <MDBNavbarItem>
-              <MDBDropdown>
-                <MDBDropdownToggle  tag='a' className='nav-link text-light' role='button'>
-                  Puntos de Venta
-                </MDBDropdownToggle>
-                <MDBDropdownMenu>
-                  <MDBDropdownItem link>Madrid</MDBDropdownItem>
-                  <MDBDropdownItem link>Barcelona</MDBDropdownItem>
-                  <MDBDropdownItem link>Tenerife</MDBDropdownItem>
-                </MDBDropdownMenu>
-              </MDBDropdown>
-            </MDBNavbarItem>
-
-            <MDBNavbarItem>
               <MDBNavbarLink href={ruta} className='text-light' tabIndex={-1} aria-disabled='true'>
-                {nombreRuta}
+                {nombreRuta} <MdAccountCircle />
               </MDBNavbarLink>
             </MDBNavbarItem>
 
             <MDBNavbarItem>
               <MDBNavbarLink href='/carrito' className='text-light' tabIndex={-1} aria-disabled='true'>
-                Carrito
+                Carrito <FaShoppingCart />
               </MDBNavbarLink>
             </MDBNavbarItem>
           </MDBNavbarNav>

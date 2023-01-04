@@ -1,22 +1,19 @@
 import {
   MDBCol,
-  MDBContainer,
   MDBRow,
   MDBCard,
   MDBCardText,
   MDBCardBody,
   MDBCardImage,
-  MDBBreadcrumb,
-  MDBBreadcrumbItem,
-  MDBTypography,
 } from 'mdb-react-ui-kit';
 import { useEffect, useState } from 'react';
-import Profile from './Profile';
-import Direccion from './Direccion';
-import { Button, Form } from 'react-bootstrap'
-
-
+import { Button, Form } from 'react-bootstrap';
+import {useAppSelector, useAppDispatch} from '../../app/hooks';
+import { personalInformationType, changePersonalInformation } from '../../features/user/userSlice';
 export default function PersonalInformation() {
+
+  const dispatch = useAppDispatch();
+  const user = useAppSelector((state) => state.userState.userData);
   // Variables de nombre
   const [nombre, setNombre] = useState('')
   const [apellidos, setApellidos] = useState('')
@@ -24,11 +21,10 @@ export default function PersonalInformation() {
   const [res, setRes] = useState(0)
 
   useEffect(() => {
-    const user = JSON.parse(localStorage.getItem('usuario') || '{}')
-    setNombre(user.usuario[0].nombre);
-    setApellidos(user.usuario[0].apellidos);
-    setCorreo(user.usuario[0].correo);
-  }, [res]);
+    setNombre(user.nombre);
+    setApellidos(user.apellidos);
+    setCorreo(user.correo);
+  }, [res, user]);
 
 
   // Errores de usuario
@@ -62,8 +58,7 @@ export default function PersonalInformation() {
 
   // Modificamos el usuario
   const submitHandler = async (e: any) => {
-    const user = JSON.parse(localStorage.getItem('usuario') || '{}')
-    if (nombre === user.usuario[0].nombre && apellidos === user.usuario[0].apellidos) {
+    if (nombre === user.nombre && apellidos === user.apellidos) {
       setRes(3000);
     } else {
       e.preventDefault()
@@ -77,12 +72,14 @@ export default function PersonalInformation() {
       };
       console.log("opciones modificar usuario", requestOptions)
       const direccion: string = process.env.BACK_HOST || `http://localhost:3000`;
-      const response = await fetch(direccion + "/usuario?correo=" + user.usuario[0].correo, requestOptions);
+      const response = await fetch(direccion + "/usuario?correo=" + user.correo, requestOptions);
       const data = await response.json();
       if (data.res === 200) {
-        user.usuario[0].nombre = nombre
-        user.usuario[0].apellidos = apellidos
-        localStorage.setItem('usuario', JSON.stringify(user));
+        const data: personalInformationType  = {
+          nombre: nombre,
+          apellidos: apellidos
+        }
+        dispatch(changePersonalInformation(data));
       }
       setRes(data.res);
     }

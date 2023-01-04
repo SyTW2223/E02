@@ -6,7 +6,7 @@ export const userService = {
   register
 };
 
-async function login(correo: any, password: any) {
+export async function login(correo: any, password: any) {
   try {
     const requestOptions = {
       method: 'POST',
@@ -15,13 +15,11 @@ async function login(correo: any, password: any) {
     };
     const direccion = process.env.BACK_HOST || `http://localhost:3000`;
     const response = await fetch(direccion + '/usuarioLogin', requestOptions);
-    const user = await handleResponse(response);
+    const user = await response.json();
     // store user and jwt token in a single object in local storage only if the login was successful
     if (user && user.token) {
       // remove res and error properties from user object
-      delete user.res;
       delete user.error;
-      localStorage.setItem('usuario', JSON.stringify(user));
     }
     return user;
   } catch (error) {

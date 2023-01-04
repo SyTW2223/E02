@@ -1,7 +1,6 @@
-import React from 'react';
 import { useState } from 'react';
 import { userActions } from '../_actions';
-import { useDispatch } from 'react-redux';
+// import { useDispatch } from 'react-redux';
 import {
   MDBContainer,
   MDBTabs,
@@ -10,12 +9,14 @@ import {
   MDBTabsContent,
   MDBTabsPane,
   MDBBtn,
-  MDBValidation,
-  MDBValidationItem,
   MDBRow,
   MDBCol,
   MDBInput,
 } from 'mdb-react-ui-kit';
+import {login} from '../_services';
+import { userType } from '../features/user/userSlice';
+import {useAppDispatch} from '../app/hooks'
+import {loginRegister} from '../features/user/userSlice'
 
 import styles from '../css/Login.module.css';
 /**
@@ -23,7 +24,8 @@ import styles from '../css/Login.module.css';
  * @returns Componente de inicio de sesión y registro
  */
 export default function Login() {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
+
 
   // Establecer la pestaña activa para iniciar sesión por defecto
   const [justifyActive, setJustifyActive] = useState('signin');
@@ -71,12 +73,27 @@ export default function Login() {
   const onChangeSignUp = (e: any) => {
     setFormSignUpValue({ ...formSignUpValue,[e.target.name]: e.target.value });
   };
+
   // Envia formulario de inicio de sesión
   const onSubmitSignIn = async (e: any) => {
     e.preventDefault();
     try {
-      const action = userActions.login(formSignInValue.correo, formSignInValue.password);
-      action(dispatch);
+      const user =  await login(formSignInValue.correo, formSignInValue.password);
+      if (user.res === 200) {
+        const usertype: userType = {
+          nombre: user.usuario[0].nombre,
+          apellidos: user.usuario[0].apellidos,
+          password: user.usuario[0].password,
+          correo: user.usuario[0].correo,
+          token: user.token
+        }
+        dispatch(loginRegister(usertype));
+        window.location.href = "/";
+      } else {
+        console.log("Erorr no en el login")
+      }
+      //const action = userActions.login(formSignInValue.correo, formSignInValue.password);
+      //action(dispatch);
     } catch (error) {
       // handle error
       console.error(error);
