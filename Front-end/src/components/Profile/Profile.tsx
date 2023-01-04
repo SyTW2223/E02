@@ -2,21 +2,15 @@ import {
   MDBCol,
   MDBContainer,
   MDBRow,
-  MDBCard,
-  MDBCardText,
-  MDBCardBody,
-  MDBCardImage,
   MDBBreadcrumb,
   MDBBreadcrumbItem,
-  MDBTypography,
 } from 'mdb-react-ui-kit';
-import { useEffect, useState } from 'react';
-import { Button, Form } from 'react-bootstrap'
+import { Button} from 'react-bootstrap'
 import Direccion from './Direccion';
 import PersonalInformation from './PersonalInformation';
 
 
-export default function ProfilePageGucci() {
+export default function ProfilePage() {
   return (
     <section style={{ backgroundColor: '#eee' }}>
       <MDBContainer className="py-5">
@@ -33,8 +27,6 @@ export default function ProfilePageGucci() {
             </MDBBreadcrumb>
           </MDBCol>
         </MDBRow>
-
-        
 
         {/*Formulario de Usuario*/}
         <PersonalInformation/>

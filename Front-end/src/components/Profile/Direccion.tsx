@@ -8,8 +8,12 @@ import {
 } from 'mdb-react-ui-kit';
 import { useEffect, useState } from 'react';
 import { Button, Form } from 'react-bootstrap'
+import {useAppSelector} from '../../app/hooks';
 
 export default function Direccion() {
+
+  const user = useAppSelector((state) => state.userState.userData);
+
   // Variables de direccion
   const [calle, setCalle] = useState('')
   const [numero, setNumero] = useState('')
@@ -22,10 +26,10 @@ export default function Direccion() {
 
   useEffect(() => {
     setState(0);
-    const user = JSON.parse(localStorage.getItem('usuario') || '{}')
 
-    traerDireccion(user.usuario[0].correo, user.token);
-  }, [state]);
+
+    traerDireccion(user.correo, user.token);
+  }, [state, user]);
 
   // Obtenemos la direccion del usuario
   async function traerDireccion(correo: string, token: string) {
@@ -46,7 +50,6 @@ export default function Direccion() {
       setBotonRes(404);
 
     } else if (data.res === 200) {
-      console.log(data.direccion[0].codigoPostal)
       setCalle(data.direccion[0].calle);
       setNumero(data.direccion[0].numero);
       setCodigoPostal(data.direccion[0].codigoPostal);
@@ -117,7 +120,6 @@ export default function Direccion() {
 
   // Peticion POST a la API para crear una direccion
   const submitHandlerDireccionPOST = async (e: any) => {
-    const user = JSON.parse(localStorage.getItem('usuario') || '{}')
     e.preventDefault()
 
     const requestOptions = {
@@ -126,11 +128,11 @@ export default function Direccion() {
         'Content-Type': 'application/json',
         authorization: "Bearer " + user.token,
       },
-      body: JSON.stringify({ "correo": user.usuario[0].correo, calle, numero, codigoPostal, provincia, pais })
+      body: JSON.stringify({ "correo": user.correo, calle, numero, codigoPostal, provincia, pais })
     };
 
     const direccion: string = process.env.BACK_HOST || `http://localhost:3000`;
-    const response = await fetch(direccion + "/direccion?correo=" + user.usuario[0].correo, requestOptions);
+    const response = await fetch(direccion + "/direccion?correo=" + user.correo, requestOptions);
     const data = await response.json();
     if (data.res === 201) {
       setPerfilRes(200);
@@ -142,7 +144,6 @@ export default function Direccion() {
   }
 
   const submitHandlerDireccionPATCH = async (e: any) => {
-    const user = JSON.parse(localStorage.getItem('usuario') || '{}')
     e.preventDefault()
 
     const requestOptions = {
@@ -155,7 +156,7 @@ export default function Direccion() {
     };
 
     const direccion: string = process.env.BACK_HOST || `http://localhost:3000`;
-    const response = await fetch(direccion + "/direccion?correo=" + user.usuario[0].correo, requestOptions);
+    const response = await fetch(direccion + "/direccion?correo=" + user.correo, requestOptions);
     const data = await response.json();
 
     if (data.res === 200) {

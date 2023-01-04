@@ -1,9 +1,17 @@
-import { MDBContainer, MDBRow, MDBCol, MDBCard, MDBCardImage, MDBTypography, MDBCardText, MDBIcon, MDBCardBody, MDBBtn, MDBBreadcrumb, MDBBreadcrumbItem } from 'mdb-react-ui-kit';
+import { MDBContainer, MDBRow, MDBCol, MDBCard, MDBCardImage, MDBTypography, MDBCardText, MDBCardBody, MDBBtn, MDBBreadcrumb, MDBBreadcrumbItem } from 'mdb-react-ui-kit';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Buffer } from 'buffer';
+import Cantidad from './Cantidad';
+import {useAppSelector, useAppDispatch} from '../../app/hooks';
+import {sumar, añadir, carritoType} from '../../features/carrito/carritoSlice';
 
 export default function PanData() {
+  const dispatch = useAppDispatch();
+
+  const user = useAppSelector((state) => state.userState.userData);
+  const carrito = useAppSelector((state) => state.carrito.carritoData);
+
   const { id } = useParams();
   const [panNombre, setpanNombre] = useState("");
   const [panTipo, setpanTipo] = useState("");
@@ -17,32 +25,32 @@ export default function PanData() {
 
   useEffect(() => {
     peticion();
-  }, []);
+  }, [user]);
 
   // Maneja la compra de un pan
   function manejarCompra() {
     let aux = false;
-    const carrito = JSON.parse(localStorage.getItem('carrito') || '{}');
+    const producto: carritoType  = {
+      id: id as string,
+      cantidad: cantidad
+    }
 
     if (carrito.length) {
       for (let i: number = 0; i < carrito.length; i++) {
         if (carrito[i].id === id) {
           aux = true;
-          carrito[i].cantidad += cantidad;
+
+          dispatch(sumar(producto));
           break;
         }
       }
-      if (!aux) carrito.push({ id: id, cantidad: cantidad });
-
-      localStorage.setItem('carrito', JSON.stringify(carrito));
+      if (!aux) dispatch(añadir(producto));
     } else {
-      localStorage.setItem('carrito', JSON.stringify([{ id: id, cantidad: cantidad }]));
+      dispatch(añadir(producto));
     }
   }
 
-
   async function peticion() {
-    const user = JSON.parse(localStorage.getItem('usuario') || '{}')
 
     const requestOptions = {
       method: 'GET',
@@ -109,11 +117,7 @@ export default function PanData() {
                   </MDBRow>
                   <MDBRow className='d-flex justify-content-center'>
                     <MDBCol>
-                      <MDBTypography tag="h3" style={{ color: "black" }} className='text-center'>Cantidad:</MDBTypography>
-                      <button style={{ borderRadius: '10px', border: "0px", backgroundColor: "#3b71ca", color: "white", width: "24px" }}
-                        onClick={(e: any) => { setCantidad(cantidad - 1) }}>-</button>
-                      <input type="number" value={cantidad} onChange={(e: any) => setCantidad(e.target.value)} style={{ width: '100px', marginRight: '5px', marginLeft: '5px', height: "30px" }} min="1" />
-                      <button style={{ borderRadius: '10px', border: "0px", backgroundColor: "#3b71ca", color: "white", width: "24px" }} onClick={(e: any) => { setCantidad(cantidad + 1) }}>+</button>
+                      <Cantidad cantidad={cantidad} setCantidad={setCantidad} />
                     </MDBCol>
                   </MDBRow>
                   <MDBRow className='d-flex justify-content-center'>
