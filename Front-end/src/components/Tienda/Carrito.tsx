@@ -70,7 +70,7 @@ export default function Carrito() {
   else {
     return (
       <>
-        {carrito.map((elemento, index) => (
+        {carrito.map((elemento, index) => ( 
           <MDBRow key={index} className="d-flex justify-content-center my-4" style={{ color: "black" }}>
             <MDBCard style={{ width: "1200px" }}>
               <MDBCardBody>
