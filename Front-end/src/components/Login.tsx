@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { userActions } from '../_actions';
 // import { useDispatch } from 'react-redux';
 import {
   MDBContainer,
@@ -13,10 +12,10 @@ import {
   MDBCol,
   MDBInput,
 } from 'mdb-react-ui-kit';
-import {login} from '../_services';
+import { login, register } from '../_services';
 import { userType } from '../features/user/userSlice';
-import {useAppDispatch} from '../app/hooks'
-import {loginRegister} from '../features/user/userSlice'
+import { useAppDispatch } from '../app/hooks'
+import { loginRegister } from '../features/user/userSlice'
 
 import styles from '../css/Login.module.css';
 /**
@@ -26,6 +25,9 @@ import styles from '../css/Login.module.css';
 export default function Login() {
   const dispatch = useAppDispatch();
 
+  // Establecer si ha ocurrido un error
+  const [error, setError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
 
   // Establecer la pestaña activa para iniciar sesión por defecto
   const [justifyActive, setJustifyActive] = useState('signin');
@@ -36,6 +38,7 @@ export default function Login() {
     }
     // Establece la pestaña activa
     setJustifyActive(value);
+    setErrorMessage('');
   };
   // Valida el formulario de inicio de sesión
   const [formSignInValue, setFormSignInValue] = useState({
@@ -45,11 +48,10 @@ export default function Login() {
 
   //  Valida el formulario de registro
   const [formSignUpValue, setFormSignUpValue] = useState({
-    correo: '',
+    nombre: '',
     password: '',
     apellidos: '',
-    nombre: '',
-    foto: '',
+    correo: '',
   });
   // Cambiar el color activo de la pestaña
   const justifyActiveStyle = {
@@ -90,34 +92,56 @@ export default function Login() {
         dispatch(loginRegister(usertype));
         window.location.href = "/";
       } else {
-        console.log("Erorr no en el login")
+        setError(true);
+        if (user.res === 404 || user.res === 400) {
+          setErrorMessage('Usuario o contraseña incorrectos!');
+        } else if (user.res === 500) {
+          setErrorMessage('Error en el servidor!');
+        } else {
+          setErrorMessage('Error desconocido!');
+        }
       }
-      //const action = userActions.login(formSignInValue.correo, formSignInValue.password);
-      //action(dispatch);
-    } catch (error) {
-      // handle error
+    } catch (error: any) {
       console.error(error);
-      // show error message to user
-      alert('An error occurred while registering. Please try again later.');
+      setError(true);
+      setErrorMessage('Error al enviar el formulario!');
     }
   };
 
   // Envia formulario de registro
   const onSubmitSignUp = async (e: any) => {
     e.preventDefault();
-    const { correo, password } = formSignUpValue;
-    if (isEmailValid(correo) && isPasswordValid(password)) {
+    if (isEmailValid(formSignUpValue.correo) && isPasswordValid(formSignUpValue.password)) {
       try {
-        const action = userActions.register(formSignUpValue.nombre, formSignUpValue.apellidos, formSignUpValue.correo, formSignUpValue.password);
-        action(dispatch);
-      } catch (error) {
-        // handle error
+        const user = await register(formSignUpValue.nombre, formSignUpValue.apellidos, formSignUpValue.correo, formSignUpValue.password);
+        if (user.res === 201) {
+          const usertype: userType = {
+            nombre: user.usuario.nombre,
+            apellidos: user.usuario.apellidos,
+            password: user.usuario.password,
+            correo: user.usuario.correo,
+            token: user.token
+          }
+          dispatch(loginRegister(usertype));
+          window.location.href = "/";
+        } else {
+          setError(true);
+          if (user.res === 400) {
+            setErrorMessage('El usuario ya existe!');
+          } else if (user.res === 500) {
+            setErrorMessage('Error en el servidor!');
+          } else {
+            setErrorMessage('Error desconocido!');
+          }
+        }
+      } catch (error: any) {
         console.error(error);
-        // show error message to user
-        alert('An error occurred while registering. Please try again later.');
+        setError(true);
+        setErrorMessage('Error al enviar el formulario!');
       }
     } else {
-      alert('Invalid email or password');
+      setError(true);
+      setErrorMessage('Correo o contraseña no válidos!');
     }
   };
 
@@ -171,7 +195,7 @@ export default function Login() {
             type='password'
             data-testid='password signin'
           />
-
+          {error && <div className='mt-3'> <p className='mt-3' style={{ color: 'red' }}>{errorMessage}</p></div>}
           <MDBBtn type='submit' onClick={onSubmitSignIn} className={`${styles.loginButton} my-4 w-100`}>Entrar</MDBBtn>
           <MDBRow className="gx-5">
             <MDBCol>
@@ -228,6 +252,7 @@ export default function Login() {
             data-testid='password signup'
             pattern='^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{5,}$'
           />
+          {error && <div className='mt-3'> <p className='mt-3' style={{ color: 'red' }}>{errorMessage}</p></div>}
           <MDBBtn className={`${styles.loginButton} mb-4 w-100`} type='submit' onClick={onSubmitSignUp}>Siguiente</MDBBtn>
         </MDBTabsPane>
       </MDBTabsContent>

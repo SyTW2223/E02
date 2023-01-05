@@ -13,7 +13,7 @@ export default function Carrito() {
   const carrito = useAppSelector((state) => state.carrito.carritoData);
 
   const [panNombres, setpanNombres] = useState([""]);
-  const [panImage, setpanImage] = useState([Buffer]);
+  const [panImage, setpanImage] = useState([""]);
   const [panPrecios, setpanPrecios] = useState([0]);
   const [cantidad, setCantidad] = useState([0]);
   const [res, setRes] = useState(0);
@@ -57,6 +57,8 @@ export default function Carrito() {
       auxPrecio.push(data.pan[i].precio)
       auxImage.push(data.pan[i].image)
     }
+    // Convertir el buffer a string
+    auxImage = auxImage.map((elemento: any) => Buffer.from(elemento).toString('utf8'));
     setpanNombres(auxNombre);
     setpanPrecios(auxPrecio);
     setpanImage(auxImage);
@@ -70,16 +72,16 @@ export default function Carrito() {
   else {
     return (
       <>
-        {carrito.map((elemento, index) => ( 
+        {carrito.map((elemento, index) => (
           <MDBRow key={index} className="d-flex justify-content-center my-4" style={{ color: "black" }}>
             <MDBCard style={{ width: "1200px" }}>
               <MDBCardBody>
                 <MDBRow>
                   {
-                  /*<MDBCol>
-                    <MDBCardImage src={`${Buffer.from(panImage[index]).toString('utf8')}`}
+                  <MDBCol>
+                    <MDBCardImage src={`${panImage[index]}`}
                       alt="Imagen" className="my-5" style={{ width: '350px' }} fluid />
-                  </MDBCol> */
+                  </MDBCol>
                   }
                   <MDBCol >
                     <h2 className="h2 mb-3 font-weight-bold text-center">Nombre:</h2>
@@ -105,5 +107,4 @@ export default function Carrito() {
       </>
     )
   }
-    
 }
