@@ -5,6 +5,7 @@ import { Buffer } from 'buffer';
 import Cantidad from './Cantidad';
 import {useAppSelector, useAppDispatch} from '../../app/hooks';
 import {sumar, añadir, carritoType} from '../../features/carrito/carritoSlice';
+import toast, { Toaster } from 'react-hot-toast';
 
 export default function PanData() {
   const dispatch = useAppDispatch();
@@ -29,6 +30,7 @@ export default function PanData() {
 
   // Maneja la compra de un pan
   function manejarCompra() {
+    toast.success('Pan añadido al carrito');
     let aux = false;
     const producto: carritoType  = {
       id: id as string,
@@ -123,6 +125,9 @@ export default function PanData() {
                   <MDBRow className='d-flex justify-content-center'>
                     <MDBBtn className="btn btn-primary mt-5" style={{ fontSize: "20px", padding: "20px 38px", width: "200px", height: "75px" }}
                       onClick={() => manejarCompra()}>Comprar</MDBBtn>
+                      <Toaster
+                      reverseOrder={true}
+                      />
                   </MDBRow>
                 </MDBCol>
 
