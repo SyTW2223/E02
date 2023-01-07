@@ -1,10 +1,10 @@
-import { MDBCard, MDBCardBody, MDBCardImage, MDBCol, MDBRow } from 'mdb-react-ui-kit';
+import { MDBBtn, MDBCard, MDBCardBody, MDBCardImage, MDBCol, MDBRow } from 'mdb-react-ui-kit';
 import { useEffect, useState } from 'react';
 import { Buffer } from 'buffer';
-import { BsFillTrashFill } from 'react-icons/bs';
 import { CantidadCarrito } from './CantidadCarrito';
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
-import { sumar, añadir, carritoType, ordenar, eliminar } from '../../features/carrito/carritoSlice';
+import { ordenar } from '../../features/carrito/carritoSlice';
+import { BsShop } from 'react-icons/bs';
 
 export default function Carrito() {
   const dispatch = useAppDispatch();
@@ -67,38 +67,58 @@ export default function Carrito() {
 
   if (vacio)
     return (
-      <div>Vacio</div>
+      <>
+        <MDBRow className='d-flex justify-content-center pt-4 pb-2'>
+          <MDBCol className='col-12 d-flex justify-content-center'>
+            <div className="">
+              <h1 className="h1 mb-3 font-weight-bold text-center">No hay productos en el carrito</h1>
+              <p className='text-center fs-3'>Si lo desea puede acceder a la tienda haciendo click en el botón de abajo</p>
+            </div>
+          </MDBCol>
+        </MDBRow>
+        <MDBRow className='d-flex justify-content-center pb-4'>
+          <MDBCol className='col-12 d-flex justify-content-center'>
+            <MDBBtn href='/tienda'>
+              Tienda
+            </MDBBtn>
+          </MDBCol>
+        </MDBRow>
+        <MDBRow className='d-flex justify-content-center pb-4'>
+          <MDBCol className='col-12 d-flex justify-content-center'>
+            <BsShop size={150} />
+          </MDBCol>
+        </MDBRow>
+      </>
     )
   else {
     return (
       <>
         {carrito.map((elemento, index) => (
-          <MDBRow key={index} className="d-flex justify-content-center my-4" style={{ color: "black" }}>
+          <MDBRow key={index} className="d-flex justify-content-center my-4 mx-4" style={{ color: "black" }}>
             <MDBCard style={{ width: "1200px" }}>
               <MDBCardBody>
                 <MDBRow>
                   {
-                  <MDBCol>
-                    <MDBCardImage src={`${panImage[index]}`}
-                      alt="Imagen" className="my-5" style={{ width: '350px' }} fluid />
-                  </MDBCol>
+                    <MDBCol className='col-12 col-sm-12 col-md-3'>
+                      <div className='d-flex justify-content-center'>
+                        <MDBCardImage src={`${panImage[index]}`}
+                          alt="Imagen" className="my-3 " style={{ width: '350px' }} fluid />
+                      </div>
+                      <CantidadCarrito id={carrito[index].id} />
+                    </MDBCol>
                   }
-                  <MDBCol >
+                  <MDBCol className='mt-2 col-12 col-sm-4 col-md-3 sm-12 '>
                     <h2 className="h2 mb-3 font-weight-bold text-center">Nombre:</h2>
                     <h2 className="h2 mb-3 font-weight-bold text-center">{panNombres[index]}</h2>
                   </MDBCol>
-                  <MDBCol>
+                  <MDBCol className='mt-2 col-12 col-sm-4 col-md-3'>
                     <h2 className="h2 mb-3 font-weight-bold text-center">Precio:</h2>
                     <h3 className="h3 mb-3 font-weight-bold text-center">{panPrecios[index]}</h3>
                   </MDBCol>
-                  <MDBCol>
+                  <MDBCol className='mt-2 col-12 col-sm-4 col-md-3'>
                     <h2 className="h2 mb-3 font-weight-bold text-center">Cantidad:</h2>
                     <h3 className="h3 mb-3 font-weight-bold text-center">{elemento.cantidad}</h3>
                   </MDBCol>
-                </MDBRow>
-                <MDBRow>
-                  <CantidadCarrito id={carrito[index].id}/>
-                  <BsFillTrashFill className="mx-5" size="2em" onClick={() => dispatch(eliminar(carrito[index].id))} />
                 </MDBRow>
               </MDBCardBody>
             </MDBCard>

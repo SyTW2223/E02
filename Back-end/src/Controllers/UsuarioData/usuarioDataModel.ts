@@ -35,7 +35,7 @@ export default class UsuarioDataModel {
 			
 			let correo: string = data.body.correo;
 
-			let token = jwt.sign({correo}, jwtSecret, { expiresIn: '1h' })
+			let token = jwt.sign({correo}, jwtSecret, { expiresIn: '2h' })
 
 			const cartera = new Cartera({"correo": data.body.correo, "tarjetas": []});
 			await cartera.save();
@@ -62,7 +62,7 @@ export default class UsuarioDataModel {
 				}
 
 				let correo: string = data.body.correo;
-				let token = jwt.sign({correo}, jwtSecret, { expiresIn: '1h' });
+				let token = jwt.sign({correo}, jwtSecret, { expiresIn: '2h' });
 				
 				return({usuario: usuario, res: 200, error: "", token: token});
 			}
