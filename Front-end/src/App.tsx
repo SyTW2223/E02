@@ -27,7 +27,6 @@ function App() {
               <Profile />
             </ProtectedRoute>
           } />
-          <Route path='/direccion' element={<Direccion />} />
           <Route path='/tienda' element={
               <Tienda />
           } />
