@@ -9,13 +9,10 @@ export default function MapaWeb() {
                     Inicio
                 </Link>
                 <Link to="/login" className="list-group-item p-4 bg-light border">
-                    Iniciar sesión
+                    Iniciar sesión / Registrarse
                 </Link>
                 <Link to="/profile" className="list-group-item p-4 bg-light border">
                     Perfil
-                </Link>
-                <Link to="/direccion" className="list-group-item p-4 bg-light border">
-                    Dirección
                 </Link>
                 <Link to="/tienda" className="list-group-item p-4 bg-light border">
                     Tienda

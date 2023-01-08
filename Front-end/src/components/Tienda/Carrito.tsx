@@ -21,8 +21,7 @@ export default function Carrito() {
 
   useEffect(() => {
     dispatch(ordenar());
-
-    if (carrito.length) {
+    if (carrito.length > 0) {
       setVacio(false);
       let ids: number[] = []
 
@@ -30,6 +29,8 @@ export default function Carrito() {
         ids.push(+carrito[i].id);
       }
       peticion(ids);
+    } else {
+      setVacio(true);
     }
   }, [carrito]);
 

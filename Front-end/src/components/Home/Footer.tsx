@@ -8,53 +8,41 @@ import {
   MDBBtn
 } from 'mdb-react-ui-kit';
 import Marquee from "react-fast-marquee";
+import EmailSend from './EmailSend'
 
 export default function Footer() {
   return (
     <MDBFooter className='text-center' color='white' bgColor='dark'>
       <MDBContainer className='p-5'>
         <section className='mb-4'>
-          <MDBBtn outline color="light" floating className='m-1' href='#!' role='button'>
+          <MDBBtn outline color="light" floating className='m-1' href='https://www.facebook.com/profile.php?id=100063549940445' role='button'
+          target='blanck'>
             <MDBIcon fab icon='facebook-f' />
           </MDBBtn>
 
-          <MDBBtn outline color="light" floating className='m-1' href='#!' role='button'>
+          <MDBBtn outline color="light" floating className='m-1' href='https://twitter.com' role='button'
+          target='blanck'>
             <MDBIcon fab icon='twitter' />
           </MDBBtn>
 
-          <MDBBtn outline color="light" floating className='m-1' href='#!' role='button'>
+          <MDBBtn outline color="light" floating className='m-1' href='https://google.com' role='button'
+          target='blanck'>
             <MDBIcon fab icon='google' />
           </MDBBtn>
 
-          <MDBBtn outline color="light" floating className='m-1' href='#!' role='button'>
+          <MDBBtn outline color="light" floating className='m-1' href='https://www.instagram.com/' role='button'
+          target='blanck'>
             <MDBIcon fab icon='instagram' />
           </MDBBtn>
 
-          <MDBBtn outline color="light" floating className='m-1' href='#!' role='button'>
+          <MDBBtn outline color="light" floating className='m-1' href='https://github.com/SyTW2223/E02' role='button'
+          target='blanck'>
             <MDBIcon fab icon='github' />
           </MDBBtn>
         </section>
         
         <section className=''>
-          <form action=''>
-            <MDBRow className='d-flex justify-content-center'>
-              <MDBCol size="auto">
-                <p className='pt-2'>
-                  <strong>Sign up for our newsletter</strong>
-                </p>
-              </MDBCol>
-
-              <MDBCol md='5' start>
-                <MDBInput contrast type='email' label='Email address' className='mb-4' />
-              </MDBCol>
-
-              <MDBCol size="auto">
-                <MDBBtn outline color='light' type='submit' className='mb-4'>
-                  Subscribe
-                </MDBBtn>
-              </MDBCol>
-            </MDBRow>
-          </form>
+          <EmailSend />
         </section>
 
         <section className='mb-4'>
@@ -83,18 +71,8 @@ export default function Footer() {
                   </a>
                 </li>
                 <li>
-                  <a href='#!' className='text-white'>
-                    Contacto
-                  </a>
-                </li>
-                <li>
                   <a href='/mapa' className='text-white'>
                     Mapa Web
-                  </a>
-                </li>
-                <li>
-                  <a href='#!' className='text-white'>
-                    Accesibilidd
                   </a>
                 </li>
               </ul>
