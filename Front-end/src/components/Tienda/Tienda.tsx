@@ -1,14 +1,16 @@
 import { useEffect, useState } from "react";
 import {Buffer} from 'buffer';
-import { MDBContainer, MDBRow, MDBCol, MDBCard, MDBCardBody, MDBCardImage, MDBCardText, MDBCardTitle, MDBRipple } from "mdb-react-ui-kit";
+import { MDBContainer, MDBRow, MDBCol, MDBCard, MDBCardBody, MDBCardImage, MDBCheckbox, MDBCardTitle, MDBRipple, MDBBtn, MDBTextArea } from "mdb-react-ui-kit";
 import { Link } from 'react-router-dom';
 
 export default function Tienda() {
-  // Product list
   const [products, setProducts] = useState([]);
-  // Search params
-  const searchParams = new URLSearchParams(window.location.search);
-  const tipo = searchParams.get("tipo");
+  const [selectedFilters, setSelectedFilters] = useState({
+    tipo: '',
+    ingredientes: ''
+  });
+  const [noProductFilter, setNoProductFilter] = useState(false);
+
   useEffect(() => {
     const fetchProducts = async () => {
       try {
@@ -20,64 +22,113 @@ export default function Tienda() {
         const response = await fetch(direccion + "/pan", requestOptions);
         const data_list = await response.json();
         const productsArray: any = Array.isArray(data_list.pan) ? data_list.pan : [data_list.pan];
+        let filteredProducts = productsArray;
         // Coger el término de búsqueda de localStorage
         const search = localStorage.getItem("search");
-        if (search === null) {
-          setProducts(productsArray);
-          return;
-        } else {
+        if (search !== null) {
           // Buscar en el array de productos por nombre, tipo e ingredientes
-          const filteredProducts = productsArray.filter((product: any) => {
+          filteredProducts = filteredProducts.filter((product: any) => {
             return (
               product.nombre.toLowerCase().includes(search.toLowerCase()) ||
               product.tipo.toLowerCase().includes(search.toLowerCase()) ||
               product.ingredientes.toLowerCase().includes(search.toLowerCase())
             );
           });
-          if (filteredProducts !== null) {
-            setProducts(filteredProducts);
-            // Eliminar el término de búsqueda de localStorage
-            console.log(filteredProducts)
-            return;
-          } else {
-            setProducts(productsArray);
-            return;
-          }
         }
+        // Filtrar los productos por tipo y ingredientes
+        if (selectedFilters.tipo !== '' || selectedFilters.ingredientes !== '') {
+          filteredProducts = filteredProducts.filter((product: any) => {
+            return (
+              (selectedFilters.tipo === '' || product.tipo.toLowerCase() === selectedFilters.tipo.toLowerCase()) &&
+              (selectedFilters.ingredientes === '' || product.ingredientes.toLowerCase().includes(selectedFilters.ingredientes.toLowerCase()))
+            );
+          });
+        }
+        if (filteredProducts.length === 0) {
+          setNoProductFilter(true);
+        }
+        setProducts(filteredProducts);
       } catch (error) {
         console.error(error);
       }
     };
     fetchProducts();
-  }, []);
+  }, [products]);
 
+  const onFilterTypeChange = (e: any) => {
+    setSelectedFilters({ ...selectedFilters, tipo: e.target.value });
+  }
+
+  const onFilterIngredientsChange = (e: any) => {
+    setSelectedFilters({ ...selectedFilters, ingredientes: e.target.value });
+  }
+
+  const resetFilters = () => {
+    setSelectedFilters({
+      tipo: '',
+      ingredientes: ''
+    });
+    // Resetear las checkboxes
+    const checkboxes = document.querySelectorAll('input[type=checkbox]');
+    checkboxes.forEach((checkbox) => {
+      (checkbox as HTMLInputElement).checked = false;
+    });
+    setNoProductFilter(false);
+  }
 
   return (
     <MDBContainer fluid className="p-5">
+       <MDBRow className="g-2">
+        <MDBCol lg="2" md="3" sm="6">
+          <p className='mb-1' style={{ color: '#755932' }}>Tipo</p>
+          <MDBCheckbox label='Blanco' value='blanco' onChange={ onFilterTypeChange }></MDBCheckbox>
+          <MDBCheckbox label='Integral'value='integral'  onChange={ onFilterTypeChange }></MDBCheckbox>
+          <MDBCheckbox label='Centeno' value='centeno' onChange={ onFilterTypeChange }></MDBCheckbox>
+          <MDBCheckbox label='Semillas' value='semillas' onChange={ onFilterTypeChange }></MDBCheckbox>
+          <MDBCheckbox label='Masa madre' value='masa madre' onChange={ onFilterTypeChange }></MDBCheckbox>
+          <MDBCheckbox label='Millo' value='millo' onChange={ onFilterTypeChange }></MDBCheckbox>
+        </MDBCol>
+        <MDBCol lg="2" md="3" sm="6">
+          <p className='mb-1' style={{ color: '#755932' }}>Ingredientes</p>
+          <MDBCheckbox label='Agua' value='agua' onChange={ onFilterIngredientsChange }></MDBCheckbox>
+          <MDBCheckbox label='Sal' value='sal' onChange={ onFilterIngredientsChange }></MDBCheckbox>
+          <MDBCheckbox label='Levadura' value='levadura' onChange={ onFilterIngredientsChange }></MDBCheckbox>
+          <MDBCheckbox label='Masa madre' value='masa madre' onChange={ onFilterIngredientsChange }></MDBCheckbox>
+          <MDBCheckbox label='Harina de centeno' value='harina de centeno' onChange={ onFilterIngredientsChange }></MDBCheckbox>
+          <MDBCheckbox label='Harina de maíz' value='harina de maíz' onChange={ onFilterIngredientsChange }></MDBCheckbox>
+          <MDBCheckbox label='Harina integral' value='harina integral' onChange={ onFilterIngredientsChange }></MDBCheckbox>
+          <MDBCheckbox label='Harina de Semillas' value='harina de semillas' onChange={ onFilterIngredientsChange }></MDBCheckbox>
+        </MDBCol>
+      </MDBRow>
+      <MDBBtn type='submit' onClick={ resetFilters } style={{ backgroundColor: 'wheat', color: '#755932' }} className={`my-4 w-2`}>Limpiar búsqueda</MDBBtn>
       <MDBRow className="g-4">
-        {products.map((product: any, index) => (
-            <MDBCol key={index} lg="2" md="3" sm="6">
-              <MDBCard>
-                <MDBCardImage
-                src={`${Buffer.from(product.image).toString('utf8')}`}
-                alt="..."
-                position="top"
-                style={{ height: "18.75rem" }}
-                />
-                <MDBRipple rippleColor="light" rippleTag="div">
-                  <MDBCardBody style={{ background: "#755932", height: "12.5rem"  }}>
-                    <Link to={`/pan/${product.identificador}`} key={product._id} style={{ textDecoration: "none" }}>
-                    <MDBCardTitle style={{ color: 'white', lineHeight: '150%' }}>{product.nombre}</MDBCardTitle>
-                    <div style={{ color: 'white', fontSize: "12px", lineHeight: '50%' }}>
-                      <p>Tipo: {product.tipo}</p>
-                      <p>Precio: {product.precio}€</p>
-                    </div>
-                    </Link>
-                  </MDBCardBody>
-                </MDBRipple>
-              </MDBCard>
-            </MDBCol>
-        ))}
+        {noProductFilter === true ? (
+          <p style={{ color: 'red', fontSize: '18px' }}>No hay productos que coincidan con la búsqueda!</p>
+        ) : (
+          products.map((product: any, index) => (
+              <MDBCol key={index} lg="2" md="3" sm="6">
+                <MDBCard>
+                  <MDBCardImage
+                  src={`${Buffer.from(product.image).toString('utf8')}`}
+                  alt="..."
+                  position="top"
+                  style={{ height: "18.75rem" }}
+                  />
+                  <MDBRipple rippleColor="light" rippleTag="div">
+                    <MDBCardBody style={{ background: "#755932", height: "12.5rem"  }}>
+                      <Link to={`/pan/${product.identificador}`} key={product._id} style={{ textDecoration: "none" }}>
+                      <MDBCardTitle style={{ color: 'white', lineHeight: '150%' }}>{product.nombre}</MDBCardTitle>
+                      <div style={{ color: 'white', fontSize: "12px", lineHeight: '50%' }}>
+                        <p>Tipo: {product.tipo}</p>
+                        <p>Precio: {product.precio}€</p>
+                      </div>
+                      </Link>
+                    </MDBCardBody>
+                  </MDBRipple>
+                </MDBCard>
+              </MDBCol>
+          ))
+        )}
       </MDBRow>
   </MDBContainer>
   );
