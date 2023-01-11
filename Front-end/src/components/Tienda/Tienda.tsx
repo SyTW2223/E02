@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 
 export default function Tienda() {
   const [products, setProducts] = useState([]);
+  const [originalProducts, setOriginalProducts] = useState([]);
   const [selectedFilters, setSelectedFilters] = useState({
     tipo: '',
     ingredientes: ''
@@ -35,25 +36,28 @@ export default function Tienda() {
             );
           });
         }
-        // Filtrar los productos por tipo y ingredientes
-        if (selectedFilters.tipo !== '' || selectedFilters.ingredientes !== '') {
-          filteredProducts = filteredProducts.filter((product: any) => {
-            return (
-              (selectedFilters.tipo === '' || product.tipo.toLowerCase() === selectedFilters.tipo.toLowerCase()) &&
-              (selectedFilters.ingredientes === '' || product.ingredientes.toLowerCase().includes(selectedFilters.ingredientes.toLowerCase()))
-            );
-          });
-        }
-        if (filteredProducts.length === 0) {
-          setNoProductFilter(true);
-        }
+        setOriginalProducts(filteredProducts);
         setProducts(filteredProducts);
       } catch (error) {
         console.error(error);
       }
     };
     fetchProducts();
-  }, [products]);
+  }, []);
+
+  useEffect(() => {
+    let filteredProducts = products;
+    // Filtrar los productos por tipo y ingredientes
+    if (selectedFilters.tipo !== '' || selectedFilters.ingredientes !== '') {
+      filteredProducts = filteredProducts.filter((product: any) => {
+        return (
+          (selectedFilters.tipo === '' || product.tipo.toLowerCase() === selectedFilters.tipo.toLowerCase()) &&
+          (selectedFilters.ingredientes === '' || product.ingredientes.toLowerCase().includes(selectedFilters.ingredientes.toLowerCase()))
+        );
+      });
+    }
+    setProducts(filteredProducts);
+  }, [selectedFilters, products]);
 
   const onFilterTypeChange = (e: any) => {
     setSelectedFilters({ ...selectedFilters, tipo: e.target.value });
@@ -68,12 +72,12 @@ export default function Tienda() {
       tipo: '',
       ingredientes: ''
     });
+    setProducts(originalProducts);
     // Resetear las checkboxes
     const checkboxes = document.querySelectorAll('input[type=checkbox]');
     checkboxes.forEach((checkbox) => {
       (checkbox as HTMLInputElement).checked = false;
     });
-    setNoProductFilter(false);
   }
 
   return (
@@ -102,33 +106,38 @@ export default function Tienda() {
       </MDBRow>
       <MDBBtn type='submit' onClick={ resetFilters } style={{ backgroundColor: 'wheat', color: '#755932' }} className={`my-4 w-2`}>Limpiar búsqueda</MDBBtn>
       <MDBRow className="g-4">
-        {noProductFilter === true ? (
-          <p style={{ color: 'red', fontSize: '18px' }}>No hay productos que coincidan con la búsqueda!</p>
-        ) : (
-          products.map((product: any, index) => (
-              <MDBCol key={index} lg="2" md="3" sm="6">
-                <MDBCard>
-                  <MDBCardImage
-                  src={`${Buffer.from(product.image).toString('utf8')}`}
-                  alt="..."
-                  position="top"
-                  style={{ height: "18.75rem" }}
-                  />
-                  <MDBRipple rippleColor="light" rippleTag="div">
-                    <MDBCardBody style={{ background: "#755932", height: "12.5rem"  }}>
-                      <Link to={`/pan/${product.identificador}`} key={product._id} style={{ textDecoration: "none" }}>
-                      <MDBCardTitle style={{ color: 'white', lineHeight: '150%' }}>{product.nombre}</MDBCardTitle>
-                      <div style={{ color: 'white', fontSize: "12px", lineHeight: '50%' }}>
-                        <p>Tipo: {product.tipo}</p>
-                        <p>Precio: {product.precio}€</p>
-                      </div>
-                      </Link>
-                    </MDBCardBody>
-                  </MDBRipple>
-                </MDBCard>
-              </MDBCol>
-          ))
-        )}
+        {
+          products.length === 0 ? (
+            <p style={{ color: 'red', fontSize: '18px' }}>No hay productos que coincidan con la búsqueda!</p>
+          ) : (
+            <>
+              { products.map((product: any, index) => (
+                <MDBCol key={index} lg="2" md="3" sm="6">
+                  <MDBCard>
+                    <MDBCardImage
+                    src={`${Buffer.from(product.image).toString('utf8')}`}
+                    alt="..."
+                    position="top"
+                    style={{ height: "18.75rem" }}
+                    />
+                    <MDBRipple rippleColor="light" rippleTag="div">
+                      <MDBCardBody style={{ background: "#755932", height: "12.5rem"  }}>
+                        <Link to={`/pan/${product.identificador}`} key={product._id} style={{ textDecoration: "none" }}>
+                        <MDBCardTitle style={{ color: 'white', lineHeight: '150%' }}>{product.nombre}</MDBCardTitle>
+                        <div style={{ color: 'white', fontSize: "12px", lineHeight: '50%' }}>
+                          <p>Tipo: {product.tipo}</p>
+                          <p>Precio: {product.precio}€</p>
+                        </div>
+                        </Link>
+                      </MDBCardBody>
+                    </MDBRipple>
+                  </MDBCard>
+                </MDBCol>
+                ))
+              }
+            </>
+          )
+        }
       </MDBRow>
   </MDBContainer>
   );
