@@ -17,7 +17,7 @@ import {
 import Logo from '../../../public/logo.png'
 import styles from '../../css/Navbar.module.css';
 import {useAppDispatch, useAppSelector} from '../../app/hooks'
-import {logout} from '../../features/user/userSlice'
+import { logout } from '../../features/user/userSlice'
 
 export default function Navbar() {
 
@@ -46,6 +46,8 @@ export default function Navbar() {
 
   async function request(searchTerm: string) {
     localStorage.setItem('search', searchTerm);
+    // Limpia el campo de búsqueda
+    setSearchTerm('')
     window.location.href = '/tienda';
   }
 
@@ -53,15 +55,15 @@ export default function Navbar() {
     event.preventDefault()
     console.log(`You are searching for ${searchTerm}`)
     request(searchTerm);
-
-    // Limpia el campo de búsqueda
-    setSearchTerm('')
   }
 
   const handleLogout = () => {
-
     dispatch(logout());
     window.location.href = "/";
+  }
+
+  const resetSearch = () => {
+    localStorage.setItem('search', '');
   }
 
   return (
@@ -118,6 +120,7 @@ export default function Navbar() {
                 <MDBBtn color='primary'>Search</MDBBtn>
               </form>
             </div>
+            <MDBBtn color='tertiary' className='p-2' onClick={ resetSearch }><MDBIcon icon="undo" className='ms-1' size='2x' color='white' /></MDBBtn>
             {
               button === 'Logout' ?
                 <div className='ml-auto'>
