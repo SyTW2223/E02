@@ -64,6 +64,7 @@ export default function Navbar() {
 
   const resetSearch = () => {
     localStorage.setItem('search', '');
+    window.location.reload();
   }
 
   return (
@@ -120,10 +121,12 @@ export default function Navbar() {
                 <MDBBtn color='primary'>Search</MDBBtn>
               </form>
             </div>
-            <MDBBtn color='tertiary' className='p-2' onClick={ resetSearch }><MDBIcon icon="undo" className='ms-1' size='2x' color='white' /></MDBBtn>
+            <div className='mx-2 ml-auto align-self-center'>
+             <MDBBtn color='tertiary' className='' onClick={resetSearch} tabIndex={-1} aria-disabled='true'><MDBIcon icon='undo' size='2x' color='white' /></MDBBtn>
+            </div>
             {
               button === 'Logout' ?
-                <div className='ml-auto'>
+                <div className='mx-2 ml-auto align-self-center'>
                   <MDBBtn color='dark' className='text-light' onClick={handleLogout} tabIndex={-1} aria-disabled='true'>
                     Salir
                   </MDBBtn>
