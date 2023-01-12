@@ -10,7 +10,6 @@ export default function Tienda() {
     tipo: '',
     ingredientes: ''
   });
-  const [noProductFilter, setNoProductFilter] = useState(false);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -24,8 +23,9 @@ export default function Tienda() {
         const data_list = await response.json();
         const productsArray: any = Array.isArray(data_list.pan) ? data_list.pan : [data_list.pan];
         let filteredProducts = productsArray;
-        // Coger el término de búsqueda de localStorage
+        // Coger el término de búsqueda y de tipo de localStorage
         const search = localStorage.getItem("search");
+        const tipo = localStorage.getItem("tipo");
         if (search !== null) {
           // Buscar en el array de productos por nombre, tipo e ingredientes
           filteredProducts = filteredProducts.filter((product: any) => {
@@ -37,6 +37,10 @@ export default function Tienda() {
           });
         }
         setOriginalProducts(filteredProducts);
+        if (tipo !== null){
+          filteredProducts = filteredProducts.filter((product: any) => product.tipo.toLowerCase() === tipo.toLowerCase())
+          setSelectedFilters({ ...selectedFilters, tipo });
+        }
         setProducts(filteredProducts);
       } catch (error) {
         console.error(error);
@@ -72,12 +76,13 @@ export default function Tienda() {
       tipo: '',
       ingredientes: ''
     });
-    setProducts(originalProducts);
     // Resetear las checkboxes
     const checkboxes = document.querySelectorAll('input[type=checkbox]');
     checkboxes.forEach((checkbox) => {
       (checkbox as HTMLInputElement).checked = false;
     });
+    localStorage.removeItem("tipo")
+    setProducts(originalProducts);
   }
 
   return (
@@ -85,12 +90,12 @@ export default function Tienda() {
        <MDBRow className="g-2">
         <MDBCol lg="2" md="3" sm="6">
           <p className='mb-1' style={{ color: '#755932' }}>Tipo</p>
-          <MDBCheckbox label='Blanco' value='blanco' onChange={ onFilterTypeChange }></MDBCheckbox>
-          <MDBCheckbox label='Integral'value='integral'  onChange={ onFilterTypeChange }></MDBCheckbox>
-          <MDBCheckbox label='Centeno' value='centeno' onChange={ onFilterTypeChange }></MDBCheckbox>
-          <MDBCheckbox label='Semillas' value='semillas' onChange={ onFilterTypeChange }></MDBCheckbox>
-          <MDBCheckbox label='Masa madre' value='masa madre' onChange={ onFilterTypeChange }></MDBCheckbox>
-          <MDBCheckbox label='Millo' value='millo' onChange={ onFilterTypeChange }></MDBCheckbox>
+          <MDBCheckbox label='Blanco' value='blanco' checked={selectedFilters.tipo === 'blanco'} onChange={ onFilterTypeChange }></MDBCheckbox>
+          <MDBCheckbox label='Integral'value='integral' checked={selectedFilters.tipo === 'integral'} onChange={ onFilterTypeChange }></MDBCheckbox>
+          <MDBCheckbox label='Centeno' value='centeno' checked={selectedFilters.tipo === 'centeno'} onChange={ onFilterTypeChange }></MDBCheckbox>
+          <MDBCheckbox label='Semillas' value='semillas'checked={selectedFilters.tipo === 'semillas'}  onChange={ onFilterTypeChange }></MDBCheckbox>
+          <MDBCheckbox label='Masa madre' value='masa madre' checked={selectedFilters.tipo === 'masa madre'} onChange={ onFilterTypeChange }></MDBCheckbox>
+          <MDBCheckbox label='Millo' value='millo' checked={selectedFilters.tipo === 'millo'} onChange={ onFilterTypeChange }></MDBCheckbox>
         </MDBCol>
         <MDBCol lg="2" md="3" sm="6">
           <p className='mb-1' style={{ color: '#755932' }}>Ingredientes</p>
