@@ -8,15 +8,13 @@ __API RESTFUL__-
 Los usuarios de aplicación podrán realizar la compra online de panes .
 
 En la aplicacion se podrán realizar las siguientes acciones:
-- Crear un usuario
-- Iniciar sesión
-- Registrarse
+- Iniciar sesión / Registrarse
 - Ver el listado de panes
+- Filtrado de productos
 - Ver el detalle de un pan
-- Añadir direcciones y tarjetas de pago
-- Realizar una compra
-
-
+- Manejo de cantidades
+- Carrito de la compra
+- Añadir direcciones y modificar información usuario
 
 
 ## Authors
@@ -51,27 +49,7 @@ npm run dev
 ```
 
     
-## API Reference
 
-#### Get all items
-
-```http
-  GET /panes
-```
-
-| Parameter | Type     | Description                |
-| :-------- | :------- | :------------------------- |
-| `api_key` | `string` | **Required**. Your API key |
-
-#### Get item
-
-```http
-  GET /panes/${id}
-```
-
-| Parameter | Type     | Description                       |
-| :-------- | :------- | :-------------------------------- |
-| `id`      | `string` | **Required**. Id of item to fetch |
 
 
 
