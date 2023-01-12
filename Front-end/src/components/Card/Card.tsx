@@ -14,9 +14,14 @@ import {
  * @returns El componente Card
  */
 export default function Card({ title, image }: any) {
+  const handleClick = () => {
+    localStorage.setItem("tipo", title.toLowerCase());
+    window.location.href = "/tienda";
+  };
+
   return (
     <MDBCol lg="2" md="3" sm="6">
-      <MDBCard>
+      <MDBCard onClick={ handleClick }>
         <MDBCardImage
           src={image}
           alt="..."
