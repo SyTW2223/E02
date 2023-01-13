@@ -5,10 +5,10 @@ import {
   MDBBreadcrumb,
   MDBBreadcrumbItem,
 } from 'mdb-react-ui-kit';
-import { Button} from 'react-bootstrap'
+import { Button } from 'react-bootstrap'
 import Direccion from './Direccion';
 import PersonalInformation from './PersonalInformation';
-import {useAppDispatch, useAppSelector} from '../../app/hooks'
+import { useAppDispatch, useAppSelector } from '../../app/hooks'
 import { logout } from '../../features/user/userSlice';
 import { useEffect } from 'react';
 
@@ -16,7 +16,7 @@ export default function ProfilePage() {
   const dispatch = useAppDispatch();
   const user = useAppSelector((state) => state.userState.userData);
 
-  useEffect(() =>  {
+  useEffect(() => {
     handleLogout();
 
   }, []);
@@ -28,16 +28,16 @@ export default function ProfilePage() {
         authorization: 'Bearer ' + user.token
       }
     };
-  
+
     const direccion: string = process.env.BACK_HOST || `http://localhost:3000`;
-  
+
     const response = await fetch(direccion + "/token", requestOptions);
     const data = await response.json();
-    if(data.res == 401) {
+    if (data.res == 401) {
       dispatch(logout());
     }
   }
-    
+
   return (
     <section style={{ backgroundColor: '#eee' }}>
       <MDBContainer className="py-5">
@@ -49,22 +49,18 @@ export default function ProfilePage() {
                 <a href='/'>Home</a>
               </MDBBreadcrumbItem>
               <MDBBreadcrumbItem active>
-                <a href="profile">User</a>
+                <a href="/profile">Usuario</a>
               </MDBBreadcrumbItem>
             </MDBBreadcrumb>
           </MDBCol>
         </MDBRow>
 
         {/*Formulario de Usuario*/}
-        <PersonalInformation/>
-        
+        <PersonalInformation />
+
         {/*Formulario de Direccion*/}
-        <Direccion/>
+        <Direccion />
         
-        <hr />
-        <div style={{ display: 'flex', justifyContent: 'center' }}>
-          <Button href='/tarjetas' variant="primary" type="submit">Gestionar tarjetas</Button>
-        </div>
       </MDBContainer>
     </section>
   );

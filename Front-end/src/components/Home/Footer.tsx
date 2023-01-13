@@ -15,7 +15,7 @@ export default function Footer() {
     <MDBFooter className='text-center' color='white' bgColor='dark'>
       <MDBContainer className='p-5'>
         <section className='mb-4'>
-          <MDBBtn outline color="light" floating className='m-1' href='https://www.facebook.com/profile.php?id=100063549940445' role='button'
+          <MDBBtn outline color="light" floating className='m-1' href='https://www.facebook.com' role='button'
           target='blanck'>
             <MDBIcon fab icon='facebook-f' />
           </MDBBtn>

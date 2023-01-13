@@ -91,7 +91,7 @@ export default function PanData() {
 
   else
   return (
-    <section className="" style={{ backgroundColor: '#f4f5f7' }}>
+    <section className="" style={{ backgroundColor: '#eee' }}>
       <MDBContainer className="py-5" style={{ color: "black" }}>
 
       <MDBRow>

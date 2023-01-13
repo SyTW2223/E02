@@ -98,7 +98,18 @@ export default function Direccion() {
     } else if (perfilRes === 400) {
       return (
         <div className='text-center mt-3 fs-5 mb-4' style={{ color: "red" }}>
-          No se ha podido modificar, comprueba los datos y vuelva a intentarlo.
+          <p>
+           No se ha podido modificar, comprueba los datos y vuelva a intentarlo.
+          </p>
+          <p>
+            Número teléfono: Mínimo 9 números.
+          </p>
+          <p>
+            Código Postal: Mínimo 5 dígitos.
+          </p>
+          <p>
+            Provincia y País: Mínimo 3 caracteres.
+          </p>
         </div>
       )
     } else if (perfilRes === 3000) {

@@ -4,6 +4,10 @@ import jwt from "jsonwebtoken";
 import { jwtSecret } from "../src/env/config";
 import {connect, disconnect} from 'mongoose';
 import { MongoMemoryServer } from 'mongodb-memory-server';
+import { Usuario } from "../src/models/usuario/usuario";
+import { Pan } from "../src/models/pan/pan";
+import { Direccion } from "../src/models/usuario/direccion";
+import { Cartera } from "../src/models/usuario/cartera";
 
 
 // Unidad de testeo para la API
@@ -23,6 +27,124 @@ afterAll(async () => {
 
 // Generar un token de prueba
 let token = jwt.sign({ example: "example" }, jwtSecret, { expiresIn: "1h" });
+
+describe("Modelo Usuario", () => {
+	test("Usuario vacío", () => {
+		const user = new Usuario({});
+		const validationResult = user.validateSync();
+		if (validationResult) {
+			let message = validationResult.errors.correo.message;
+			expect(message).toBe("Path `correo` is required.");
+			message = validationResult.errors.password.message;
+			expect(message).toBe("Path `password` is required.")
+		}
+	});
+	test("Usuario con datos", async () => {
+		const user = new Usuario({correo: "aluu@ull.es", password: "Audsa6"});
+		await user.save();
+		const savedUser = await Usuario.findOne({correo: "aluu@ull.es"});
+		if (savedUser) {
+			expect(savedUser.correo).toBe("aluu@ull.es");
+			expect(savedUser.password).toBe("Audsa6");
+		}
+	});
+});
+
+describe("Modelo Pan", () => {
+	test("Pan vacío", () => {
+		const pan = new Pan({});
+		const validationResult = pan.validateSync();
+		if (validationResult) {
+			let message = validationResult.errors.identificador.message;
+			expect(message).toBe("Path `identificador` is required.");
+			message = validationResult.errors.tipo.message;
+			expect(message).toBe("Path `tipo` is required.");
+			message = validationResult.errors.nombre.message;
+			expect(message).toBe("Path `nombre` is required.");
+			message = validationResult.errors.precio.message;
+			expect(message).toBe("Path `precio` is required.");
+			message = validationResult.errors.vendedor.message;
+			expect(message).toBe("Path `vendedor` is required.");
+			message = validationResult.errors.descripcion.message;
+			expect(message).toBe("Path `descripcion` is required.");
+			message = validationResult.errors.ingredientes.message;
+			expect(message).toBe("Path `ingredientes` is required.");
+			message = validationResult.errors.image.message;
+			expect(message).toBe("Path `image` is required.");
+		}
+	});
+	test("Pan con datos", async () => {
+		const pan = new Pan({identificador: 1050, tipo: "Molde", nombre: "Pan rico", precio: 10, vendedor: "Lala", descripcion: "Un pan bien rico", ingredientes: "Agua y pan", image: "sadaasda"});
+		await pan.save();
+		const savedPan = await Pan.findOne({identificador: 1050});
+		if (savedPan) {
+			expect(savedPan.identificador).toBe(1050);
+			expect(savedPan.tipo).toBe("Molde");
+			expect(savedPan.nombre).toBe("Pan rico");
+			expect(savedPan.precio).toBe(10);
+			expect(savedPan.vendedor).toBe("Lala");
+			expect(savedPan.descripcion).toBe("Un pan bien rico");
+			expect(savedPan.ingredientes).toBe("Agua y pan");
+		}
+	});
+});
+
+describe("Modelo Dirección", () => {
+	test("Dirección vacía", () => {
+		const direccion = new Direccion({});
+		const validationResult = direccion.validateSync();
+		if (validationResult) {
+			let message = validationResult.errors.correo.message;
+			expect(message).toBe("Path `correo` is required.");
+			message = validationResult.errors.calle.message;
+			expect(message).toBe("Path `calle` is required.");
+			message = validationResult.errors.numero.message;
+			expect(message).toBe("Path `numero` is required.");
+			message = validationResult.errors.codigoPostal.message;
+			expect(message).toBe("Path `codigoPostal` is required.");
+			message = validationResult.errors.provincia.message;
+			expect(message).toBe("Path `provincia` is required.");
+			message = validationResult.errors.pais.message;
+			expect(message).toBe("Path `pais` is required.");
+		}
+	});
+	test("Dirección con datos", async () => {
+		const direccion = new Direccion({correo: "ali@prn.com", calle: "Nicaragua", numero: "666777888", codigoPostal: "38500", provincia: "S/C de Tenerife", pais: "España"});
+		await direccion.save();
+		const savedDireccion = await Direccion.findOne({correo: 1050});
+		if (savedDireccion) {
+			expect(savedDireccion.correo).toBe("ali@prn.com");
+			expect(savedDireccion.calle).toBe("Nicaragua");
+			expect(savedDireccion.numero).toBe("666777888");
+			expect(savedDireccion.codigoPostal).toBe("38500");
+			expect(savedDireccion.provincia).toBe("S/C de Tenerife");
+			expect(savedDireccion.pais).toBe("España");
+		}
+	});
+});
+
+describe("Modelo Cartera", () => {
+	test("Cartera vacía", () => {
+		const cartera = new Cartera({});
+		const validationResult = cartera.validateSync();
+		if (validationResult) {
+			let message = validationResult.errors.correo.message;
+			expect(message).toBe("Path `correo` is required.");
+		}
+	});
+	test("Cartera con datos", async () => {
+		const cartera = new Cartera({correo: "ali@prn.com", tarjetas: [{marca: "Visa", cvv: "748", numero: "4111111111111111", caducidad: "1222"}]});
+		await cartera.save();
+		const savedCartera = await Cartera.findOne({correo: "ali@prn.com"});
+		if (savedCartera) {
+			expect(savedCartera.correo).toBe("ali@prn.com");
+			expect(savedCartera.tarjetas[0].caducidad).toBe("1222");
+			expect(savedCartera.tarjetas[0].cvv).toBe("748");
+			expect(savedCartera.tarjetas[0].marca).toBe("Visa");
+			expect(savedCartera.tarjetas[0].numero).toBe("4111111111111111");
+		}
+	});
+});
 
 describe("JWT", () => {
 	test("Test no token", async () => {
@@ -139,7 +261,6 @@ describe("Direccion", () => {
 		expect(response.status).toBe(200);
 		expect(response.text).toBe("{\"error\":\"\",\"res\":200}");
 	});
-
 });
 
 
@@ -199,7 +320,7 @@ describe("Usuario", () => {
 			.get("/usuario")
 			.set("authorization", "Bearer " + token);
 		expect(response.status).toBe(404);
-		expect(response.text).toBe("{\"usuario\":\"\",\"res\":404,\"error\":\"Usuario no encontrado\"}");
+		expect(response.text).toBe("{\"usuario\":\"\",\"res\":404,\"error\":\"Es necesario el correo\"}");
 	});
 	
 	test("Test post usuarioRegister fallo contraseña incorrecta", async () => {

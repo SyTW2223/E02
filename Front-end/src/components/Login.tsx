@@ -11,6 +11,8 @@ import {
   MDBRow,
   MDBCol,
   MDBInput,
+  MDBBreadcrumb,
+  MDBBreadcrumbItem,
 } from 'mdb-react-ui-kit';
 import { login, register } from '../_services';
 import { userType } from '../features/user/userSlice';
@@ -141,13 +143,25 @@ export default function Login() {
       }
     } else {
       setError(true);
-      setErrorMessage('Correo o contraseña no válidos!');
+      setErrorMessage('Correo o contraseña no válidos!, la contraseña debe tener al menos 5 caracteres, una mayúscula, una minúscula y un número');
     }
   };
 
   // Return the login component
   return (
     <MDBContainer fluid className="p-3 my-5 d-flex flex-column col-md-6">
+      <MDBRow>
+        <MDBCol>
+          <MDBBreadcrumb className="bg-light rounded-3 p-3 mb-4">
+            <MDBBreadcrumbItem>
+              <a href='/'>Home</a>
+            </MDBBreadcrumbItem>
+            <MDBBreadcrumbItem active>
+              <a href='/login'>{justifyActive === 'signin' ? 'Inicio de Sesion' : 'Registro'}</a>
+            </MDBBreadcrumbItem>
+          </MDBBreadcrumb>
+        </MDBCol>
+      </MDBRow>
       <MDBTabs pills justify className='mb-3 d-flex flex-row justify-content-between'>
         <MDBTabsItem>
           <MDBTabsLink
@@ -155,6 +169,7 @@ export default function Login() {
             onClick={() => handleJustifyClick('signin')}
             active={justifyActive === 'signin'}
             style={justifyActive === 'signin' ? justifyActiveStyle : {}}
+            data-testid='login'
           >
             Iniciar Sesión
           </MDBTabsLink>
@@ -165,6 +180,7 @@ export default function Login() {
             onClick={() => handleJustifyClick('signup')}
             active={justifyActive === 'signup'}
             style={justifyActive === 'signup' ? justifyActiveStyle : {}}
+            data-testid='register'
           >
             Crear Una Cuenta
           </MDBTabsLink>
@@ -198,11 +214,9 @@ export default function Login() {
           {error && <div className='mt-3'> <p className='mt-3' style={{ color: 'red' }}>{errorMessage}</p></div>}
           <MDBBtn type='submit' onClick={onSubmitSignIn} className={`${styles.loginButton} my-4 w-100`}>Entrar</MDBBtn>
           <MDBRow className="gx-5">
-            <MDBCol>
-              <a className={styles.link} href="!#">¿Has olvidado la contraseña?</a>
-            </MDBCol>
-            <MDBCol>
-              <p className="text-center">¿No tienes cuenta? <a className={styles.link} href="/login">Regístrate</a></p>
+            <MDBCol className='d-flex justify-content-center'>
+              <p className="text-center mx-2 my-2">¿No tienes cuenta?</p>
+              <MDBBtn className={`${styles.loginButton} mx-2`} onClick={() => setJustifyActive('signup') }>Regístrate</MDBBtn>
             </MDBCol>
           </MDBRow>
         </MDBTabsPane>

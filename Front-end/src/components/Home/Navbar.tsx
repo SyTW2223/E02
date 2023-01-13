@@ -14,7 +14,6 @@ import {
   MDBBtn,
   MDBCollapse
 } from 'mdb-react-ui-kit'
-import Logo from '../../../public/logo.png'
 import styles from '../../css/Navbar.module.css';
 import {useAppDispatch, useAppSelector} from '../../app/hooks'
 import { logout } from '../../features/user/userSlice'
@@ -72,8 +71,8 @@ export default function Navbar() {
       <MDBContainer fluid>
         <MDBNavbarBrand href='/'>
           <img
-            src={Logo}
-            height='30'
+            src="logo.svg"
+            height='45'
             alt=''
             loading='lazy'
           />
@@ -115,14 +114,16 @@ export default function Navbar() {
             </MDBNavbarItem>
           </MDBNavbarNav>
           <div className='d-flex'>
-            <div className='mx-2 ml-auto align-self-center'>
-              <form className='d-flex input-group w-auto' onSubmit={handleSubmit}>
-                <input type='search' className='form-control' placeholder='Buscar' aria-label='Search' value={searchTerm} onChange={handleChange} />
-                <MDBBtn color='primary'>Search</MDBBtn>
-              </form>
-            </div>
-            <div className='mx-2 ml-auto align-self-center'>
-             <MDBBtn color='tertiary' className='' onClick={resetSearch} tabIndex={-1} aria-disabled='true'><MDBIcon icon='undo' size='2x' color='white' /></MDBBtn>
+            <div className='d-flex' style={{backgroundColor: '#332D2D', borderRadius:'7px'}}>
+              <div className='mx-2 ml-auto align-self-center'>
+                <form className='d-flex input-group w-auto' onSubmit={handleSubmit}>
+                  <input type='search' className='form-control' placeholder='Buscar' aria-label='Search' value={searchTerm} onChange={handleChange} />
+                  <MDBBtn color='primary'>Search</MDBBtn>
+                </form>
+              </div>
+              <div className='mx-2 ml-auto align-self-center'>
+              <MDBBtn color='tertiary' className='' onClick={resetSearch} tabIndex={-1} aria-disabled='true'><MDBIcon icon='undo' size='2x' color='white' /></MDBBtn>
+              </div>
             </div>
             {
               button === 'Logout' ?
