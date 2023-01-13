@@ -21,7 +21,7 @@ export default function Home() {
                         </div>
                     </div>
                     <div className="col-md-2">
-                        <img src={pan2} className='card-img' alt='...' />
+                        <img src={pan2} className='card-img' alt='Panes' />
                     </div>
                 </div>
             </div>
@@ -34,7 +34,9 @@ export default function Home() {
                             <h5 className="card-title text-center"><strong>Donde Comprar nuestro Pan</strong></h5>
                                 <p className="card-text"> Sevilla Centro Plaza de la Encarnación, 16 Frente a la puerta este del mercado</p>
                                 <p className="card-text"> Accede a nuestra Tienda online</p>
-                                <button type="button" className={styles.Button}>Tienda Online</button>
+                                <button type="button" className={styles.Button} onClick={() => window.location.href='/tienda' }>
+                                    Tienda Online
+                                    </button>
                             </div>
                         </div>
                         <div className="col-md-3 p-3">

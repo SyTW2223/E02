@@ -13,7 +13,7 @@ const usuarioSchema = new Schema<usuarioInterfaz>({
     type: String,
     trim: true,
     maxlength: 50,
-    minlength: 4,
+    minlength: 1,
     match: /^[a-zA-Z\s]*$/,
   },
   password: {
@@ -23,7 +23,7 @@ const usuarioSchema = new Schema<usuarioInterfaz>({
   apellidos: {
     type: String,
     trim: true,
-    minlength: 4,
+    minlength: 1,
     maxlength: 50,
   },
   correo: {

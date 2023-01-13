@@ -8,7 +8,7 @@ import {
 } from 'mdb-react-ui-kit';
 import { useEffect, useState } from 'react';
 import { Button, Form } from 'react-bootstrap';
-import {useAppSelector, useAppDispatch} from '../../app/hooks';
+import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import { personalInformationType, changePersonalInformation } from '../../features/user/userSlice';
 export default function PersonalInformation() {
 
@@ -38,8 +38,14 @@ export default function PersonalInformation() {
     } else if (res === 400 || res === 404) {
       return (
         <div className='text-center mt-3 fs-5 mb-4' style={{ color: "red" }}>
-          No se ha podido modificar, comprueba los datos y vuelva a intentarlo.
+          <p>
+            No se ha podido modificar, comprueba los datos y vuelva a intentarlo.
+          </p>
+          <p>
+            Nombre y Apellidos: Longitud mínima 4 caracteres.
+          </p>
         </div>
+
       )
     } else if (res === 3000) {
       return (
@@ -75,7 +81,7 @@ export default function PersonalInformation() {
       const response = await fetch(direccion + "/usuario?correo=" + user.correo, requestOptions);
       const data = await response.json();
       if (data.res === 200) {
-        const data: personalInformationType  = {
+        const data: personalInformationType = {
           nombre: nombre,
           apellidos: apellidos
         }

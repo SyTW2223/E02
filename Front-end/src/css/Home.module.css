@@ -7,3 +7,8 @@
     background-color: wheat !important;
     color: #755932 !important;
 }
+
+a:link, a:visited, a:active {
+    text-decoration:none !important;
+    color: inherit;
+}

@@ -5,6 +5,10 @@ export default class DireccionDataModel {
 	async get(data) {
 		try {
 			const filter = data.correo?{correo: data.correo.toString()} : {};
+			if (!filter.correo) {
+				return ({usuario: "", res: 404, error: "Es necesario el correo"});
+			}
+
 			const direccion = await Direccion.find(filter);
 
 			if (direccion.length !== 0) {

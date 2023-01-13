@@ -26,7 +26,7 @@ const direccionSchema = new Schema<direccionInterfaz>({
   numero: {
     type: String,
     required: true,
-    match: /(\+34|0034|34)?[ -]*(6|7)[ -]*([0-9][ -]*){8}/,
+    match: /(\+34|0034|34)?[ -]*(6|7)[ -]*([0-9][ -]*){8}$/, 
   },
   codigoPostal: {
     type: String,
@@ -36,13 +36,13 @@ const direccionSchema = new Schema<direccionInterfaz>({
   provincia: {
     type: String,
     required: true,
-    minlength: 1,
+    minlength: 3,
     maxlength: 20,
     },
   pais: {
     type: String,
     required: true,
-    minlength: 1,
+    minlength: 3,
     maxlength: 20,
   },
 });

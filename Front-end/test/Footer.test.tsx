@@ -3,6 +3,7 @@ import { describe, expect, test } from 'vitest'
 import { renderWithProviders } from '../src/utils/test-utils'
 import Footer from '../src/components/Home/Footer'
 
+// Unit test
 describe('Footer componente', () => {
   test('El componente se renderiza correctamente', () => {
     const { getByRole } = renderWithProviders(<Footer />)

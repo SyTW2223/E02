@@ -1,4 +1,4 @@
-import { MDBTypography } from 'mdb-react-ui-kit';
+import { MDBCol, MDBRow, MDBTypography } from 'mdb-react-ui-kit';
 import { useEffect } from 'react';
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import { sumar, añadir, carritoType, valor1, eliminar } from '../../features/carrito/carritoSlice';
@@ -51,20 +51,24 @@ export function CantidadCarrito(ID: ID) {
       <MDBTypography tag="h3" className='text-center' style={{ color: "black" }}>
         Añadir:
       </MDBTypography>
-      <div className='justify-content-center d-flex'>
-        <button disabled={productoID() === 0} style={{ borderRadius: '10px', border: "0px", backgroundColor: "#3b71ca", color: "white", width: "24px", height: "31px" }}
-          onClick={(e: any) => { modificar(-1) }}>
-          -
-        </button>
-        <input type="number" value={productoID()} onChange={(e: any) => modificar(+e.target.value)} style={{ width: '100px', marginRight: '5px', marginLeft: '5px', height: "30px" }} min="1" />
-        <button style={{ borderRadius: '10px', border: "0px", backgroundColor: "#3b71ca", color: "white", width: "24px", height: "31px"}} onClick={(e: any) => { modificar(1) }}>
-          +
-        </button>
-        <BsFillTrashFill className="mx-2" size="2em" onClick={() => {
-          toast.error('Producto eliminado');
-          dispatch(eliminar(id))
-        }}/>
-      </div>
+      <MDBRow>
+        <MDBCol className='justify-content-center d-flex my-1'>
+          <button disabled={productoID() === 0} style={{ borderRadius: '10px', border: "0px", backgroundColor: "#3b71ca", color: "white", width: "24px", height: "31px" }}
+            onClick={(e: any) => { modificar(-1) }}>
+            -
+          </button>
+          <input type="number" value={productoID()} onChange={(e: any) => modificar(+e.target.value)} style={{ width: '100px', marginRight: '5px', marginLeft: '5px', height: "30px" }} min="1" />
+          <button style={{ borderRadius: '10px', border: "0px", backgroundColor: "#3b71ca", color: "white", width: "24px", height: "31px"}} onClick={(e: any) => { modificar(1) }}>
+            +
+          </button>
+        </MDBCol>
+        <MDBCol className='justify-content-center d-flex my-1'>
+          <BsFillTrashFill className="mx-2" size="30px" onClick={() => {
+            toast.error('Producto eliminado');
+            dispatch(eliminar(id))
+          }}/>
+        </MDBCol>
+      </MDBRow>
       <Toaster />
     </>
   )

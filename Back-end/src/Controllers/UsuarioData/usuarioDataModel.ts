@@ -10,6 +10,9 @@ export default class UsuarioDataModel {
 	async get(data) {
 		try {
 			const filter = data.correo?{correo: data.correo.toString()} : {};
+			if (!filter.correo) {
+				return ({usuario: "", res: 404, error: "Es necesario el correo"});
+			}
 			const usuario = await Usuario.find(filter);
 
 			if (usuario.length !== 0) {
@@ -51,6 +54,9 @@ export default class UsuarioDataModel {
 
 		try {
 			const filter = data.body.correo?{correo: data.body.correo.toString()} : {};
+			if (!filter.correo) {
+				return ({usuario: "", res: 404, error: "Es necesario el correo"});
+			}
 			const usuario = await Usuario.find(filter);
 
 			if (usuario.length !== 0 && data.body.password) {

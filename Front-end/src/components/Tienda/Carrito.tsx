@@ -1,11 +1,12 @@
-import { MDBBtn, MDBCard, MDBCardBody, MDBCardImage, MDBCol, MDBRow } from 'mdb-react-ui-kit';
+import { MDBBreadcrumb, MDBBreadcrumbItem, MDBBtn, MDBCard, MDBCardBody, MDBCardImage, MDBCol, MDBContainer, MDBRow } from 'mdb-react-ui-kit';
 import { useEffect, useState } from 'react';
 import { Buffer } from 'buffer';
 import { CantidadCarrito } from './CantidadCarrito';
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
-import { ordenar } from '../../features/carrito/carritoSlice';
+import { ordenar, eliminarTodo } from '../../features/carrito/carritoSlice';
 import { BsShop } from 'react-icons/bs';
-
+import { FaShoppingCart } from 'react-icons/fa';
+import styles from '../../css/Login.module.css';
 export default function Carrito() {
   const dispatch = useAppDispatch();
 
@@ -65,6 +66,14 @@ export default function Carrito() {
     setpanImage(auxImage);
   }
 
+  function handleCompra() {
+    if (user.token) {
+      dispatch(eliminarTodo());
+    } else {
+      window.location.href = "/login";
+    }
+  }
+
 
   if (vacio)
     return (
@@ -79,9 +88,7 @@ export default function Carrito() {
         </MDBRow>
         <MDBRow className='d-flex justify-content-center pb-4'>
           <MDBCol className='col-12 d-flex justify-content-center'>
-            <MDBBtn href='/tienda'>
-              Tienda
-            </MDBBtn>
+            <MDBBtn className={`${styles.loginButton} mx-2`} href='/tienda'>Tienda</MDBBtn>
           </MDBCol>
         </MDBRow>
         <MDBRow className='d-flex justify-content-center pb-4'>
@@ -93,39 +100,70 @@ export default function Carrito() {
     )
   else {
     return (
-      <>
-        {carrito.map((elemento, index) => (
-          <MDBRow key={index} className="d-flex justify-content-center my-4 mx-4" style={{ color: "black" }}>
-            <MDBCard style={{ width: "1200px" }}>
-              <MDBCardBody>
-                <MDBRow>
-                  {
-                    <MDBCol className='col-12 col-sm-12 col-md-3'>
-                      <div className='d-flex justify-content-center'>
-                        <MDBCardImage src={`${panImage[index]}`}
-                          alt="Imagen" className="my-3 " style={{ width: '350px' }} fluid />
-                      </div>
-                      <CantidadCarrito id={carrito[index].id} />
-                    </MDBCol>
-                  }
-                  <MDBCol className='mt-2 col-12 col-sm-4 col-md-3 sm-12 '>
-                    <h2 className="h2 mb-3 font-weight-bold text-center">Nombre:</h2>
-                    <h2 className="h2 mb-3 font-weight-bold text-center">{panNombres[index]}</h2>
-                  </MDBCol>
-                  <MDBCol className='mt-2 col-12 col-sm-4 col-md-3'>
-                    <h2 className="h2 mb-3 font-weight-bold text-center">Precio:</h2>
-                    <h3 className="h3 mb-3 font-weight-bold text-center">{panPrecios[index]}</h3>
-                  </MDBCol>
-                  <MDBCol className='mt-2 col-12 col-sm-4 col-md-3'>
-                    <h2 className="h2 mb-3 font-weight-bold text-center">Cantidad:</h2>
-                    <h3 className="h3 mb-3 font-weight-bold text-center">{elemento.cantidad}</h3>
-                  </MDBCol>
-                </MDBRow>
-              </MDBCardBody>
-            </MDBCard>
+      <section style={{ backgroundColor: '#eee' }}>
+
+        <MDBContainer className="py-5">
+
+          <MDBRow>
+            <MDBCol>
+              <MDBBreadcrumb className="bg-light rounded-3 p-3 mb-4">
+                <MDBBreadcrumbItem>
+                  <a href='/'>Home</a>
+                </MDBBreadcrumbItem>
+                <MDBBreadcrumbItem active>
+                  <a href="/carrito">Carrito</a>
+                </MDBBreadcrumbItem>
+              </MDBBreadcrumb>
+            </MDBCol>
           </MDBRow>
-        ))}
-      </>
+
+          <MDBRow>
+            <MDBCol className='col-md-9'>
+              {carrito.map((elemento, index) => (
+                <MDBRow key={index} className="d-flex justify-content-center my-4 mx-4" style={{ color: "black" }}>
+                  <MDBCard style={{ width: "1200px" }}>
+                    <MDBCardBody>
+                      <MDBRow>
+                        {
+                          <MDBCol className='col-12 col-sm-12 col-md-12 col-lg-3'>
+                            <div className='d-flex justify-content-center'>
+                              <MDBCardImage src={`${panImage[index]}`}
+                                alt="Imagen" className="my-3 " style={{ width: '350px' }} fluid />
+                            </div>
+                            <CantidadCarrito id={carrito[index].id} />
+                          </MDBCol>
+                        }
+                        <MDBCol className='mt-2 col-12 col-sm-4 col-md-4 col-lg-3 sm-12 '>
+                          <h2 className="h2 mb-3 font-weight-bold text-center">Nombre:</h2>
+                          <h2 className="h2 mb-3 font-weight-bold text-center">{panNombres[index]}</h2>
+                        </MDBCol>
+                        <MDBCol className='mt-2 col-12 col-sm-4 col-md-4 col-lg-3'>
+                          <h2 className="h2 mb-3 font-weight-bold text-center">Precio:</h2>
+                          <h3 className="h3 mb-3 font-weight-bold text-center">{panPrecios[index]}</h3>
+                        </MDBCol>
+                        <MDBCol className='mt-2 col-12 col-sm-4 col-md-4 col-lg-3'>
+                          <h2 className="h2 mb-3 font-weight-bold text-center">Precio:</h2>
+                          <h3 className="h3 mb-3 font-weight-bold text-center">{elemento.cantidad * panPrecios[index]}€</h3>
+                        </MDBCol>
+                      </MDBRow>
+                    </MDBCardBody>
+                  </MDBCard>
+                </MDBRow>
+              ))}
+            </MDBCol>
+            <MDBCol className='d-flex justify-content-center col-md-2 my-4 mx-2'>
+              <MDBCard style={{ width: "300px", height: "140px" }}>
+                <MDBCardBody className='d-flex justify-content-center'>
+                  <button className="btn btn-outline-warning" data-mdb-ripple-color="dark" onClick={() => handleCompra()}>
+                    <FaShoppingCart className='mx-2' size={30} />
+                    Finalizar compra
+                  </button>
+                </MDBCardBody>
+              </MDBCard>
+            </MDBCol>
+          </MDBRow>
+        </MDBContainer>
+      </section>
     )
   }
 }

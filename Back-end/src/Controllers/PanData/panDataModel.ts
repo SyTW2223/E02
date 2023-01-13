@@ -5,6 +5,7 @@ export default class PanDataModel {
 	async get(data) {
 		try {
 			const filter = data.identificador?{identificador: data.identificador} : {};
+
 			const pan = await Pan.find(filter);
 
 			if (pan.length !== 0) {

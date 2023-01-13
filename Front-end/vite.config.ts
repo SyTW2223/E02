@@ -15,6 +15,7 @@ export default defineConfig({
     environment: 'jsdom',
     coverage: {
       reporter: ['lcov', 'json', 'html'],
+      exclude: ['**/node_modules/**', '**/dist/**', '**/_services/**'],
     },
   },
 });

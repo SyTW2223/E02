@@ -53,12 +53,15 @@ export const carritoSlice = createSlice ({
         }
       })
 
+    },
+    eliminarTodo: (state) => {
+      state.carritoData = [];
     }
   }
 })
 
 
-export const {añadir, sumar, ordenar, valor1, eliminar} = carritoSlice.actions;
+export const {añadir, sumar, ordenar, valor1, eliminar, eliminarTodo} = carritoSlice.actions;
 export const selectCarrito = (state: RootState) => state.carrito;
 
 export default carritoSlice.reducer;

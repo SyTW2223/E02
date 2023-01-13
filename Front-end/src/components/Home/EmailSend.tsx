@@ -39,18 +39,18 @@ export default function EmailSend() {
             <MDBRow className='d-flex justify-content-center'>
                 <MDBCol size="auto">
                     <p className='pt-2'>
-                        <strong>Sign up for our newsletter</strong>
+                        <strong>No te pierdas las últimas novedades:</strong>
                     </p>
                 </MDBCol>
 
                 <MDBCol md='5' start>
-                    <MDBInput contrast type='email' label='Email address' className='mb-4'
+                    <MDBInput contrast type='email' label='E-mail' className='mb-4'
                     onChange={(event) => setEmail(event.target.value)} />
                 </MDBCol>
 
                 <MDBCol size="auto">
-                    <MDBBtn outline color='light' type='submit' className='mb-4'>
-                        Subscribe
+                    <MDBBtn color='light' type='submit' className='mb-4'>
+                        Suscríbete
                     </MDBBtn>
                 </MDBCol>
             </MDBRow>

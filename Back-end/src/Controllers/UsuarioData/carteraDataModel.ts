@@ -5,6 +5,9 @@ export default class CarteraDataModel {
 	async get(data) {
 		try {
 			const filter = data.correo?{correo: data.correo.toString()} : {};
+			if (!filter.correo) {
+				return ({usuario: "", res: 404, error: "Es necesario el correo"});
+			}
 		
 			const cartera = await Cartera.find(filter);
 
