@@ -1,7 +1,6 @@
 import { MDBContainer, MDBRow, MDBCol, MDBCard, MDBCardImage, MDBTypography, MDBCardText, MDBCardBody, MDBBtn, MDBBreadcrumb, MDBBreadcrumbItem } from 'mdb-react-ui-kit';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { Buffer } from 'buffer';
 import Cantidad from './Cantidad';
 import {useAppSelector, useAppDispatch} from '../../app/hooks';
 import {sumar, añadir, carritoType} from '../../features/carrito/carritoSlice';
@@ -9,6 +8,7 @@ import toast, { Toaster } from 'react-hot-toast';
 
 export default function PanData() {
   const dispatch = useAppDispatch();
+ 
 
   const user = useAppSelector((state) => state.userState.userData);
   const carrito = useAppSelector((state) => state.carrito.carritoData);
@@ -72,7 +72,13 @@ export default function PanData() {
     setpanIngredientes(data.pan[0].ingredientes);
     setpanDescripcion(data.pan[0].descripcion);
     setpanVendedor(data.pan[0].vendedor);
-    setpanImagen(data.pan[0].image);
+    
+    let binary: string = "";
+    const bytes = [...new Uint8Array(data.pan[0].image.data)];
+    for (let i:number = 0; i < bytes.length; i++) {
+      binary += String.fromCharCode( bytes[ i ] );
+    }
+    setpanImagen(btoa(binary));
   }
 
   if (res === 404)
@@ -114,7 +120,7 @@ export default function PanData() {
                 <MDBCol md="4" className="gradient-custom text-center text-white"
                   style={{ borderTopLeftRadius: '.5rem', borderBottomLeftRadius: '.5rem' }}>
                   <MDBRow className='d-flex justify-content-center'>
-                    <MDBCardImage src={`${Buffer.from(panImagen).toString('utf8')}`}
+                    <MDBCardImage src={`data:image/png;base64,${panImagen}`}
                       alt="Avatar" className="my-5" style={{ width: '350px' }} fluid />
                   </MDBRow>
                   <MDBRow className='d-flex justify-content-center'>

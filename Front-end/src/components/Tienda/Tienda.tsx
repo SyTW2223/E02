@@ -11,6 +11,16 @@ export default function Tienda() {
     ingredientes: ''
   });
 
+  function Imagenes(numeros: number[]) {
+    let binary: string = "";
+    const bytes = [...new Uint8Array(numeros)];
+    for (let i:number = 0; i < bytes.length; i++) {
+      binary += String.fromCharCode( bytes[ i ] );
+    }
+
+    return btoa(binary);
+  }
+
   useEffect(() => {
     const fetchProducts = async () => {
       try {
@@ -138,7 +148,7 @@ export default function Tienda() {
                     <Link to={`/pan/${product.identificador}`} key={product._id} style={{ textDecoration: "none" }}>
                       <MDBCard>
                         <MDBCardImage
-                          src={`${Buffer.from(product.image).toString('utf8')}`}
+                          src={`data:image/png;base64,${Imagenes(product.image.data)}`}
                           alt="..."
                           position="top"
                           style={{ height: "18.75rem" }}

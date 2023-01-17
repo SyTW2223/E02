@@ -71,7 +71,7 @@ export default function Navbar() {
       <MDBContainer fluid>
         <MDBNavbarBrand href='/'>
           <img
-            src="logo.svg"
+            src="/public/logo.svg"
             height='45'
             alt=''
             loading='lazy'

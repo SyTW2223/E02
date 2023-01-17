@@ -24,3 +24,5 @@
 */*.sln
 */*.sw?
 .vercel
+node_modules
+prueba.js
