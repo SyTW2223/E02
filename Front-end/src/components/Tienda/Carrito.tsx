@@ -16,8 +16,6 @@ export default function Carrito() {
   const [panNombres, setpanNombres] = useState([""]);
   const [panImage, setpanImage] = useState([""]);
   const [panPrecios, setpanPrecios] = useState([0]);
-  const [cantidad, setCantidad] = useState([0]);
-  const [res, setRes] = useState(0);
   const [vacio, setVacio] = useState(true);
 
   useEffect(() => {
@@ -35,6 +33,15 @@ export default function Carrito() {
     }
   }, [carrito]);
 
+  function Imagenes(numeros: number[]) {
+    let binary: string = "";
+    const bytes = [...new Uint8Array(numeros)];
+    for (let i:number = 0; i < bytes.length; i++) {
+      binary += String.fromCharCode( bytes[ i ] );
+    }
+
+    return btoa(binary);
+  }
 
   async function peticion(ids: number[]) {
 
@@ -53,14 +60,13 @@ export default function Carrito() {
     let auxNombre: string[] = []
     let auxPrecio: number[] = []
     let auxImage: any[] = []
-    setRes(data.res)
     for (let i: number = 0; i < data.pan.length; i++) {
       auxNombre.push(data.pan[i].nombre)
       auxPrecio.push(data.pan[i].precio)
       auxImage.push(data.pan[i].image)
     }
     // Convertir el buffer a string
-    auxImage = auxImage.map((elemento: any) => Buffer.from(elemento).toString('utf8'));
+    auxImage = auxImage.map((elemento: any) => Imagenes(elemento.data));
     setpanNombres(auxNombre);
     setpanPrecios(auxPrecio);
     setpanImage(auxImage);
@@ -127,7 +133,7 @@ export default function Carrito() {
                         {
                           <MDBCol className='col-12 col-sm-12 col-md-12 col-lg-3'>
                             <div className='d-flex justify-content-center'>
-                              <MDBCardImage src={`${panImage[index]}`}
+                              <MDBCardImage src={`data:image/png;base64,${panImage[index]}`}
                                 alt="Imagen" className="my-3 " style={{ width: '350px' }} fluid />
                             </div>
                             <CantidadCarrito id={carrito[index].id} />
