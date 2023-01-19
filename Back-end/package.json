@@ -9,9 +9,11 @@
     "build": "tsc",
     "test": "jest --detectOpenHandles",
     "coverage": "jest --detectOpenHandles",
-    "coveragelocal": "jest --coverage --coverageReporters=lcov"
+    "coveragelocal": "jest --coverage --coverageReporters=lcov",
+    "testCucumber": "cucumber-js"
   },
   "devDependencies": {
+    "@cucumber/cucumber": "^8.10.0",
     "@shelf/jest-mongodb": "^4.1.4",
     "@types/jest": "^29.2.4",
     "@types/jsonwebtoken": "^8.5.9",
