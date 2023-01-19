@@ -10,6 +10,9 @@ export default class UsuarioDataModel {
 	async get(data) {
 		try {
 			const filter = data.correo?{correo: data.correo.toString()} : {};
+			if (!filter.correo) {
+				return ({usuario: "", res: 404, error: "Es necesario el correo"});
+			}
 			const usuario = await Usuario.find(filter);
 
 			if (usuario.length !== 0) {
@@ -26,12 +29,19 @@ export default class UsuarioDataModel {
 
 		try {
 			const usuario = new Usuario(data.body);
+
+			if (!/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{5,}$/.test(data.body.password))
+				return ({usuario: "", res: 400, error: "Contraseña incorrecta", token: ""});
+
 			usuario.password = await hashPassword(usuario.password);
 			await usuario.save();
 			
 			let correo: string = data.body.correo;
 
-			let token = jwt.sign({correo}, jwtSecret, { expiresIn: '1h' })
+			let token = jwt.sign({correo}, jwtSecret, { expiresIn: '2h' })
+
+			const cartera = new Cartera({"correo": data.body.correo, "tarjetas": []});
+			await cartera.save();
 
 			return({usuario: usuario, error: "", res: 201, token: token});
 
@@ -44,6 +54,9 @@ export default class UsuarioDataModel {
 
 		try {
 			const filter = data.body.correo?{correo: data.body.correo.toString()} : {};
+			if (!filter.correo) {
+				return ({usuario: "", res: 404, error: "Es necesario el correo"});
+			}
 			const usuario = await Usuario.find(filter);
 
 			if (usuario.length !== 0 && data.body.password) {
@@ -55,7 +68,7 @@ export default class UsuarioDataModel {
 				}
 
 				let correo: string = data.body.correo;
-				let token = jwt.sign({correo}, jwtSecret, { expiresIn: '1h' });
+				let token = jwt.sign({correo}, jwtSecret, { expiresIn: '2h' });
 				
 				return({usuario: usuario, res: 200, error: "", token: token});
 			}
@@ -106,7 +119,7 @@ export default class UsuarioDataModel {
 
 		try {
 			const usuario =
-			await Usuario.findOneAndUpdate({correo: data.correo.toString()}, data.body, {
+			await Usuario.findOneAndUpdate({correo: data.correo.toString()}, change.body, {
 				new: true,
 				runValidators: true,
 			});

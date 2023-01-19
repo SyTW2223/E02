@@ -1,63 +1,61 @@
-import { authHeader } from '../_helpers';
-
 export const userService = {
   login,
   logout,
   register
 };
 
-async function login(correo: any, password: any) {
-  const requestOptions = {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ correo, password })
-  };
-  console.log(requestOptions)
-  console.log(process.env)
-  const direccion: string = process.env.BACK_HOST || `http://localhost:3000`;
-  console.log(direccion)
-  const response = await fetch(direccion + "/usuarioLogin", requestOptions);
-  const user = await handleResponse(response);
-  // store user details and jwt token in local storage to keep user logged in between page refreshes
-  localStorage.setItem('usuario', JSON.stringify(user));
-  return user;
-}
-
-function logout() {
-  // remove user from local storage to log user out
-  localStorage.removeItem('usuario');
-}
-
-
-async function register(nombre: any, apellidos: any, password: any, correo: any) {
-  const requestOptions = {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ nombre, apellidos, password, correo })
-  };
-  console.log(requestOptions)
-  const direccion: string = process.env.BACK_HOST || `http://localhost:3000/`;
-  const response = await fetch(direccion + "/usuarioRegister", requestOptions);
-  const user = await handleResponse(response);
-  // store user details and jwt token in local storage to keep user logged in between page refreshes
-  localStorage.setItem('usuario', JSON.stringify(user));
-  return user;
-}
-
-function handleResponse(response: any) {
-  return response.text().then((text: any) => {
-    const data = text && JSON.parse(text);
-    if (!response.ok) {
-      if (response.status === 401) {
-        // auto logout if 401 response returned from api
-        logout();
-        location.reload();
-      }
-
-      const error = (data && data.message) || response.statusText;
-      return Promise.reject(error);
+export async function login(correo: any, password: any) {
+  try {
+    const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ correo, password })
+    };
+    const direccion = process.env.BACK_HOST || `http://localhost:3000`;
+    const response = await fetch(direccion + '/usuarioLogin', requestOptions);
+    const user = await response.json();
+    // store user and jwt token in a single object in local storage only if the login was successful
+    if (user && user.token) {
+      // remove res and error properties from user object
+      delete user.error;
     }
+    return user;
+  } catch (error) {
+    // return error to indicate that the login was not successful
+    return Promise.reject(error);
+  }
+}
 
-    return data;
-  });
+export function logout() {
+  try {
+    // remove user from local storage to log user out
+    localStorage.removeItem('usuario');
+  }
+  catch (error) {
+    // return error to indicate that the login was not successful
+    return Promise.reject(error);
+  }
+}
+
+
+export async function register(nombre: string, apellidos: string, correo: string, password: string) {
+  try {
+    const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ nombre, apellidos, correo, password })
+    };
+    const direccion = process.env.BACK_HOST || `http://localhost:3000`;
+    const response = await fetch(direccion + '/usuarioRegister', requestOptions);
+    const user = await response.json();
+    // store user and jwt token in a single object in local storage only if the login was successful
+    if (user && user.token) {
+      // remove error properties from user object
+      delete user.error;
+    }
+    return user;
+  } catch (error) {
+    // return error to indicate that the login was not successful
+    return Promise.reject(error);
+  }
 }

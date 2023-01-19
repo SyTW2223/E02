@@ -24,7 +24,6 @@ const carteraSchema = new Schema<carteraInterfaz>({
   },
   tarjetas: {
     type: [{marca: String, cvv: String, numero: String, caducidad: String}],
-    required: true,
     validate: (array: tarjetaInterface[]) => (
       array.forEach(element => {
         if (element.marca.length < 1 || element.marca.length > 20)

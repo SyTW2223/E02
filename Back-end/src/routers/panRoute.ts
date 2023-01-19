@@ -5,9 +5,16 @@ import PanDataModel from "../Controllers/PanData/panDataModel";
 
 const panRouter = new Router();
 
-panRouter.get("/pan", verifyToken, async (ctx) => {
+panRouter.get("/pan", async (ctx) => {
   const dataModel = new PanDataModel();
   const { pan, res, error } = await dataModel.get(ctx.query);
+  ctx.body = { pan, res, error };
+  ctx.status = res;
+});
+
+panRouter.get("/panCarrito", async (ctx) => {
+  const dataModel = new PanDataModel();
+  const { pan, res, error } = await dataModel.getCarrito(ctx.query);
   ctx.body = { pan, res, error };
   ctx.status = res;
 });

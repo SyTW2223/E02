@@ -1,5 +1,4 @@
 .vercel
-
 .env*
 .flaskenv*
 !.env.project

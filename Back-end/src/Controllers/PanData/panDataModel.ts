@@ -5,7 +5,33 @@ export default class PanDataModel {
 	async get(data) {
 		try {
 			const filter = data.identificador?{identificador: data.identificador} : {};
+
 			const pan = await Pan.find(filter);
+
+			if (pan.length !== 0) {
+				return ({pan: pan, res: 200, error: ""});
+			}
+			return ({pan: "", res: 404, error: "pan no encontrada"});
+			
+		} catch (error) {
+			return ({pan: "", res: 500, error: error});
+		}
+	}
+
+	async getCarrito(data) {
+		try {
+			const filter = data.identificadores?data.identificadores : [];
+			
+			if (filter.length === 0)
+				return ({pan: "", res: 404, error: "No se encontró el identificador"})
+
+			let aux = filter.split(",");
+			let arrayNumeros: number[] = [];
+			for (let i :number = 0; i < aux.length; i++) {
+				arrayNumeros.push(+aux[i]);
+			}
+
+			const pan = await Pan.find({identificador: { $in: arrayNumeros}});
 
 			if (pan.length !== 0) {
 				return ({pan: pan, res: 200, error: ""});
@@ -51,7 +77,7 @@ export default class PanDataModel {
 			return ({error: "Hace falta el identificador", res: 400});
 		}
 	
-		const allowedUpdates = ['tipo', 'nombre', 'precio', 'vendedor', 'image'];
+		const allowedUpdates = ['tipo', 'nombre', 'precio', 'vendedor', 'descripcion','ingredientes', 'image'];
 		const actualUpdates = Object.keys(change.body);
 		const isValidUpdate =
 			actualUpdates.every((update) => allowedUpdates.includes(update));

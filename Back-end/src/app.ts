@@ -8,6 +8,7 @@ import carteraRouter from "./routers/carteraRoute";
 import direccionRouter from "./routers/direccionRoute";
 import usuarioRouter from "./routers/usuarioRoute";
 import panRouter from "./routers/panRoute";
+import tokenRouter from "./routers/tokenRoute";
 
 const app = new koa();
 
@@ -15,6 +16,7 @@ const app = new koa();
 app.use(bodyparser()).
     use(loggerKoa()).
     use(cors()).
+    use(tokenRouter.routes()).
     use(carteraRouter.routes()).
     use(direccionRouter.routes()).
     use(usuarioRouter.routes()).
