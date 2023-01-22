@@ -1,8 +1,10 @@
 # alPanPan
 [![SonarCloud](https://sonarcloud.io/images/project_badges/sonarcloud-black.svg)](https://sonarcloud.io/summary/new_code?id=SyTW2223_E02)
 
-[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=SyTW2223_E02&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=SyTW2223_E02)[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=SyTW2223_E02&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=SyTW2223_E02)[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=SyTW2223_E02&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=SyTW2223_E02)
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=SyTW2223_E02&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=SyTW2223_E02)
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=SyTW2223_E02&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=SyTW2223_E02)
 [![Coverage Status](https://coveralls.io/repos/github/SyTW2223/E02/badge.svg?branch=Coveralls)](https://coveralls.io/github/SyTW2223/E02?branch=Coveralls)
+
 
 __API RESTFUL__- 
 Los usuarios de aplicación podrán realizar la compra online de panes .
@@ -10,11 +12,12 @@ Los usuarios de aplicación podrán realizar la compra online de panes .
 En la aplicacion se podrán realizar las siguientes acciones:
 - Iniciar sesión / Registrarse
 - Ver el listado de panes
-- Filtrado de productos
+- Filtrado de panes: por nombre, por precio, por tipo de pan...
 - Ver el detalle de un pan
 - Manejo de cantidades
 - Carrito de la compra
 - Añadir direcciones y modificar información usuario
+- Subscripción a newsletter
 
 
 ## Authors
@@ -48,11 +51,6 @@ cd E02/Front-end
 npm run dev
 ```
 
-    
-
-
-
-
 ## Tech Stack
 
 <h3 align="left">Languages and Tools:</h3>
@@ -61,13 +59,11 @@ npm run dev
 <p align="left"> 
 <a href="https://reactjs.org/" target="__blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/react/react-original-wordmark.svg" alt="react" width="40" height="40"/> 
 </a> 
-<a href="https://www.cypress.io" target="__blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/simple-icons/simple-icons/6e46ec1fc23b60c8fd0d2f2ff46db82e16dbd75f/icons/cypress.svg" alt="cypress" width="40" height="40"/> 
-</a> 
 <a href="https://www.typescriptlang.org/" target="__blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/typescript/typescript-original.svg" alt="typescript" width="40" height="40"/> 
 </a> 
 <a href="https://redux.js.org" target="__blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/redux/redux-original.svg" alt="redux" width="40" height="40"/> </a>
 </p>
-<a href="https://jestjs.io" target="__blank" rel="noreferrer"> <img src="https://www.vectorlogo.zone/logos/jestjsio/jestjsio-icon.svg" alt="jest" width="40" height="40"/> 
+<a href="https://jestjs.io" target="__blank" rel="noreferrer"> <img src="https://www.vectorlogo.zone/logos/vitessio/vitessio-ar21.svg" alt="jest" width="40" height="40"/> 
 </a> 
 </p>
 
