@@ -6,6 +6,8 @@
 .Buttom:hover {
     background-color: wheat !important;
     color: #755932 !important;
+    border: none;
+    box-shadow: none;
 }
 
 a:link, a:visited, a:active {

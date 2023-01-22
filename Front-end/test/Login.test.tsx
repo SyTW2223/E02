@@ -5,7 +5,7 @@ import { renderWithProviders } from '../src/utils/test-utils'
 import Login from '../src/components/Login'
 import { login, register, logout } from '../src/_services'
 
-/* describe('Pruebas E2E', () => {
+describe('Pruebas E2E', () => {
   test('Incia sesión', async () => {
     vi.mock('../src/_services', () => ({
       login: vi.fn(() => Promise.resolve({ res: 200, usuario: [{ nombre: 'Marco', apellidos: 'Cabrera', correo: 'marco@gmail.com', password: '123456' }], token: 'token' })),
@@ -14,7 +14,7 @@ import { login, register, logout } from '../src/_services'
     const result = await login(' ', ' ');
     expect(result).toEqual({ res: 200, usuario: [{ nombre: 'Marco', apellidos: 'Cabrera', correo: 'marco@gmail.com', password: '123456' }], token: 'token' });
   });
-}); */
+});
 
 
 describe('Login componente', () => {

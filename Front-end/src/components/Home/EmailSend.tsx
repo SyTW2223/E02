@@ -44,7 +44,7 @@ export default function EmailSend() {
                 </MDBCol>
 
                 <MDBCol md='5' start>
-                    <MDBInput contrast type='email' label='E-mail' className='mb-4'
+                    <MDBInput contrast type='email' label='email' className='mb-4'
                     onChange={(event) => setEmail(event.target.value)} />
                 </MDBCol>
 

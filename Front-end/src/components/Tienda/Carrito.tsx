@@ -31,6 +31,12 @@ export default function Carrito() {
     } else {
       setVacio(true);
     }
+  }, []);
+
+  useEffect(() => {
+    if (carrito.length === 0) {
+      setVacio(true);
+    }
   }, [carrito]);
 
   function Imagenes(numeros: number[]) {
@@ -108,7 +114,7 @@ export default function Carrito() {
     return (
       <section style={{ backgroundColor: '#eee' }}>
 
-        <MDBContainer className="py-5">
+        <MDBContainer className="py-5 px-0">
 
           <MDBRow>
             <MDBCol>
@@ -123,8 +129,8 @@ export default function Carrito() {
             </MDBCol>
           </MDBRow>
 
-          <MDBRow>
-            <MDBCol className='col-md-9'>
+          <MDBRow className="d-flex justify-content-center">
+            <MDBCol className='col-xl-9 col-12'>
               {carrito.map((elemento, index) => (
                 <MDBRow key={index} className="d-flex justify-content-center my-4 mx-4" style={{ color: "black" }}>
                   <MDBCard style={{ width: "1200px" }}>
@@ -144,11 +150,11 @@ export default function Carrito() {
                           <h2 className="h2 mb-3 font-weight-bold text-center">{panNombres[index]}</h2>
                         </MDBCol>
                         <MDBCol className='mt-2 col-12 col-sm-4 col-md-4 col-lg-3'>
-                          <h2 className="h2 mb-3 font-weight-bold text-center">Precio:</h2>
-                          <h3 className="h3 mb-3 font-weight-bold text-center">{panPrecios[index]}</h3>
+                          <h2 className="h2 mb-3 font-weight-bold text-center">Precio por unidad:</h2>
+                          <h3 className="h3 mb-3 font-weight-bold text-center">{panPrecios[index]}€</h3>
                         </MDBCol>
                         <MDBCol className='mt-2 col-12 col-sm-4 col-md-4 col-lg-3'>
-                          <h2 className="h2 mb-3 font-weight-bold text-center">Precio:</h2>
+                          <h2 className="h2 mb-3 font-weight-bold text-center">Precio total:</h2>
                           <h3 className="h3 mb-3 font-weight-bold text-center">{elemento.cantidad * panPrecios[index]}€</h3>
                         </MDBCol>
                       </MDBRow>
@@ -157,7 +163,7 @@ export default function Carrito() {
                 </MDBRow>
               ))}
             </MDBCol>
-            <MDBCol className='d-flex justify-content-center col-md-2 my-4 mx-2'>
+            <MDBCol className='col-12 col-xl-3 my-4 d-flex justify-content-center'>
               <MDBCard style={{ width: "300px", height: "140px" }}>
                 <MDBCardBody className='d-flex justify-content-center'>
                   <button className="btn btn-outline-warning" data-mdb-ripple-color="dark" onClick={() => handleCompra()}>

@@ -2,7 +2,7 @@ import video from '/videos/video.mp4';
 
 export default function Video() {
   return (
-    <div className="ratio ratio-16x9 mb-3 mt-4">
+    <div className="justify-content-center d-flex mb-3 mt-4">
       <iframe
         src={video}
         title="YouTube video"

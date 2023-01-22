@@ -10,7 +10,7 @@ function Error() {
         <img src={errorPan} alt="error" />
         <h1>404</h1>
         <h2>Pagina no encontrada</h2>
-        <MDBBtn href="/" color="danger">Ir a Inicio</MDBBtn>
+        <MDBBtn href="/" color="danger" style={{color:"#fff"}}>Ir a Inicio</MDBBtn>
       </MDBContainer>
     </div>
   )
