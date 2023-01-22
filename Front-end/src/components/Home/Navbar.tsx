@@ -26,7 +26,7 @@ export default function Navbar() {
   const [showBasic, setShowBasic] = useState(false)
   const {nombre} = useParams();
   const [ruta, setRuta] = useState('/login');
-  const [nombreRuta, setNombreRuta] = useState('Login/Register');
+  const [nombreRuta, setNombreRuta] = useState('Autentificación');
   const [button, setButton] = useState('');
 
   useEffect(() => {
@@ -118,7 +118,7 @@ export default function Navbar() {
               <div className='mx-2 ml-auto align-self-center'>
                 <form className='d-flex input-group w-auto' onSubmit={handleSubmit}>
                   <input type='search' className='form-control' placeholder='Buscar' aria-label='Search' value={searchTerm} onChange={handleChange} />
-                  <MDBBtn color='primary'>Search</MDBBtn>
+                  <MDBBtn color='primary'>Buscar</MDBBtn>
                 </form>
               </div>
               <div className='mx-2 ml-auto align-self-center'>
