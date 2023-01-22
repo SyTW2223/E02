@@ -4,6 +4,7 @@ import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import { sumar, añadir, carritoType, valor1, eliminar } from '../../features/carrito/carritoSlice';
 import { BsFillTrashFill } from 'react-icons/bs';
 import toast, { Toaster } from 'react-hot-toast';
+import styles from '../../css/Navbar.module.css'
 
 type ID = {
   id: string
@@ -14,9 +15,6 @@ export function CantidadCarrito(ID: ID) {
   const dispatch = useAppDispatch();
 
   const carrito = useAppSelector((state) => state.carrito.carritoData);
-
-  useEffect(() => {
-  }, [carrito])
 
   function modificar(cantidad: number) {
     toast.success('Cantidad actualizada');
@@ -53,12 +51,12 @@ export function CantidadCarrito(ID: ID) {
       </MDBTypography>
       <MDBRow>
         <MDBCol className='justify-content-center d-flex my-1'>
-          <button disabled={productoID() === 0} style={{ borderRadius: '10px', border: "0px", backgroundColor: "#3b71ca", color: "white", width: "24px", height: "31px" }}
+          <button className={ styles.button } disabled={productoID() === 0} style={{ borderRadius: '10px',width: "24px", height: "31px", color: '#755932' }}
             onClick={(e: any) => { modificar(-1) }}>
             -
           </button>
           <input type="number" value={productoID()} onChange={(e: any) => modificar(+e.target.value)} style={{ width: '100px', marginRight: '5px', marginLeft: '5px', height: "30px" }} min="1" />
-          <button style={{ borderRadius: '10px', border: "0px", backgroundColor: "#3b71ca", color: "white", width: "24px", height: "31px"}} onClick={(e: any) => { modificar(1) }}>
+          <button className={ styles.button } style={{ borderRadius: '10px', width: "24px", height: "31px", color: '#755932' }} onClick={(e: any) => { modificar(1) }}>
             +
           </button>
         </MDBCol>
